@@ -1,11 +1,11 @@
-# 🎙️ iNWebTools
+# 🎙️ iNWEBTools
 
 > Convert speech to text across every surface — web, browser extensions and mobile —
 > powered by Hugging Face Whisper, with a bilingual (বাংলা / English) interface.
 
 <p align="left">
-  <img alt="CI" src="https://github.com/iNAYATechLab/iNWebTools/actions/workflows/ci.yml/badge.svg">
-  <img alt="Release" src="https://img.shields.io/github/v/release/iNAYATechLab/iNWebTools?display_name=tag&sort=semver">
+  <img alt="CI" src="https://github.com/iNAYATechLab/iNWEBTools/actions/workflows/ci.yml/badge.svg">
+  <img alt="Release" src="https://img.shields.io/github/v/release/iNAYATechLab/iNWEBTools?display_name=tag&sort=semver">
   <img alt="Tests" src="https://img.shields.io/badge/tests-153%20passing-brightgreen">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="Node" src="https://img.shields.io/badge/Node.js-%3E%3D20-339933?logo=node.js&logoColor=white">
