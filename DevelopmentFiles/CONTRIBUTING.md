@@ -1,114 +1,51 @@
 # Contributing to iNWebTools
 
-Thanks for helping build iNWebTools. This document defines the engineering standards
-every contribution must meet.
+GitHub looks for this file by name and links to it from the issue and pull-request
+forms, so it stays as the entry point. The detail lives in two documents rather than
+being repeated here — a rule written in three places is a rule that will disagree with
+itself within a month.
 
-## 1. Prerequisites
-
-- Node.js **20 LTS** (`nvm use` reads `.nvmrc`)
-- npm **10+**
-- Git 2.4+
-- A Hugging Face **read** token in your local `.env`
-
-## 2. Local setup
-
-All active development happens inside `WebApplication/`.
+## Get running
 
 ```bash
-git clone https://github.com/iNAYATechLab/inwebtools.git
-cd inwebtools/WebApplication
-cp .env.example .env      # add your HF_FREE_API_TOKEN
+git clone https://github.com/iNAYATechLab/iNWebTools.git
+cd iNWebTools/WebApplication
+cp .env.example .env          # add your HF_FREE_API_TOKEN
 npm install
-npm run dev
+bash ../DevelopmentFiles/scripts/pg-setup.sh   # local PostgreSQL, one command
+npm run dev                   # API :5000 · SPA :5173
 ```
 
-## 3. Branching model
+Requires Node 20 LTS (`nvm use` reads `.nvmrc`) and npm 10+.
 
-| Branch          | Purpose                                                  |
-| --------------- | -------------------------------------------------------- |
-| `main`          | Always deployable, protected, release tags cut from here |
-| `develop`       | Integration branch for the next release                  |
-| `feat/<scope>`  | New feature                                              |
-| `fix/<scope>`   | Bug fix                                                  |
-| `chore/<scope>` | Tooling, deps, CI                                        |
-| `docs/<scope>`  | Documentation only                                       |
+## Then read
 
-Example: `feat/dropzone-validation`, `fix/hf-503-retry`.
+| Document | What it covers |
+| --- | --- |
+| [`docs/DEVELOPMENT_WORKFLOW.md`](./docs/DEVELOPMENT_WORKFLOW.md) | Branch naming, the pre-PR checklist, review criteria, merging, releasing |
+| [`docs/ENGINEERING_STANDARDS.md`](./docs/ENGINEERING_STANDARDS.md) | The quality gate, commit conventions, how bugs are handled, security rules |
 
-## 4. Commit convention — Conventional Commits
+Both state each rule alongside the failure that produced it. That is deliberate: a
+standard with a scar attached gets followed, while one asserted in the abstract does not.
 
-```
-<type>(<scope>): <short imperative summary>
+## The short version
 
-[optional body — the why, not the what]
-[optional footer — Closes #12]
-```
+- **Run the full gate before opening a PR** — Prettier, ESLint, `tsc`, both test suites,
+  and the build. Exactly what CI runs, not a subset. (Running a subset is how nine
+  consecutive commits shipped with a red pipeline.)
+- **Every bug fix gets a test that fails without the fix.** The test is the part that
+  lasts.
+- **Commit messages name the symptom**, not just the code that moved.
+  `fix(auth): stop a correct password from doing nothing at all` is findable later by
+  the only thing anyone remembers.
+- **Commits are authored with your own verified GitHub email.** `Co-authored-by:` is for
+  people who genuinely worked on the patch. Attribution is a factual record, not a
+  decoration.
+- **No secrets in code.** Everything configurable goes through `.env` and
+  `config/env.js`.
 
-Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+## Reporting bugs and requesting features
 
-Examples:
-
-```
-feat(server): add exponential backoff for HF 503 model-loading responses
-fix(client): revoke object URL on unmount to stop memory leak
-docs(api): document /api/models allow-list endpoint
-```
-
-## 4.1 Commit authorship
-
-Every commit is authored by the person who actually wrote it, using an email
-registered to their own GitHub account. This is not bureaucracy: GitHub resolves
-commits to accounts **by email**, so an unregistered address produces a commit
-attributed to nobody, and `git log` stops being a usable record of who to ask
-about a change.
-
-```bash
-git config user.name  "Your Name"
-git config user.email "you@example.com"   # must be verified on your GitHub account
-```
-
-When two or more people genuinely worked on a change together — pairing, or a
-review that reshaped the patch — credit them with `Co-authored-by:` trailers as
-the last lines of the message, after a blank line:
-
-```
-fix(auth): stop the rate limiter locking out correct sign-ins
-
-Co-authored-by: Real Person <real.person@example.com>
-```
-
-Only list people who actually contributed. Attribution is a factual record, not
-a decoration.
-
-## 5. Code standards
-
-- **TypeScript strict mode** — no `any` without a written justification comment.
-- **No secrets in code.** Everything configurable goes through `.env` + `config/env.ts`.
-- **Server layering:** `route → controller → service`. Controllers never call `fetch` directly.
-- **Phase discipline:** only `WebApplication/` is active. Do not open PRs against
-  `BrowserExtensions/` or `MobileApplication/` until their phase begins.
-- **Where does a new file go?** If the running app needs it → the product folder
-  (`WebApplication/`). If only the team needs it → `DevelopmentFiles/`.
-- **Never call Hugging Face from a client** — always go through `WebApplication/server`.
-- **Errors:** throw `ApiError` with a stable `code`; the central error handler formats it.
-- **UI copy:** every user-visible string must exist in both `i18n/bn.json` and `i18n/en.json`.
-- **Accessibility:** interactive elements need keyboard support and ARIA labels.
-- **Formatting:** Prettier is the single source of truth — run `npm run format`.
-
-## 6. Before opening a PR
-
-```bash
-cd WebApplication
-npm run format
-npm run lint
-npm run typecheck
-npm test
-npm run build
-```
-
-Then fill in the PR template completely. PRs need a green CI run and one review.
-
-## 7. Reporting bugs / requesting features
-
-Use the GitHub issue templates. Include the audio file characteristics
-(format, size, duration, language) for transcription-related bugs.
+Use the issue templates in [`.github/ISSUE_TEMPLATE/`](../.github/ISSUE_TEMPLATE). For
+anything security-related, follow [`SECURITY.md`](./SECURITY.md) instead of opening a
+public issue.

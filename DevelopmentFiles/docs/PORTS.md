@@ -37,7 +37,7 @@ allocate, a daemon to supervise, credentials to manage. The database holds admin
 password hashes and visitor IPs; with SQLite its access control is filesystem
 permissions, not a network binding.
 
-See [`DATABASE.md`](./DATABASE.md) for how to open and inspect the database.
+See [`POSTGRESQL_SETUP.md`](./POSTGRESQL_SETUP.md) for setup and operations.
 
 ### ⚠️ Avoid ports above 32768
 

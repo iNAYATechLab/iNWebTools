@@ -194,7 +194,6 @@ See [`.env.example`](./.env.example) for the annotated master list. Highlights:
 - [`API.md`](../DevelopmentFiles/docs/API.md) — REST contract for `/api/*`
 - [`ROADMAP.md`](../DevelopmentFiles/docs/ROADMAP.md) — the 5-step delivery plan
 - [`CONTRIBUTING.md`](../DevelopmentFiles/CONTRIBUTING.md) — branching, commits, PR rules
-- [`SETUP_GITHUB.md`](../DevelopmentFiles/docs/SETUP_GITHUB.md) — repo creation & first push
 
 ---
 

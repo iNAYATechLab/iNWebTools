@@ -30,6 +30,7 @@ of it?* Rather than claim a standard, this repository makes the evidence checkab
 | **Every bug pinned by a test** | A fix without a regression test is a fix that comes back                                      |
 | **Honest security posture**    | [`SECURITY_AUDIT.md`](./DevelopmentFiles/docs/SECURITY_AUDIT.md) lists what is *not* yet done |
 | **Reproducible releases**      | Tag → GitHub Actions → source+build archive with SHA-256, boot-verified before publishing     |
+| **Stated versioning policy**   | [SemVer with written 1.0 exit criteria](./DevelopmentFiles/docs/VERSIONING.md) — the version means something |
 | **Changelog for humans**       | [Keep a Changelog](https://keepachangelog.com/) + SemVer, breaking changes stated first       |
 
 Commit messages are written to be read: they name the symptom a user experienced, not
@@ -91,7 +92,7 @@ Open **http://localhost:5173** in your browser.
 > 🗄️ The store is **PostgreSQL**. `DevelopmentFiles/scripts/pg-setup.sh` provisions a
 > local cluster, applies the schema and restores the newest dump in one command.
 > It holds bcrypt password hashes and visitor IPs, so dumps are gitignored.
-> See the **[Database Guide](./DevelopmentFiles/docs/DATABASE.md)** and
+> See the **[PostgreSQL guide](./DevelopmentFiles/docs/POSTGRESQL_SETUP.md)** and
 > **[ADR-0001](./DevelopmentFiles/docs/adr/0001-postgresql-over-sqlite.md)** for why
 > SQLite was replaced.
 
@@ -111,16 +112,14 @@ The admin dashboard is the intended way to read that data without SQL:
 | Document                         | Location                                                                           |
 | -------------------------------- | ---------------------------------------------------------------------------------- |
 | Web App setup, scripts, env vars | [`WebApplication/README.md`](./WebApplication/README.md)                           |
-| **Database — how to open & inspect it** | [`DevelopmentFiles/docs/DATABASE.md`](./DevelopmentFiles/docs/DATABASE.md)  |
-| **ডাটাবেস ব্যবহার নির্দেশিকা (বাংলা)** | [`DevelopmentFiles/docs/SQLITE_GUIDE_BN.md`](./DevelopmentFiles/docs/SQLITE_GUIDE_BN.md) |
-| **অ্যাডমিন প্যানেলে লগইন (বাংলা)** | [`DevelopmentFiles/docs/ADMIN_ACCESS_BN.md`](./DevelopmentFiles/docs/ADMIN_ACCESS_BN.md) |
+| **Database — setup & operations** | [`DevelopmentFiles/docs/POSTGRESQL_SETUP.md`](./DevelopmentFiles/docs/POSTGRESQL_SETUP.md) |
 | **Port allocation (dev & production)** | [`DevelopmentFiles/docs/PORTS.md`](./DevelopmentFiles/docs/PORTS.md)        |
 | **Architecture decision records** | [`DevelopmentFiles/docs/adr/`](./DevelopmentFiles/docs/adr)                       |
 | **Engineering standards**        | [`ENGINEERING_STANDARDS.md`](./DevelopmentFiles/docs/ENGINEERING_STANDARDS.md)      |
+| **Versioning policy**            | [`VERSIONING.md`](./DevelopmentFiles/docs/VERSIONING.md)                            |
 | Architecture & error contract    | [`DevelopmentFiles/docs/ARCHITECTURE.md`](./DevelopmentFiles/docs/ARCHITECTURE.md) |
 | API reference                    | [`DevelopmentFiles/docs/API.md`](./DevelopmentFiles/docs/API.md)                   |
 | Roadmap (5 steps + later phases) | [`DevelopmentFiles/docs/ROADMAP.md`](./DevelopmentFiles/docs/ROADMAP.md)           |
-| GitHub setup & branch protection | [`DevelopmentFiles/docs/SETUP_GITHUB.md`](./DevelopmentFiles/docs/SETUP_GITHUB.md) |
 | Contributing guide               | [`DevelopmentFiles/CONTRIBUTING.md`](./DevelopmentFiles/CONTRIBUTING.md)           |
 | Security policy                  | [`DevelopmentFiles/SECURITY.md`](./DevelopmentFiles/SECURITY.md)                   |
 | Changelog                        | [`DevelopmentFiles/CHANGELOG.md`](./DevelopmentFiles/CHANGELOG.md)                 |

@@ -51,7 +51,6 @@ and deployment. Keeping them in place is intentional, not an oversight.
 | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | System design, request lifecycle, error-code contract          |
 | [`docs/API.md`](./docs/API.md)                   | REST contract: `/api/health`, `/api/models`, `/api/transcribe` |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md)           | The 5-step delivery plan and later phases                      |
-| [`docs/SETUP_GITHUB.md`](./docs/SETUP_GITHUB.md) | Repo creation, first push, branch protection                   |
 
 ---
 

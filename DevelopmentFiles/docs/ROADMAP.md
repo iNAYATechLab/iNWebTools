@@ -1,7 +1,11 @@
 # Delivery Roadmap — Web Application (Phase 1)
 
-Five steps to v1.0.0. Browser extensions (phase 2) and mobile apps (phase 3)
-start only after this phase ships.
+Five steps to a shippable web application. Browser extensions (phase 2) and mobile
+apps (phase 3) start only after this phase ships.
+
+Phase 1 is complete and published as `0.1.0-alpha.1`. It is an alpha because the API
+contract has not yet met an external client, not because the code is unfinished — see
+[`VERSIONING.md`](./VERSIONING.md) for the exit criteria that earn `1.0.0`.
 
 ## ✅ Step 1 — Environment, GitHub & file structure
 
@@ -10,7 +14,7 @@ start only after this phase ships.
 - [x] `.gitignore`, `.env.example`, `.editorconfig`, `.nvmrc`, `LICENSE`
 - [x] Shared tooling config: ESLint (flat), Prettier, base `tsconfig`
 - [x] GitHub assets: CI workflow, issue templates, PR template, `CONTRIBUTING.md`
-- [x] Documentation: README, ARCHITECTURE, API, ROADMAP, SETUP_GITHUB
+- [x] Documentation: README, ARCHITECTURE, API, ROADMAP
 - [x] Local git repository initialised with an initial commit
 - [x] Repository split into phase folders: `WebApplication/` (active),
       `BrowserExtensions/`, `MobileApplication/`, `Screenshot/` (later phases)
