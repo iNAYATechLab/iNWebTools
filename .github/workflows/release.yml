@@ -1,0 +1,183 @@
+name: Release
+
+# Automatic versioned releases.
+#
+#   1. Bump "version" in WebApplication/package.json and push to main
+#        -> this workflow tags v<version> and publishes the release.
+#   2. Or push a tag manually:  git tag v1.2.3 && git push origin v1.2.3
+#   3. Or run it from the Actions tab with an explicit version.
+#
+# Doing tag creation and release publishing in ONE job avoids the GitHub rule
+# that a tag pushed by GITHUB_TOKEN cannot trigger another workflow.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'WebApplication/package.json'
+      - '.github/workflows/release.yml'
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. 1.0.0). Leave blank to use package.json.'
+        required: false
+        type: string
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  release:
+    name: Build · Package · Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout (full history for changelog)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: WebApplication/package-lock.json
+
+      - name: Resolve version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          elif [ "${{ github.ref_type }}" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION=$(node -p "require('./WebApplication/package.json').version")
+          fi
+          VERSION="${VERSION#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION"    >> "$GITHUB_OUTPUT"
+          echo "Resolved version: v$VERSION"
+
+      - name: Skip if this version was already released
+        id: guard
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        if: steps.guard.outputs.skip == 'false'
+        working-directory: WebApplication
+        run: npm ci || npm install
+
+      - name: Quality gate (lint · typecheck · test)
+        if: steps.guard.outputs.skip == 'false'
+        working-directory: WebApplication
+        run: |
+          npm run lint --if-present
+          npm run typecheck --if-present
+          npm test --if-present
+        env:
+          NODE_ENV: test
+          HF_FREE_API_TOKEN: hf_dummy_token_for_ci
+
+      - name: Package release ZIP
+        if: steps.guard.outputs.skip == 'false'
+        id: pack
+        run: node DevelopmentFiles/scripts/create-release-zip.mjs --version "${{ steps.ver.outputs.version }}"
+
+      - name: Generate release notes
+        if: steps.guard.outputs.skip == 'false'
+        id: notes
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          PREV=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo "")
+
+          {
+            echo "## iNWebTools Web Application $TAG"
+            echo ""
+            echo "### 📦 Download"
+            echo ""
+            echo "\`${{ steps.pack.outputs.zip_name }}\` — self-contained, deployable build."
+            echo ""
+            echo '```bash'
+            echo "unzip ${{ steps.pack.outputs.zip_name }} && cd inwebtools-web-$TAG"
+            echo "cp .env.example .env    # add HUGGINGFACE_API_KEY"
+            echo "npm ci --omit=dev && npm start"
+            echo '```'
+            echo ""
+            echo "SHA-256: \`${{ steps.pack.outputs.sha256 }}\`"
+            echo ""
+            echo "### 📝 Changes"
+            echo ""
+            if [ -n "$PREV" ]; then
+              git log --no-merges --pretty=format:'- %s (%h)' "$PREV..HEAD" || true
+              echo ""
+              echo ""
+              echo "**Full changelog:** https://github.com/${{ github.repository }}/compare/$PREV...$TAG"
+            else
+              git log --no-merges --pretty=format:'- %s (%h)' | head -50 || true
+              echo ""
+              echo ""
+              echo "Initial release."
+            fi
+          } > RELEASE_NOTES.md
+
+          cat RELEASE_NOTES.md
+
+      - name: Create tag
+        if: steps.guard.outputs.skip == 'false' && github.ref_type != 'tag'
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists locally."
+          else
+            git tag -a "$TAG" -m "iNWebTools $TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Publish GitHub Release
+        if: steps.guard.outputs.skip == 'false'
+        run: |
+          gh release create "${{ steps.ver.outputs.tag }}" \
+            "${{ steps.pack.outputs.zip_path }}" \
+            "${{ steps.pack.outputs.zip_path }}.sha256" \
+            --title "iNWebTools ${{ steps.ver.outputs.tag }}" \
+            --notes-file RELEASE_NOTES.md \
+            --verify-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.guard.outputs.skip }}" = "true" ]; then
+            echo "### ⏭️ Skipped — ${{ steps.ver.outputs.tag }} already released" >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### ✅ Released ${{ steps.ver.outputs.tag }}"
+              echo ""
+              echo "- Asset: \`${{ steps.pack.outputs.zip_name }}\`"
+              echo "- SHA-256: \`${{ steps.pack.outputs.sha256 }}\`"
+              echo "- https://github.com/${{ github.repository }}/releases/tag/${{ steps.ver.outputs.tag }}"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

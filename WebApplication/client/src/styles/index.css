@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — one place to retune the whole product.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-brand-50: #eef6ff;
+  --color-brand-100: #d9eaff;
+  --color-brand-200: #bcdaff;
+  --color-brand-300: #8ec3ff;
+  --color-brand-400: #59a1ff;
+  --color-brand-500: #337dff;
+  --color-brand-600: #1d5df5;
+  --color-brand-700: #1848e1;
+  --color-brand-800: #1a3cb6;
+  --color-brand-900: #1b378f;
+
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #06b6d4;
+
+  --color-ink-900: #05070f;
+  --color-ink-850: #0a0e1a;
+  --color-ink-800: #0f1526;
+  --color-ink-700: #172136;
+  --color-ink-600: #22304d;
+
+  --font-display:
+    'Inter', 'Hind Siliguri', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.8s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-18px) scale(1.04);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-display);
+    color: rgb(226 232 240);
+    background-color: var(--color-ink-900);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Long unbroken strings (URLs, IDs, or Bengali conjuncts without spaces)
+     must never widen the layout and create a horizontal scrollbar. */
+  body {
+    overflow-x: hidden;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  span,
+  li {
+    overflow-wrap: break-word;
+  }
+
+  /* Bengali needs slightly more line height to stay readable. */
+  :lang(bn) {
+    line-height: 1.85;
+  }
+
+  /* A single, consistent focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  ::selection {
+    background: var(--color-brand-500);
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-850);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2f4269;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Reusable surfaces
+ * ------------------------------------------------------------------ */
+@layer components {
+  .a2t-card {
+    background: linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--color-ink-800) 92%, transparent),
+      color-mix(in oklab, var(--color-ink-850) 96%, transparent)
+    );
+    border: 1px solid color-mix(in oklab, white 8%, transparent);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 0 0 color-mix(in oklab, white 6%, transparent) inset,
+      0 24px 60px -30px rgb(0 0 0 / 0.9);
+  }
+
+  .a2t-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--color-brand-400) 22%, transparent) 50%,
+      transparent 100%
+    );
+    background-size: 600px 100%;
+    animation: var(--animate-shimmer);
+  }
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

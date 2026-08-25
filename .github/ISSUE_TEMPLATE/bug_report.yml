@@ -1,0 +1,62 @@
+name: 🐛 Bug report
+description: Report something that is not working as expected
+title: '[Bug]: '
+labels: ['bug', 'triage']
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. Go to '…'
+        2. Upload file '…'
+        3. Click '…'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: audio-file
+    attributes:
+      label: Audio file details
+      placeholder: 'mp3, 8 MB, 6 minutes, Bengali speech'
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Frontend (UI / uploader / player)
+        - Backend (API / Hugging Face)
+        - Build / tooling / CI
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste server console output or browser console errors.
+      render: shell
+
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: 'Node 20.14.0, npm 10.8.1, Chrome 127, Windows 11'

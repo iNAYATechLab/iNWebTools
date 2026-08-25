@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+coverage
+release
+*.min.*
+package-lock.json
+server/tmp

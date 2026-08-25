@@ -1,0 +1,127 @@
+{
+  "header": {
+    "logoUrl": "",
+    "siteTitle": "iNWebTools",
+    "tagline": "Speech to text in 99 languages",
+    "navLinks": [
+      {
+        "label": "Transcribe",
+        "url": "/",
+        "newTab": false
+      },
+      {
+        "label": "Documentation",
+        "url": "/docs",
+        "newTab": false
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/iNAYATechLab",
+        "newTab": true
+      }
+    ],
+    "actionButtons": [
+      {
+        "label": "Admin",
+        "url": "/AdminDashboard",
+        "variant": "ghost",
+        "newTab": false
+      },
+      {
+        "label": "Get started",
+        "url": "/",
+        "variant": "primary",
+        "newTab": false
+      }
+    ],
+    "notice": {
+      "isVisible": true,
+      "text": "Now powered by Whisper large-v3 \u2014 99 languages supported.",
+      "linkLabel": "Learn more",
+      "linkUrl": "/docs"
+    },
+    "showStatusPill": true,
+    "showLocaleToggle": true
+  },
+  "footer": {
+    "copyrightText": "\u00a9 {year} iNWebTools \u00b7 Built with care by iNAYA TechLab",
+    "tagline": "Accurate, private transcription. Your audio is never stored.",
+    "columns": [
+      {
+        "title": "Product",
+        "items": [
+          {
+            "label": "Transcribe",
+            "url": "/",
+            "newTab": false
+          },
+          {
+            "label": "Supported languages",
+            "url": "/docs#languages",
+            "newTab": false
+          }
+        ]
+      },
+      {
+        "title": "Developers",
+        "items": [
+          {
+            "label": "API reference",
+            "url": "/docs#api",
+            "newTab": false
+          },
+          {
+            "label": "Source code",
+            "url": "https://github.com/iNAYATechLab",
+            "newTab": true
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "items": [
+          {
+            "label": "iNAYA TechLab",
+            "url": "https://github.com/iNAYATechLab",
+            "newTab": true
+          },
+          {
+            "label": "Contact",
+            "url": "mailto:dev@inayatechlab.com",
+            "newTab": false
+          }
+        ]
+      }
+    ],
+    "socialLinks": [
+      {
+        "platform": "github",
+        "url": "https://github.com/iNAYATechLab",
+        "label": ""
+      },
+      {
+        "platform": "x",
+        "url": "https://x.com/inayatechlab",
+        "label": ""
+      },
+      {
+        "platform": "linkedin",
+        "url": "https://linkedin.com/company/inayatechlab",
+        "label": ""
+      },
+      {
+        "platform": "email",
+        "url": "mailto:dev@inayatechlab.com",
+        "label": ""
+      }
+    ],
+    "newsletter": {
+      "enabled": true,
+      "heading": "Stay in the loop",
+      "description": "Product updates, roughly once a month. No spam.",
+      "buttonLabel": "Subscribe",
+      "placeholder": "you@example.com"
+    },
+    "showPrivacyNote": true
+  }
+}

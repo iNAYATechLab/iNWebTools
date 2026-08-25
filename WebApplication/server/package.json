@@ -1,0 +1,38 @@
+{
+  "name": "@inwebtools/server",
+  "version": "1.0.2",
+  "private": true,
+  "description": "Enterprise API Server for iNWebTools \u2014 Express server that proxies audio uploads to the Hugging Face ASR inference endpoint.",
+  "homepage": "https://iNWebTools.ORG",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "db:migrate": "node db/migrate.mjs",
+    "db:doctor": "node db/doctor.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "supertest": "^7.0.0",
+    "vitest": "^3.2.7"
+  }
+}

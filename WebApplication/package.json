@@ -1,0 +1,62 @@
+{
+  "name": "inwebtools-web-application",
+  "version": "1.0.2",
+  "private": true,
+  "description": "Enterprise API Server for iNWebTools \u2014 MP3/audio to text transcription (React + Vite + TypeScript SPA, Node.js + Express API, Hugging Face ASR).",
+  "homepage": "https://iNWebTools.ORG",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iNAYATechLab/iNWebTools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iNAYATechLab/iNWebTools/issues"
+  },
+  "author": "iNAYA TechLab <ceo@inayatechlab.com>",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n SERVER,CLIENT -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --workspace @inwebtools/server run dev",
+    "dev:client": "npm --workspace @inwebtools/client run dev",
+    "build": "npm --workspace @inwebtools/client run build",
+    "start": "npm --workspace @inwebtools/server run start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm --workspace @inwebtools/client run typecheck",
+    "test": "npm --workspace @inwebtools/server run test && npm --workspace @inwebtools/client run test",
+    "release:zip": "node ../DevelopmentFiles/scripts/create-release-zip.mjs",
+    "test:server": "npm --workspace @inwebtools/server run test",
+    "test:client": "npm --workspace @inwebtools/client run test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^9.7.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.0"
+  },
+  "keywords": [
+    "speech-to-text",
+    "whisper",
+    "hugging-face",
+    "transcription",
+    "react",
+    "express",
+    "typescript"
+  ]
+}

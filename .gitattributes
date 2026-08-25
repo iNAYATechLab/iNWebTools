@@ -1,0 +1,18 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.mp3 binary
+*.wav binary
+*.m4a binary
+*.ogg binary
+*.flac binary
+*.zip binary
+
+package-lock.json linguist-generated=true -diff
+docs/** linguist-documentation=true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/iNAYATechLab/inwebtools/tree/main/docs
+    about: Architecture, API reference and setup guides.
+  - name: 💬 Discussions
+    url: https://github.com/iNAYATechLab/inwebtools/discussions
+    about: Questions and general ideas.

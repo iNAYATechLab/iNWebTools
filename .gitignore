@@ -1,0 +1,137 @@
+# ---------- Secrets (never commit) ----------
+# Upload dialogs often refuse dot-prefixed names, so plain filenames are
+# accepted too. All of these are token drop-points and must never be committed.
+.gh_token
+gh_token
+gh_token.txt
+token.txt
+github_token.txt
+github-token.txt
+PUT_TOKEN_HERE.txt
+*.token
+.env
+.env.*
+!.env.example
+
+# ---------- Dependencies ----------
+node_modules/
+.pnp/
+.pnp.js
+.yarn/
+
+# ---------- Build output ----------
+# NOTE: the server is plain JavaScript ESM — its .js files ARE the source.
+# An earlier rule ignored WebApplication/server/tests/*.js to exclude compiled
+# TypeScript output; that server no longer exists, and the rule silently kept
+# the whole test suite out of the repository (CI then passed with no tests).
+# Only genuine build artefacts are ignored below.
+WebApplication/server/**/*.js.map
+WebApplication/server/**/*.d.ts
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ---------- Environment & secrets ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+
+# ---------- Runtime uploads / temp ----------
+WebApplication/server/tmp/*
+!WebApplication/server/tmp/.gitkeep
+uploads/
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
+*.webm
+!DevelopmentFiles/docs/samples/*.mp3
+
+# ---------- Logs ----------
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Testing / coverage ----------
+coverage/
+.nyc_output/
+
+# ---------- Caches ----------
+.cache/
+.vite/
+.eslintcache
+.parcel-cache/
+.npm/
+
+# ---------- Release artifacts ----------
+release/
+*.zip
+!DevelopmentFiles/docs/assets/*.zip
+
+# ---------- Editors / OS ----------
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Screenshots are tracked dev assets ----------
+!DevelopmentFiles/Screenshot/**/*.png
+!DevelopmentFiles/Screenshot/**/*.jpg
+
+# ---------- Local operator secrets (never commit) ----------
+# Plain-text credentials used only to drive the local dev database and the
+# bootstrap admin account. Kept at chmod 600 outside the app tree.
+.a2t_dbpass
+.a2t_adminpass
+.gh_token
+.sudo_as_admin_successful
+
+# SQLite database files (admin password hashes, visitor IPs — never commit).
+# NOTE: the engine was removed on 2026-08-25 pending the PostgreSQL migration.
+# These stay so an archived or stray .db file can never be committed.
+# WAL/SHM sidecars appear while the server is running.
+WebApplication/server/data/
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# One-off MySQL -> SQLite migration dumps (contain the same private data).
+WebApplication/server/db/backup/
+
+# Archived SQLite artefacts from the PostgreSQL migration (2026-08-25).
+# These contain admin bcrypt hashes and visitor IP addresses — local only.
+DevelopmentFiles/backups/
+
+# Local PostgreSQL password helper — never commit.
+.inwebtools_pgpass
+*_pgpass
+
+# PostgreSQL data directory. Lives under /home/user so workspace snapshots
+# keep it, but it holds password hashes and ~38 MB of binary heap files.
+# Recreate it with DevelopmentFiles/scripts/pg-setup.sh.
+.pgdata/
+
+# Generated visual previews. Regenerate with
+# DevelopmentFiles/scripts/render-character-preview.mjs — the script is the
+# artefact worth keeping, not its PNG output.
+DevelopmentFiles/previews/
+
+# Playwright browser binaries. Install them to PLAYWRIGHT_BROWSERS_PATH=
+# ~/.cache/ms-playwright, which tooling already excludes; a second copy inside
+# the workspace is ~650 MB of duplicate that ends up in every snapshot.
+.pw-browsers/
+
+# Local safety copy of the pre-rewrite Git history — never publish
+.repo-backup/
