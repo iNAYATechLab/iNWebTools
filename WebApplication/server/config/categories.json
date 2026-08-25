@@ -1,0 +1,252 @@
+{
+  "$comment": [
+    "Canonical category registry for iNWebTools — 8 main categories, 25 sub-categories.",
+    "",
+    "This file is the SEED, not the live source of truth. On startup it is synced into",
+    "the `categories` and `subcategories` tables (see services/categories.service.js).",
+    "Once seeded, admins edit names, icons, descriptions and ordering through",
+    "/AdminDashboard/CMS/Categories, and those edits live in the database.",
+    "",
+    "Why seed from a file at all: a fresh installation must come up with the full",
+    "navigation already in place, and the structure has to be reviewable in code review",
+    "and diffable in git. Why not keep it ONLY in a file: an operator must be able to",
+    "rename a category without a deploy.",
+    "",
+    "The sync is additive and non-destructive — it inserts rows that are missing and",
+    "leaves existing ones untouched, so re-running it never overwrites an admin's edits.",
+    "",
+    "Slugs are URL-visible and permanent. They are written out explicitly rather than",
+    "derived at runtime because a slug change breaks every inbound link and every",
+    "search-engine result for that page: deriving them would make an innocuous rename",
+    "silently rewrite live URLs.",
+    "",
+    "Slug rule: lower-case, digits, single hyphens (enforced by a CHECK constraint).",
+    "'&' and ',' are dropped, not transliterated — 'PDF & Document Tools' becomes",
+    "'pdf-document-tools', which is what the URL specification calls for."
+  ],
+  "version": 1,
+  "categories": [
+    {
+      "slug": "pdf-document-tools",
+      "name": "PDF & Document Tools",
+      "description": "Convert, edit, merge and manage PDFs, e-books and office documents.",
+      "icon": "file-text",
+      "sortOrder": 1,
+      "subcategories": [
+        {
+          "slug": "pdf-converters",
+          "name": "PDF Converters",
+          "description": "Convert PDFs to and from Word, Excel, images and more.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "pdf-editing-management",
+          "name": "PDF Editing & Management",
+          "description": "Merge, split, compress, rotate, protect and unlock PDF files.",
+          "sortOrder": 2
+        },
+        {
+          "slug": "e-book-document-specialty",
+          "name": "E-Book & Document Specialty",
+          "description": "EPUB, MOBI and specialised document format utilities.",
+          "sortOrder": 3
+        }
+      ]
+    },
+    {
+      "slug": "image-graphics-tools",
+      "name": "Image & Graphics Tools",
+      "description": "Convert, edit and optimise images, and generate colours and CSS.",
+      "icon": "image",
+      "sortOrder": 2,
+      "subcategories": [
+        {
+          "slug": "standard-image-converters",
+          "name": "Standard Image Converters",
+          "description": "JPG, PNG, WEBP, GIF and other everyday image formats.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "extended-format-converters",
+          "name": "Extended Format Converters",
+          "description": "HEIC, AVIF, RAW, SVG and less common image formats.",
+          "sortOrder": 2
+        },
+        {
+          "slug": "image-editing-processing",
+          "name": "Image Editing & Processing",
+          "description": "Resize, crop, compress, rotate and enhance images.",
+          "sortOrder": 3
+        },
+        {
+          "slug": "color-design-utilities",
+          "name": "Color & Design Utilities",
+          "description": "Palettes, colour pickers, contrast checkers and gradients.",
+          "sortOrder": 4
+        },
+        {
+          "slug": "css-generators",
+          "name": "CSS Generators",
+          "description": "Generate shadows, gradients, borders and other CSS snippets.",
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "slug": "audio-video-tools",
+      "name": "Audio & Video Tools",
+      "description": "Convert, trim and transcribe audio and video files.",
+      "icon": "play",
+      "sortOrder": 3,
+      "subcategories": [
+        {
+          "slug": "audio-converters-editing",
+          "name": "Audio Converters & Editing",
+          "description": "MP3, WAV, FLAC conversion, trimming and transcription.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "video-converters-editing",
+          "name": "Video Converters & Editing",
+          "description": "MP4, WEBM, GIF conversion, trimming and compression.",
+          "sortOrder": 2
+        }
+      ]
+    },
+    {
+      "slug": "developer-code-utilities",
+      "name": "Developer & Code Utilities",
+      "description": "Parse, encode, convert, minify and format code and data.",
+      "icon": "code",
+      "sortOrder": 4,
+      "subcategories": [
+        {
+          "slug": "data-converters-parsers",
+          "name": "Data Converters & Parsers",
+          "description": "JSON, XML, YAML, CSV and SQL conversion and validation.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "string-encoders-decoders",
+          "name": "String Encoders & Decoders",
+          "description": "Base64, URL, HTML entity and JWT encoding and decoding.",
+          "sortOrder": 2
+        },
+        {
+          "slug": "number-base-radix-converters",
+          "name": "Number Base & Radix Converters",
+          "description": "Binary, octal, decimal, hexadecimal and arbitrary radix.",
+          "sortOrder": 3
+        },
+        {
+          "slug": "code-minifiers-beautifiers",
+          "name": "Code Minifiers & Beautifiers",
+          "description": "Minify and pretty-print HTML, CSS, JavaScript and JSON.",
+          "sortOrder": 4
+        },
+        {
+          "slug": "code-api-converters",
+          "name": "Code & API Converters",
+          "description": "Convert between languages, and generate API clients and cURL.",
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "slug": "text-web-utilities",
+      "name": "Text & Web Utilities",
+      "description": "Analyse, transform and clean text for the web.",
+      "icon": "type",
+      "sortOrder": 5,
+      "subcategories": [
+        {
+          "slug": "text-metrics-analysis",
+          "name": "Text Metrics & Analysis",
+          "description": "Word, character and readability counts and analysis.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "text-case-format-modifiers",
+          "name": "Text Case & Format Modifiers",
+          "description": "Upper, lower, title, camel, snake and kebab case.",
+          "sortOrder": 2
+        },
+        {
+          "slug": "text-cleaning-manipulation",
+          "name": "Text Cleaning & Manipulation",
+          "description": "Remove duplicates, trim whitespace, sort and find-replace.",
+          "sortOrder": 3
+        }
+      ]
+    },
+    {
+      "slug": "calculators-unit-converters",
+      "name": "Calculators & Unit Converters",
+      "description": "Financial, mathematical and everyday unit calculations.",
+      "icon": "calculator",
+      "sortOrder": 6,
+      "subcategories": [
+        {
+          "slug": "financial-mathematical-calculators",
+          "name": "Financial & Mathematical Calculators",
+          "description": "Loan, interest, percentage, tax and scientific calculators.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "unit-converters",
+          "name": "Unit Converters",
+          "description": "Length, weight, temperature, area, speed and data size.",
+          "sortOrder": 2
+        }
+      ]
+    },
+    {
+      "slug": "seo-network-security-tools",
+      "name": "SEO, Network & Security Tools",
+      "description": "Audit sites, inspect networks, hash and secure data.",
+      "icon": "shield",
+      "sortOrder": 7,
+      "subcategories": [
+        {
+          "slug": "seo-webmaster-tools",
+          "name": "SEO & Webmaster Tools",
+          "description": "Meta tags, sitemaps, robots.txt and SERP previews.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "security-cryptography",
+          "name": "Security & Cryptography",
+          "description": "Hashing, encryption, password generation and checksums.",
+          "sortOrder": 2
+        },
+        {
+          "slug": "network-web-diagnostics",
+          "name": "Network & Web Diagnostics",
+          "description": "DNS, IP, ping, headers, SSL and WHOIS lookups.",
+          "sortOrder": 3
+        }
+      ]
+    },
+    {
+      "slug": "ai-smart-productivity-tools",
+      "name": "AI & Smart Productivity Tools",
+      "description": "AI-assisted writing plus archive and compression utilities.",
+      "icon": "sparkle",
+      "sortOrder": 8,
+      "subcategories": [
+        {
+          "slug": "ai-writing-productivity",
+          "name": "AI Writing & Productivity",
+          "description": "Summarise, rewrite, translate and generate content.",
+          "sortOrder": 1
+        },
+        {
+          "slug": "archive-compression-tools",
+          "name": "Archive & Compression Tools",
+          "description": "ZIP, RAR, 7Z and TAR creation and extraction.",
+          "sortOrder": 2
+        }
+      ]
+    }
+  ]
+}

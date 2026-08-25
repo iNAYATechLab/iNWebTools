@@ -22,6 +22,14 @@ import { WidgetCustomizer } from './pages/AdminDashboard/Settings/WidgetCustomiz
 import { TimeRangeStats } from './pages/AdminDashboard/Userinfo/TimeRangeStats';
 import { UserOnlineNow } from './pages/AdminDashboard/Userinfo/UserOnlineNow';
 import { WidgetLayout } from './components/widgets/WidgetLayout';
+import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
+import {
+  CategoryPage,
+  SubcategoryPage,
+  ToolPage,
+  ToolsIndexPage,
+  ToolsLayout,
+} from './pages/Tools/ToolsExplorer';
 
 /** The public transcription app. */
 function PublicApp() {
@@ -36,6 +44,30 @@ function PublicApp() {
       <div className="relative flex min-h-screen flex-col">
         <Header />
         <WidgetLayout />
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Public chrome for pages other than the homepage.
+ *
+ * Same Header/Footer and background treatment as `PublicApp`, but with an
+ * `Outlet` in the middle instead of the widget layout — the tool catalogue
+ * brings its own sidebar and does not want the homepage's widget zones.
+ */
+function PublicShell() {
+  return (
+    <div className="relative flex min-h-screen flex-col">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-500/15 blur-[120px]" />
+        <div className="absolute -bottom-52 right-0 h-[420px] w-[620px] rounded-full bg-accent-500/10 blur-[120px]" />
+      </div>
+
+      <div className="relative flex min-h-screen flex-col">
+        <Header />
+        <Outlet />
         <Footer />
       </div>
     </div>
@@ -61,6 +93,27 @@ export default function App() {
               </LocaleProvider>
             }
           />
+
+          {/*
+            The tool catalogue. Nested exactly as the URL contract specifies:
+            /tools → /tools/:category → /tools/:category/:sub → .../:tool.
+            Declaring them as nested routes rather than four flat paths is what
+            keeps the sidebar mounted across navigation between depths.
+          */}
+          <Route
+            element={
+              <LocaleProvider>
+                <PublicShell />
+              </LocaleProvider>
+            }
+          >
+            <Route path="/tools" element={<ToolsLayout />}>
+              <Route index element={<ToolsIndexPage />} />
+              <Route path=":categorySlug" element={<CategoryPage />} />
+              <Route path=":categorySlug/:subcategorySlug" element={<SubcategoryPage />} />
+              <Route path=":categorySlug/:subcategorySlug/:toolSlug" element={<ToolPage />} />
+            </Route>
+          </Route>
 
           {/*
             Public authentication. Inside LocaleProvider because these pages
@@ -112,6 +165,7 @@ export default function App() {
             <Route path="Settings/GlobalNotice" element={<GlobalNotice />} />
             <Route path="Settings/HeaderFooterManager" element={<HeaderFooterManager />} />
             <Route path="Settings/WidgetCustomizer" element={<WidgetCustomizer />} />
+            <Route path="CMS/Categories" element={<CategoriesManager />} />
             <Route path="Security/AdminAccess" element={<AdminAccess />} />
           </Route>
 

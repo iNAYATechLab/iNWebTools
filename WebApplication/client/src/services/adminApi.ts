@@ -19,6 +19,13 @@ import type {
   TimeRange,
   TimeRangeStats,
 } from '../types/admin';
+import type {
+  Category,
+  CategoryPatch,
+  ReorderEntry,
+  Subcategory,
+  SubcategoryPatch,
+} from '../types/categories';
 import type { LayoutConfig } from '../types/layout';
 import type { WidgetConfig } from '../types/widgets';
 
@@ -348,4 +355,37 @@ export const saveWidgetConfig = (value: WidgetConfig) =>
     method: 'POST',
     body: value,
     base: '/api/widgets',
+  });
+
+/* ---------------- Category registry ---------------- */
+
+/**
+ * Admin category operations.
+ *
+ * Reads for the *public* tree go through `api.ts`; this variant includes
+ * deactivated rows, which the public read hides, so an admin can see and
+ * re-enable something they turned off.
+ */
+export const getAdminCategoryTree = (signal?: AbortSignal) =>
+  request<{ categories: Category[] }>('/admin/tree', { signal, base: '/api/categories' });
+
+export const updateCategory = (id: string, patch: CategoryPatch) =>
+  request<{ category: Category }>(`/admin/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: patch,
+    base: '/api/categories',
+  });
+
+export const updateSubcategory = (id: string, patch: SubcategoryPatch) =>
+  request<{ subcategory: Subcategory }>(`/admin/sub/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: patch,
+    base: '/api/categories',
+  });
+
+export const reorderCategories = (level: 'category' | 'subcategory', order: ReorderEntry[]) =>
+  request<{ level: string; updated: number }>('/admin/reorder', {
+    method: 'POST',
+    body: { level, order },
+    base: '/api/categories',
   });

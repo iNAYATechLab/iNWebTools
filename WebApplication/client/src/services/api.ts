@@ -15,6 +15,7 @@ import type {
   ServerInfo,
   TranscriptionResult,
 } from '../types';
+import type { Category, CategoryTreeResponse, SubcategoryDetail } from '../types/categories';
 import type { LayoutResponse } from '../types/layout';
 import type { WidgetCatalogue, WidgetConfigResponse, WidgetPublicStats } from '../types/widgets';
 
@@ -175,6 +176,29 @@ export const getWidgetCatalogue = (signal?: AbortSignal) =>
 /** Aggregate counts for the live widgets. Never per-visitor detail. */
 export const getWidgetPublicStats = (signal?: AbortSignal) =>
   getJson<WidgetPublicStats>('/api/widgets/public-stats', signal);
+
+/* ---------------- Category registry ---------------- */
+
+/**
+ * The category tree. Public: it *is* the site navigation, so first paint
+ * depends on it, and the server falls back to its seed file when the database
+ * is unavailable rather than erroring.
+ */
+export const getCategoryTree = (signal?: AbortSignal) =>
+  getJson<CategoryTreeResponse>('/api/categories', signal);
+
+export const getCategory = (slug: string, signal?: AbortSignal) =>
+  getJson<{ category: Category }>(`/api/categories/${encodeURIComponent(slug)}`, signal);
+
+export const getSubcategory = (
+  categorySlug: string,
+  subcategorySlug: string,
+  signal?: AbortSignal,
+) =>
+  getJson<{ category: Category; subcategory: SubcategoryDetail }>(
+    `/api/categories/${encodeURIComponent(categorySlug)}/${encodeURIComponent(subcategorySlug)}`,
+    signal,
+  );
 
 function safeParse<T>(value: string): T | null {
   try {

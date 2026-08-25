@@ -38,6 +38,10 @@ const NAV: NavGroup[] = [
     ],
   },
   {
+    heading: 'CMS',
+    items: [{ to: '/AdminDashboard/CMS/Categories', label: 'Category Manager' }],
+  },
+  {
     heading: 'Security',
     items: [{ to: '/AdminDashboard/Security/AdminAccess', label: 'Admin Access' }],
   },

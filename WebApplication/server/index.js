@@ -37,9 +37,11 @@ import {
 } from './middlewares/upload.js';
 import { adminRouter } from './routes/admin.routes.js';
 import { authRouter } from './routes/auth.routes.js';
+import { categoriesRouter } from './routes/categories.routes.js';
 import { layoutRouter } from './routes/layout.routes.js';
 import { widgetsRouter } from './routes/widgets.routes.js';
 import { logConversion, logSystemError, touchSession } from './services/analytics.service.js';
+import { syncSeed as syncCategorySeed } from './services/categories.service.js';
 import { transcribeAudio } from './services/huggingface.service.js';
 import { ApiError, asyncHandler } from './utils/ApiError.js';
 import { logger } from './utils/logger.js';
@@ -374,6 +376,16 @@ app.use('/api/layout', layoutRouter);
 app.use('/api/widgets', widgetsRouter);
 
 /* ------------------------------------------------------------------ *
+ * Category registry
+ *
+ * The taxonomy behind the tool catalogue and the /tools/... URL structure.
+ * Public reads (the site navigation depends on them) with admin-guarded
+ * writes inside the router.
+ * ------------------------------------------------------------------ */
+
+app.use('/api/categories', categoriesRouter);
+
+/* ------------------------------------------------------------------ *
  * 404 + centralised error handling
  * ------------------------------------------------------------------ */
 
@@ -443,7 +455,19 @@ app.use(async (err, req, res, _next) => {
 function start() {
   // Fire and forget: a database outage disables the dashboard but must not
   // stop the transcription API from serving traffic.
-  void initDatabase();
+  //
+  // The category seed runs after the connection succeeds. It is additive
+  // (ON CONFLICT DO NOTHING), so it never overwrites an admin's renames — and
+  // a seed failure is logged rather than thrown, because the routes already
+  // fall back to the seed file when the table is empty.
+  void initDatabase().then(async () => {
+    if (!dbReady()) return;
+    try {
+      await syncCategorySeed();
+    } catch (error) {
+      logger.error('Category seed failed', { error: error.message });
+    }
+  });
 
   const server = app.listen(env.PORT, env.HOST, () => {
     logger.info(`${env.PROJECT_NAME} API server started`, {
