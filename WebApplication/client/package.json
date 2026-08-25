@@ -1,6 +1,6 @@
 {
   "name": "@inwebtools/client",
-  "version": "1.0.2",
+  "version": "0.1.0-alpha.1",
   "private": true,
   "description": "React + Vite + TypeScript single-page app: drag-and-drop audio upload, playback and transcript view.",
   "type": "module",

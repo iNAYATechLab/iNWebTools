@@ -53,7 +53,7 @@ inwebtools/
 
 | Folder                                      | Ships to production? | Status                        |
 | ------------------------------------------- | -------------------- | ----------------------------- |
-| [`WebApplication/`](./WebApplication)       | ✅ Yes               | ✅ Phase 1 complete — v1.0.2  |
+| [`WebApplication/`](./WebApplication)       | ✅ Yes               | ✅ Phase 1 complete — alpha   |
 | [`BrowserExtensions/`](./BrowserExtensions) | ✅ Yes               | ⏸️ Not started                |
 | [`MobileApplication/`](./MobileApplication) | ✅ Yes               | ⏸️ Not started                |
 | [`DevelopmentFiles/`](./DevelopmentFiles)   | ❌ No                | 📚 Ongoing                    |

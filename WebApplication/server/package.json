@@ -1,6 +1,6 @@
 {
   "name": "@inwebtools/server",
-  "version": "1.0.2",
+  "version": "0.1.0-alpha.1",
   "private": true,
   "description": "Enterprise API Server for iNWebTools \u2014 Express server that proxies audio uploads to the Hugging Face ASR inference endpoint.",
   "homepage": "https://iNWebTools.ORG",

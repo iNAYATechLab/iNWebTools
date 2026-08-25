@@ -1,6 +1,6 @@
 {
   "name": "inwebtools-web-application",
-  "version": "1.0.2",
+  "version": "0.1.0-alpha.1",
   "private": true,
   "description": "Enterprise API Server for iNWebTools \u2014 MP3/audio to text transcription (React + Vite + TypeScript SPA, Node.js + Express API, Hugging Face ASR).",
   "homepage": "https://iNWebTools.ORG",
