@@ -2,7 +2,7 @@
   "name": "@inwebtools/server",
   "version": "0.1.0-alpha.1",
   "private": true,
-  "description": "Enterprise API Server for iNWebTools \u2014 Express server that proxies audio uploads to the Hugging Face ASR inference endpoint.",
+  "description": "Enterprise API Server for iNWebTools — Express server that proxies audio uploads to the Hugging Face ASR inference endpoint.",
   "homepage": "https://iNWebTools.ORG",
   "type": "module",
   "main": "index.js",
@@ -28,7 +28,8 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
     "node-fetch": "^3.3.2",
-    "pg": "^8.23.0"
+    "pg": "^8.23.0",
+    "sanitize-html": "^2.17.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",

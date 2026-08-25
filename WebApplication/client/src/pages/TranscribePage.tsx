@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { AudioPlayer } from '../components/AudioPlayer';
+import { AUDIO_LANGUAGE_EVENT } from '../components/widgets/QuickToolsWidget';
+import { addHistoryEntry } from '../services/transcriptionHistory';
 import { Dropzone } from '../components/Dropzone';
 import { ErrorAlert } from '../components/ErrorAlert';
 import { LanguageSelector } from '../components/LanguageSelector';
@@ -11,7 +13,13 @@ import { useLocale } from '../hooks/useLocale';
 import { useTranscription } from '../hooks/useTranscription';
 import type { AudioLanguage } from '../types';
 
-export function TranscribePage() {
+/**
+ * @param embedded True when rendered inside the widget grid, which already
+ *   supplies the page's max-width and padding. Without this the component's
+ *   own `mx-auto max-w-6xl` would fight the grid track and re-centre the
+ *   transcriber independently of the sidebars.
+ */
+export function TranscribePage({ embedded = false }: { embedded?: boolean } = {}) {
   const { t } = useLocale();
   const [file, setFile] = useState<File | null>(null);
   const [language, setLanguage] = useState<AudioLanguage>('auto');
@@ -51,8 +59,48 @@ export function TranscribePage() {
     void start(file, language);
   }, [file, isBusy, language, start]);
 
+  /*
+   * The Quick Tools widget lives in a sidebar with no parent relationship to
+   * this component, so it publishes the chosen audio language on a window
+   * event instead of calling down through props.
+   */
+  useEffect(() => {
+    const onPick = (event: Event) => {
+      const code = (event as CustomEvent<string>).detail;
+      if (typeof code === 'string' && code) setLanguage(code as AudioLanguage);
+    };
+    window.addEventListener(AUDIO_LANGUAGE_EVENT, onPick);
+    return () => window.removeEventListener(AUDIO_LANGUAGE_EVENT, onPick);
+  }, []);
+
+  /*
+   * Record a finished transcription for the Recent Transcriptions widget.
+   *
+   * Keyed on the result object identity via a ref rather than firing inside
+   * the submit handler: `start` resolves asynchronously and the result lands
+   * in state, so this is the only place that reliably sees a *completed* run
+   * exactly once — including when the user retries after an error.
+   */
+  const recordedRef = useRef<unknown>(null);
+  useEffect(() => {
+    if (!result || recordedRef.current === result) return;
+    recordedRef.current = result;
+
+    addHistoryEntry({
+      fileName: result.file.name,
+      characters: result.characters,
+      words: result.words,
+      language,
+      text: result.text,
+    });
+  }, [result, language]);
+
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
+    <main
+      className={
+        embedded ? 'w-full flex-1' : 'mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12'
+      }
+    >
       {/* Hero */}
       <section className="mb-8 text-center sm:mb-12">
         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-400/25 bg-brand-500/10 px-3.5 py-1.5 text-xs font-medium text-brand-200">
@@ -67,8 +115,13 @@ export function TranscribePage() {
         </p>
       </section>
 
-      {/* Two-column workspace: input on the left, transcript on the right. */}
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+      {/*
+        Two-column workspace: input on the left, transcript on the right.
+        When embedded between sidebars the split is deferred to `2xl`: at `lg`
+        the middle track is too narrow for two usable columns and the dropzone
+        ends up unusably cramped.
+      */}
+      <div className={`grid gap-5 lg:gap-6 ${embedded ? '2xl:grid-cols-2' : 'lg:grid-cols-2'}`}>
         <div className="space-y-5">
           <Dropzone
             file={file}

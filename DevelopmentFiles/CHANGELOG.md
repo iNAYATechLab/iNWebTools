@@ -14,6 +14,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — sidebar widget engine
+
+A fully dynamic, database-driven widget system for the two sidebars around the
+transcriber. Nothing about a sidebar is hardcoded in a component: placement, order,
+visibility, titles and per-widget settings all live in one stored JSON document.
+
+- `GET /api/widgets/config` — public; the arrangement the website renders. Degrades to
+  built-in defaults when the database is unavailable, so a CMS outage never blanks the
+  page.
+- `POST /api/widgets/config` — `requireAdmin`. Replaces the document wholesale rather
+  than merging: a reorder or a delete has no sensible merge semantics.
+- `GET /api/widgets/catalogue` — public; the type registry and each type's settings
+  **schema**. The admin form is generated from this, so the validator and the editor
+  cannot drift apart.
+- `GET /api/widgets/public-stats` — public; aggregate counts only (online total, device
+  split, transcription totals, uptime, model). Deliberately narrow so the live widgets
+  never need a staff token — the per-session rows stay behind `/api/admin`.
+- Six warehouse widget types: Custom Text/HTML, Image/Ad Banner, Live Online Users,
+  Recent Transcriptions, Quick Tools & Language, System Stats.
+- Admin drag-and-drop builder at `/AdminDashboard/Settings/WidgetCustomizer`, built on
+  dnd-kit: drag from the warehouse into either zone, reorder within a zone, move between
+  zones, edit settings inline, hide/show, delete, and a live preview that renders the
+  real widget components against the unsaved draft.
+- Each widget type declares its own settings schema (field key, kind, label, default,
+  limits). Server-side validation, the admin form and the warehouse listing are all
+  derived from that one declaration.
+
+### Security
+
+- Admin-authored HTML in the Custom Text/HTML widget is sanitised with a parser-based
+  allowlist (`sanitize-html`) on write **and** on read. `<script>`, `<style>`,
+  `<iframe>`, `<form>`, `<input>`, every `on*` handler and `javascript:` URLs are
+  stripped; new-tab links are forced to `rel="noopener noreferrer nofollow"`. This is
+  the only place in the product that renders stored markup with
+  `dangerouslySetInnerHTML`, so the sanitiser is load-bearing rather than defence in
+  depth — 25 server tests pin its behaviour.
+- Unknown settings keys are dropped rather than passed through, numeric settings are
+  clamped to their declared range, and image/link URLs are scheme-validated.
+- Widget ids are constrained to `[A-Za-z0-9_-]` and de-duplicated across both zones.
+
 ## [0.1.0-alpha.1] - 2026-08-25
 
 First published release of iNWebTools: an Express API and a React + Vite + TypeScript

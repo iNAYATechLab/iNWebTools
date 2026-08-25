@@ -18,9 +18,10 @@ import { AdminAccess } from './pages/AdminDashboard/Security/AdminAccess';
 import { GlobalNotice } from './pages/AdminDashboard/Settings/GlobalNotice';
 import { HeaderFooterManager } from './pages/AdminDashboard/Settings/HeaderFooterManager';
 import { LimitsConfig } from './pages/AdminDashboard/Settings/LimitsConfig';
+import { WidgetCustomizer } from './pages/AdminDashboard/Settings/WidgetCustomizer';
 import { TimeRangeStats } from './pages/AdminDashboard/Userinfo/TimeRangeStats';
 import { UserOnlineNow } from './pages/AdminDashboard/Userinfo/UserOnlineNow';
-import { TranscribePage } from './pages/TranscribePage';
+import { WidgetLayout } from './components/widgets/WidgetLayout';
 
 /** The public transcription app. */
 function PublicApp() {
@@ -34,7 +35,7 @@ function PublicApp() {
 
       <div className="relative flex min-h-screen flex-col">
         <Header />
-        <TranscribePage />
+        <WidgetLayout />
         <Footer />
       </div>
     </div>
@@ -110,6 +111,7 @@ export default function App() {
             <Route path="Settings/LimitsConfig" element={<LimitsConfig />} />
             <Route path="Settings/GlobalNotice" element={<GlobalNotice />} />
             <Route path="Settings/HeaderFooterManager" element={<HeaderFooterManager />} />
+            <Route path="Settings/WidgetCustomizer" element={<WidgetCustomizer />} />
             <Route path="Security/AdminAccess" element={<AdminAccess />} />
           </Route>
 

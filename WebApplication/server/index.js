@@ -38,6 +38,7 @@ import {
 import { adminRouter } from './routes/admin.routes.js';
 import { authRouter } from './routes/auth.routes.js';
 import { layoutRouter } from './routes/layout.routes.js';
+import { widgetsRouter } from './routes/widgets.routes.js';
 import { logConversion, logSystemError, touchSession } from './services/analytics.service.js';
 import { transcribeAudio } from './services/huggingface.service.js';
 import { ApiError, asyncHandler } from './utils/ApiError.js';
@@ -361,6 +362,16 @@ app.use('/api/admin', adminRouter);
  * ------------------------------------------------------------------ */
 
 app.use('/api/layout', layoutRouter);
+
+/* ------------------------------------------------------------------ *
+ * Sidebar widget engine
+ *
+ * Same shape as the header/footer CMS: a public GET the website renders from,
+ * an admin-guarded POST that writes it. Mounted separately because the widget
+ * document has its own lifecycle and its own catalogue endpoint.
+ * ------------------------------------------------------------------ */
+
+app.use('/api/widgets', widgetsRouter);
 
 /* ------------------------------------------------------------------ *
  * 404 + centralised error handling

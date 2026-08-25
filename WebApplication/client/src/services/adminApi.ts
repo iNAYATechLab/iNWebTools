@@ -20,6 +20,7 @@ import type {
   TimeRangeStats,
 } from '../types/admin';
 import type { LayoutConfig } from '../types/layout';
+import type { WidgetConfig } from '../types/widgets';
 
 const ACCESS_KEY = 'inwebtools.admin.access';
 const REFRESH_KEY = 'inwebtools.admin.refresh';
@@ -330,4 +331,21 @@ export const saveLayout = (value: LayoutConfig) =>
     method: 'POST',
     body: value,
     base: '/api/layout',
+  });
+
+/* ---------------- Sidebar widget engine ---------------- */
+
+/**
+ * Save the sidebar arrangement.
+ *
+ * Reads go through the public client in `api.ts` (the website needs them
+ * unauthenticated); only the write is an admin operation. The document is
+ * replaced wholesale rather than merged — see the route for why a reorder or
+ * a delete has no sensible merge semantics.
+ */
+export const saveWidgetConfig = (value: WidgetConfig) =>
+  request<{ value: WidgetConfig; updatedBy: string }>('/config', {
+    method: 'POST',
+    body: value,
+    base: '/api/widgets',
   });

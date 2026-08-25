@@ -117,6 +117,7 @@ The admin dashboard is the intended way to read that data without SQL:
 | **Architecture decision records** | [`DevelopmentFiles/docs/adr/`](./DevelopmentFiles/docs/adr)                       |
 | **Engineering standards**        | [`ENGINEERING_STANDARDS.md`](./DevelopmentFiles/docs/ENGINEERING_STANDARDS.md)      |
 | **Versioning policy**            | [`VERSIONING.md`](./DevelopmentFiles/docs/VERSIONING.md)                            |
+| **Sidebar widget engine**        | [`WIDGET_ENGINE.md`](./DevelopmentFiles/docs/WIDGET_ENGINE.md)                      |
 | Architecture & error contract    | [`DevelopmentFiles/docs/ARCHITECTURE.md`](./DevelopmentFiles/docs/ARCHITECTURE.md) |
 | API reference                    | [`DevelopmentFiles/docs/API.md`](./DevelopmentFiles/docs/API.md)                   |
 | Roadmap (5 steps + later phases) | [`DevelopmentFiles/docs/ROADMAP.md`](./DevelopmentFiles/docs/ROADMAP.md)           |

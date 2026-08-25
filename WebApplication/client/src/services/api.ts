@@ -16,6 +16,7 @@ import type {
   TranscriptionResult,
 } from '../types';
 import type { LayoutResponse } from '../types/layout';
+import type { WidgetCatalogue, WidgetConfigResponse, WidgetPublicStats } from '../types/widgets';
 
 /** Error carrying the server's stable `code`, which the UI maps to a locale string. */
 export class ApiError extends Error {
@@ -150,6 +151,30 @@ export function transcribe({
 export function getLayout(signal?: AbortSignal): Promise<LayoutResponse> {
   return getJson<LayoutResponse>('/api/layout/header-footer', signal);
 }
+
+/* ---------------- Sidebar widget engine ---------------- */
+
+/**
+ * The active sidebar arrangement. Public for the same reason as the layout:
+ * the website's first paint depends on it, and the server degrades to its
+ * built-in defaults rather than erroring when the database is down.
+ */
+export const getWidgetConfig = (signal?: AbortSignal) =>
+  getJson<WidgetConfigResponse>('/api/widgets/config', signal);
+
+/**
+ * The type registry and its per-type settings schema.
+ *
+ * Fetched rather than hardcoded so the admin form is generated from exactly
+ * the schema the server validates against — adding a widget type server-side
+ * cannot leave the editor out of date.
+ */
+export const getWidgetCatalogue = (signal?: AbortSignal) =>
+  getJson<WidgetCatalogue>('/api/widgets/catalogue', signal);
+
+/** Aggregate counts for the live widgets. Never per-visitor detail. */
+export const getWidgetPublicStats = (signal?: AbortSignal) =>
+  getJson<WidgetPublicStats>('/api/widgets/public-stats', signal);
 
 function safeParse<T>(value: string): T | null {
   try {

@@ -34,6 +34,7 @@ const NAV: NavGroup[] = [
       { to: '/AdminDashboard/Settings/LimitsConfig', label: 'Limits Config' },
       { to: '/AdminDashboard/Settings/GlobalNotice', label: 'Global Notice' },
       { to: '/AdminDashboard/Settings/HeaderFooterManager', label: 'Header & Footer CMS' },
+      { to: '/AdminDashboard/Settings/WidgetCustomizer', label: 'Widget Customizer' },
     ],
   },
   {

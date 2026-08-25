@@ -136,6 +136,55 @@ export function Toggle({
   );
 }
 
+/**
+ * Dropdown for a fixed set of choices.
+ *
+ * A native <select> rather than a custom listbox: it gets keyboard support,
+ * mobile's native picker and screen-reader semantics for free, and none of
+ * the options here need rich formatting. `appearance-none` plus the inline
+ * chevron is only to match the dark theme.
+ */
+export function Select({
+  id,
+  value,
+  onChange,
+  options,
+}: {
+  id?: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: Array<{ value: string; label: string }>;
+}) {
+  return (
+    <div className="relative">
+      <select
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`${INPUT_CLASS} appearance-none pr-9`}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value} className="bg-slate-900">
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+      >
+        <path
+          fillRule="evenodd"
+          d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+  );
+}
+
 /** Header for one entry in a repeatable list, with a remove control. */
 export function RowHeader({
   title,

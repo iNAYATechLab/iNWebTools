@@ -51,6 +51,7 @@ and deployment. Keeping them in place is intentional, not an oversight.
 | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | System design, request lifecycle, error-code contract          |
 | [`docs/API.md`](./docs/API.md)                   | REST contract: `/api/health`, `/api/models`, `/api/transcribe` |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md)           | The 5-step delivery plan and later phases                      |
+| [`docs/WIDGET_ENGINE.md`](./docs/WIDGET_ENGINE.md) | Dynamic sidebar widget engine: data model, catalogue, security |
 
 ---
 
