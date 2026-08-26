@@ -35,6 +35,13 @@
       "slug": "security-network",
       "categorySlug": "seo-network-security-tools",
       "description": "Enterprise-grade cryptography, hash generators, password security, RSA/ECDSA key pair generators, IP/subnet calculators, and network diagnostics."
+    },
+    {
+      "id": "text-calculators",
+      "name": "Text Utilities, Calculators & Converters",
+      "slug": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "description": "Comprehensive text metrics, readability analyzers, case converters, financial EMI & compound interest calculators, and multi-unit converters."
     }
   ],
   "tools": [
@@ -3502,6 +3509,684 @@
       "outputFormats": [".conf", ".txt"],
       "defaultOutput": "conf",
       "options": []
+    },
+    {
+      "slug": "word-character-counter",
+      "name": "Word, Character & Readability Counter",
+      "tagline": "Count words, characters, sentences, paragraphs, and calculate reading time and syllables.",
+      "description": "Comprehensive text analyzer with character breakdown, whitespace exclusion, sentence length, and reading duration.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-metrics-analysis",
+      "icon": "type",
+      "tags": ["word-count", "character-count", "metrics", "flesch", "readability", "reading-time"],
+      "inputFormats": [".txt", ".md"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "readability-score-analyzer",
+      "name": "Flesch-Kincaid & Gunning Fog Readability Score",
+      "tagline": "Evaluate text readability with Flesch-Kincaid, Gunning Fog, and Coleman-Liau indexes.",
+      "description": "Analyze text difficulty, reading ease grade levels, and complex word density.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-metrics-analysis",
+      "icon": "type",
+      "tags": ["readability", "flesch-kincaid", "gunning-fog", "coleman-liau", "grade-level"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "sentiment-analyzer",
+      "name": "Text Sentiment & Tone Analyzer",
+      "tagline": "Detect positive, negative, or neutral sentiment tone and emotional polarity in text.",
+      "description": "Instant sentiment evaluator identifying positive and negative vocabulary with polarity scores.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-metrics-analysis",
+      "icon": "type",
+      "tags": ["sentiment", "polarity", "tone-checker", "emotional-tone"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "read-time-estimator",
+      "name": "Speech & Reading Time Estimator",
+      "tagline": "Calculate silent reading time (200 wpm) and speaking speech duration (130 wpm).",
+      "description": "Accurately predict speech delivery duration and article reading times for blogs and scripts.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-metrics-analysis",
+      "icon": "type",
+      "tags": ["reading-time", "speech-duration", "wpm", "presentation-timer"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "case-converter",
+      "name": "Text Case & Format Converter",
+      "tagline": "Convert text between Title Case, UPPERCASE, lowercase, camelCase, snake_case, and kebab-case.",
+      "description": "Transform text formatting into 10+ standard programming casing conventions and sentence casing.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-case-format-modifiers",
+      "icon": "type",
+      "tags": ["case-converter", "title-case", "camelcase", "snake-case", "uppercase"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetCase",
+          "label": "Target Case Style",
+          "type": "select",
+          "options": [
+            "Title Case",
+            "UPPERCASE",
+            "lowercase",
+            "Sentence case",
+            "camelCase",
+            "snake_case",
+            "kebab-case",
+            "PascalCase",
+            "CONSTANT_CASE",
+            "tOgGlE cAsE"
+          ],
+          "default": "Title Case"
+        }
+      ]
+    },
+    {
+      "slug": "remove-duplicate-lines",
+      "name": "Remove Duplicate Lines & Empty Rows",
+      "tagline": "Deduplicate text files and clean up redundant or empty rows in seconds.",
+      "description": "Fast line deduplicator preserving order with optional line trimming and empty-line removal.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["remove-duplicates", "dedup", "unique-lines", "clean-text"],
+      "inputFormats": [".txt", ".csv"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "trimLines",
+          "label": "Trim Leading & Trailing Spaces",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "removeEmpty",
+          "label": "Remove Empty Blank Lines",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "text-diff-checker",
+      "name": "Text & Code Diff Comparison Checker",
+      "tagline": "Compare two text snippets side-by-side to highlight added, removed, and modified lines.",
+      "description": "Visual text difference checker with dual-column comparison.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["diff", "text-compare", "diff-checker", "code-diff"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "text-reverser",
+      "name": "Text, Word & Line Reverser",
+      "tagline": "Reverse letters, words, or full lines of text in reverse order.",
+      "description": "Multi-mode text reverser supporting character inversion, word order reversal, and line flipping.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["reverse-text", "backwards", "flip-lines", "reverse-words"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Reversal Mode",
+          "type": "select",
+          "options": ["reverse-characters", "reverse-words", "reverse-lines"],
+          "default": "reverse-characters"
+        }
+      ]
+    },
+    {
+      "slug": "line-sorter",
+      "name": "Alphabetical & Natural Line Sorter",
+      "tagline": "Sort lists of text alphabetically (A-Z / Z-A) or by line character length.",
+      "description": "Sort bullet points, vocabulary lists, and data arrays with natural sorting.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["sort-lines", "alphabetize", "sort-a-z", "line-organizer"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "order",
+          "label": "Sorting Order",
+          "type": "select",
+          "options": ["Alphabetical (A-Z)", "Alphabetical (Z-A)", "By Line Length (Short to Long)"],
+          "default": "Alphabetical (A-Z)"
+        }
+      ]
+    },
+    {
+      "slug": "url-email-extractor",
+      "name": "URL & Email Address Extractor",
+      "tagline": "Extract all email addresses and HTTP/HTTPS hyperlinks from raw unformatted text.",
+      "description": "Scrape and deduplicate email mailto contacts and web URLs from unstructured documents.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["email-extractor", "url-extractor", "regex-scraper", "link-finder"],
+      "inputFormats": [".txt", ".html"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "url-slug-generator",
+      "name": "SEO URL Slug Generator",
+      "tagline": "Convert article titles into clean, hyphenated, search-engine-friendly URL slugs.",
+      "description": "Strip diacritics, accented characters, and punctuation to generate clean URI slugs.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["slug-generator", "seo-slug", "permalink", "url-formatter"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": []
+    },
+    {
+      "slug": "lorem-ipsum-generator",
+      "name": "Lorem Ipsum Placeholder Text Generator",
+      "tagline": "Generate classical Latin placeholder copy for UI design prototypes and mockups.",
+      "description": "Customizable dummy text generator with paragraph and word count controls.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["lorem-ipsum", "placeholder-text", "dummy-text", "mockup-text"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "count",
+          "label": "Paragraph Count",
+          "type": "slider",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 3,
+          "unit": "paragraphs"
+        }
+      ]
+    },
+    {
+      "slug": "zalgo-text-generator",
+      "name": "Zalgo & Glitch Text Generator",
+      "tagline": "Apply chaotic unicode diacritic glitch effects to text for games and memes.",
+      "description": "Create spooky cursed glitch text using layered non-spacing combining characters.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["zalgo", "glitch-text", "cursed-text", "unicode-diacritics"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": []
+    },
+    {
+      "slug": "markdown-to-html",
+      "name": "Markdown to HTML Converter",
+      "tagline": "Convert CommonMark and GitHub Flavored Markdown (GFM) into clean HTML5.",
+      "description": "Transpile headings, blockquotes, code blocks, and markdown links into semantic HTML tags.",
+      "module": "text-calculators",
+      "categorySlug": "text-web-utilities",
+      "subcategorySlug": "text-cleaning-manipulation",
+      "icon": "type",
+      "tags": ["markdown", "html", "gfm", "transpiler", "converter"],
+      "inputFormats": [".md", ".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "loan-emi-calculator",
+      "name": "Loan EMI & Mortgage Calculator",
+      "tagline": "Calculate monthly loan EMI payments, total interest payable, and amortization breakdown.",
+      "description": "Financial loan calculator for home loans, car loans, and personal financing.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["loan-emi", "mortgage", "interest-calculator", "finance", "monthly-payment"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "principal",
+          "label": "Principal Loan Amount ($)",
+          "type": "text",
+          "default": "100000"
+        },
+        {
+          "id": "interestRate",
+          "label": "Annual Interest Rate (%)",
+          "type": "slider",
+          "min": 1,
+          "max": 25,
+          "step": 0.25,
+          "default": 8.5,
+          "unit": "%"
+        },
+        {
+          "id": "tenureMonths",
+          "label": "Loan Tenure (Months)",
+          "type": "slider",
+          "min": 6,
+          "max": 360,
+          "step": 6,
+          "default": 36,
+          "unit": "mo"
+        }
+      ]
+    },
+    {
+      "slug": "compound-interest-calculator",
+      "name": "Compound Interest & Investment Calculator",
+      "tagline": "Forecast investment growth and future wealth with monthly compounding interest.",
+      "description": "Compound interest calculator with effective annual rate (EAR) and future value projections.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["compound-interest", "investment", "wealth-growth", "savings", "future-value"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "principal",
+          "label": "Initial Principal ($)",
+          "type": "text",
+          "default": "10000"
+        },
+        {
+          "id": "interestRate",
+          "label": "Annual Growth Rate (%)",
+          "type": "slider",
+          "min": 1,
+          "max": 25,
+          "step": 0.5,
+          "default": 7,
+          "unit": "%"
+        },
+        {
+          "id": "years",
+          "label": "Investment Period (Years)",
+          "type": "slider",
+          "min": 1,
+          "max": 40,
+          "step": 1,
+          "default": 10,
+          "unit": "yrs"
+        }
+      ]
+    },
+    {
+      "slug": "simple-interest-calculator",
+      "name": "Simple Interest Calculator",
+      "tagline": "Calculate simple interest (P * R * T) and total maturity payout.",
+      "description": "Standard simple interest formula calculator for short term loans and fixed bonds.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["simple-interest", "prt-formula", "fixed-deposit", "finance"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "principal",
+          "label": "Principal Amount ($)",
+          "type": "text",
+          "default": "5000"
+        },
+        {
+          "id": "interestRate",
+          "label": "Annual Rate (%)",
+          "type": "slider",
+          "min": 1,
+          "max": 20,
+          "step": 0.5,
+          "default": 5,
+          "unit": "%"
+        },
+        {
+          "id": "years",
+          "label": "Time Period (Years)",
+          "type": "slider",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 3,
+          "unit": "yrs"
+        }
+      ]
+    },
+    {
+      "slug": "sales-tax-vat-calculator",
+      "name": "Sales Tax, VAT & GST Calculator",
+      "tagline": "Calculate gross sales tax, net price, and VAT additions or deductions.",
+      "description": "Calculate total invoices including or excluding state sales tax and VAT rates.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["sales-tax", "vat", "gst", "invoice-tax", "pricing"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "amount",
+          "label": "Base Net Amount ($)",
+          "type": "text",
+          "default": "100"
+        },
+        {
+          "id": "taxRate",
+          "label": "Tax Rate (%)",
+          "type": "slider",
+          "min": 1,
+          "max": 30,
+          "step": 0.5,
+          "default": 10,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "discount-margin-calculator",
+      "name": "Profit Margin & Markup Calculator",
+      "tagline": "Calculate Gross Margin percentage, Markup percentage, and Net Profit from Cost and Selling Price.",
+      "description": "Business pricing calculator for retail goods, e-commerce margins, and profit optimization.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["profit-margin", "markup", "discount", "retail-pricing", "business-calc"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "costPrice",
+          "label": "Cost Price ($)",
+          "type": "text",
+          "default": "80"
+        },
+        {
+          "id": "sellingPrice",
+          "label": "Selling Price ($)",
+          "type": "text",
+          "default": "120"
+        }
+      ]
+    },
+    {
+      "slug": "cagr-roi-calculator",
+      "name": "CAGR & Return on Investment (ROI) Calculator",
+      "tagline": "Calculate Compound Annual Growth Rate (CAGR) and total Return on Investment percentage.",
+      "description": "Compute portfolio returns, annualized compound growth, and capital investment performance.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["cagr", "roi", "portfolio-return", "annualized-growth", "finance"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "initialValue",
+          "label": "Initial Investment ($)",
+          "type": "text",
+          "default": "10000"
+        },
+        {
+          "id": "finalValue",
+          "label": "Final Asset Value ($)",
+          "type": "text",
+          "default": "25000"
+        },
+        {
+          "id": "years",
+          "label": "Holding Period (Years)",
+          "type": "slider",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 5,
+          "unit": "yrs"
+        }
+      ]
+    },
+    {
+      "slug": "inflation-calculator",
+      "name": "Inflation & Purchasing Power Calculator",
+      "tagline": "Calculate the eroding effect of inflation on money and future purchasing power.",
+      "description": "Estimate future costs and purchasing power decay over time with historical inflation rates.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["inflation", "purchasing-power", "future-value", "consumer-price"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "amount",
+          "label": "Current Amount ($)",
+          "type": "text",
+          "default": "1000"
+        },
+        {
+          "id": "inflationRate",
+          "label": "Average Inflation Rate (%)",
+          "type": "slider",
+          "min": 1,
+          "max": 15,
+          "step": 0.5,
+          "default": 3.5,
+          "unit": "%"
+        },
+        {
+          "id": "years",
+          "label": "Future Years",
+          "type": "slider",
+          "min": 1,
+          "max": 40,
+          "step": 1,
+          "default": 10,
+          "unit": "yrs"
+        }
+      ]
+    },
+    {
+      "slug": "percentage-calculator",
+      "name": "All-in-One Percentage Calculator",
+      "tagline": "Calculate percentage of values, percentage increase/decrease, and ratios.",
+      "description": "Multi-function percentage math solver for discounts, test scores, and proportional differences.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["percentage", "math", "fraction", "ratio", "increase-decrease"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "valX",
+          "label": "Value X",
+          "type": "text",
+          "default": "25"
+        },
+        {
+          "id": "valY",
+          "label": "Value Y",
+          "type": "text",
+          "default": "200"
+        }
+      ]
+    },
+    {
+      "slug": "statistics-mean-std-dev",
+      "name": "Statistical Mean, Median & Standard Deviation",
+      "tagline": "Compute statistical mean, median, mode, sample variance, standard deviation, and range.",
+      "description": "Data statistics calculator for quantitative datasets and scientific analysis.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "financial-mathematical-calculators",
+      "icon": "calculator",
+      "tags": ["statistics", "mean", "median", "standard-deviation", "variance"],
+      "inputFormats": [".txt", ".csv"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "length-distance-converter",
+      "name": "Length & Distance Multi-Unit Converter",
+      "tagline": "Convert meters, feet, inches, miles, kilometers, yards, and nautical miles.",
+      "description": "Instant unit conversion matrix across metric, imperial, and nautical distance scales.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "unit-converters",
+      "icon": "calculator",
+      "tags": ["length", "distance", "meters", "feet", "miles", "kilometers", "inches"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "value",
+          "label": "Base Length (Meters)",
+          "type": "text",
+          "default": "100"
+        }
+      ]
+    },
+    {
+      "slug": "weight-mass-converter",
+      "name": "Weight & Mass Multi-Unit Converter",
+      "tagline": "Convert kilograms, pounds, ounces, grams, metric tons, carats, and stones.",
+      "description": "Weight conversion matrix supporting international avoirdupois, metric, and gemstone carats.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "unit-converters",
+      "icon": "calculator",
+      "tags": ["weight", "mass", "kg", "lbs", "pounds", "grams", "ounces", "carats"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "value",
+          "label": "Base Weight (Kilograms)",
+          "type": "text",
+          "default": "75"
+        }
+      ]
+    },
+    {
+      "slug": "temperature-converter",
+      "name": "Temperature Converter (Celsius, Fahrenheit, Kelvin)",
+      "tagline": "Convert temperature degrees between Celsius, Fahrenheit, Kelvin, and Rankine scales.",
+      "description": "Scientific temperature scale converter with absolute zero thermodynamic support.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "unit-converters",
+      "icon": "calculator",
+      "tags": ["temperature", "celsius", "fahrenheit", "kelvin", "thermodynamics"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "value",
+          "label": "Base Temperature (Celsius)",
+          "type": "text",
+          "default": "25"
+        }
+      ]
+    },
+    {
+      "slug": "digital-data-speed-converter",
+      "name": "Digital Data Size & Speed Converter",
+      "tagline": "Convert Bytes, KB, MB, GB, TB, PB, Bits, and bandwidth transmission speeds.",
+      "description": "Storage data unit converter with binary (1024) and metric bandwidth rates.",
+      "module": "text-calculators",
+      "categorySlug": "calculators-unit-converters",
+      "subcategorySlug": "unit-converters",
+      "icon": "calculator",
+      "tags": ["data-size", "megabytes", "gigabytes", "terabytes", "bytes", "bits", "bandwidth"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "value",
+          "label": "Base Storage (Megabytes)",
+          "type": "text",
+          "default": "1024"
+        }
+      ]
     }
   ]
 }

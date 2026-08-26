@@ -18,6 +18,7 @@ import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToo
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
 import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
+import { TextCalcToolView } from '../../components/tools/TextCalc/TextCalcToolView';
 import { useCategories } from '../../hooks/useCategories';
 import { getToolsRegistry } from '../../services/toolsApi';
 import { categoryPath, subcategoryPath } from '../../types/categories';
@@ -104,6 +105,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/20 transition-colors"
           >
             🛡️ Security & Network Engine →
+          </Link>
+          <Link
+            to="/tools/text-calculators"
+            className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-3.5 py-2 text-xs font-semibold text-amber-300 hover:bg-amber-500/20 transition-colors"
+          >
+            📊 Text & Calculators Engine →
           </Link>
         </div>
       </header>
@@ -313,6 +320,36 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const TEXT_CALC_SLUGS = [
+  'word-character-counter',
+  'readability-score-analyzer',
+  'sentiment-analyzer',
+  'read-time-estimator',
+  'case-converter',
+  'remove-duplicate-lines',
+  'text-diff-checker',
+  'text-reverser',
+  'line-sorter',
+  'url-email-extractor',
+  'url-slug-generator',
+  'lorem-ipsum-generator',
+  'zalgo-text-generator',
+  'markdown-to-html',
+  'loan-emi-calculator',
+  'compound-interest-calculator',
+  'simple-interest-calculator',
+  'sales-tax-vat-calculator',
+  'discount-margin-calculator',
+  'cagr-roi-calculator',
+  'inflation-calculator',
+  'percentage-calculator',
+  'statistics-mean-std-dev',
+  'length-distance-converter',
+  'weight-mass-converter',
+  'temperature-converter',
+  'digital-data-speed-converter',
+];
+
 const SECURITY_SLUGS = [
   'hash-generator-suite',
   'aes-encrypt-decrypt',
@@ -370,6 +407,15 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isTextCalc =
+    categorySlug === 'text-web-utilities' ||
+    categorySlug === 'calculators-unit-converters' ||
+    (toolSlug && TEXT_CALC_SLUGS.includes(toolSlug));
+
+  if (isTextCalc) {
+    return <TextCalcToolView slugOverride={toolSlug} />;
+  }
 
   const isSecurity =
     categorySlug === 'seo-network-security-tools' ||

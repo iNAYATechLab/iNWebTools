@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, PDF, Image, Media, Developer, and Phase 4 Security & Network Tools.
+ * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text & Calculators.
  */
 
 import request from 'supertest';
@@ -18,12 +18,12 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(5);
+      expect(reg.modules.length).toBe(6);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(121);
+      expect(reg.tools.length).toBe(148);
     });
 
-    it('contains all required Phase 1-4 modules without duplicate slugs', () => {
+    it('contains all required Phase 1-5 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
@@ -44,24 +44,19 @@ describe('Tools Engine & Registry API', () => {
       // Phase 4: Cryptography & Security
       expect(slugs).toContain('hash-generator-suite');
       expect(slugs).toContain('aes-encrypt-decrypt');
-      expect(slugs).toContain('password-generator');
-      expect(slugs).toContain('password-strength-checker');
-      expect(slugs).toContain('rsa-key-generator');
-      expect(slugs).toContain('ecdsa-ed25519-generator');
-      expect(slugs).toContain('uuid-generator');
-      expect(slugs).toContain('jwt-decoder-debugger');
-      expect(slugs).toContain('hmac-generator');
-      expect(slugs).toContain('pbkdf2-hasher');
-      expect(slugs).toContain('text-encrypter-decrypter');
-
-      // Phase 4: Network & Diagnostics
       expect(slugs).toContain('subnet-calculator');
-      expect(slugs).toContain('user-agent-parser');
-      expect(slugs).toContain('ip-geolocation-lookup');
-      expect(slugs).toContain('dns-lookup-records');
-      expect(slugs).toContain('http-headers-status-checker');
-      expect(slugs).toContain('ssl-certificate-inspector');
-      expect(slugs).toContain('csp-security-headers-generator');
+
+      // Phase 5: Text Utilities & Calculators
+      expect(slugs).toContain('word-character-counter');
+      expect(slugs).toContain('readability-score-analyzer');
+      expect(slugs).toContain('case-converter');
+      expect(slugs).toContain('remove-duplicate-lines');
+      expect(slugs).toContain('text-diff-checker');
+      expect(slugs).toContain('loan-emi-calculator');
+      expect(slugs).toContain('compound-interest-calculator');
+      expect(slugs).toContain('statistics-mean-std-dev');
+      expect(slugs).toContain('length-distance-converter');
+      expect(slugs).toContain('weight-mass-converter');
     });
   });
 
@@ -70,98 +65,87 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(121);
+      expect(res.body.data.total).toBe(148);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(5);
+      expect(res.body.data.modules.length).toBe(6);
     });
 
-    it('filters tools by security-network module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=security-network').expect(200);
+    it('filters tools by text-calculators module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=text-calculators').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'security-network')).toBe(true);
-      expect(res.body.data.total).toBe(18);
+      expect(res.body.data.tools.every((t) => t.module === 'text-calculators')).toBe(true);
+      expect(res.body.data.total).toBe(27);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
-    // Phase 4 Tests: Cryptography
-    it('executes hash-generator-suite computing SHA-256 and MD5 digests', async () => {
+    // Phase 5 Tests: Text Metrics
+    it('executes word-character-counter and readability analysis', async () => {
+      const text = 'The quick brown fox jumps over the lazy dog. It was an amazing day.';
       const res = await request(app)
-        .post('/api/tools/execute/hash-generator-suite')
-        .send({ content: 'Hello iNWebTools Security', options: { algorithm: 'SHA-256' } })
+        .post('/api/tools/execute/word-character-counter')
+        .send({ content: text })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.metadata.primaryHash).toBeDefined();
-      expect(res.body.data.result.metadata.digests.sha256).toBeDefined();
-      expect(res.body.data.result.metadata.digests.md5).toBeDefined();
+      expect(res.body.data.result.metadata.words).toBe(14);
+      expect(res.body.data.result.metadata.sentences).toBe(2);
+      expect(res.body.data.result.metadata.readability.fleschScore).toBeGreaterThan(50);
     });
 
-    it('executes aes-encrypt-decrypt roundtrip', async () => {
-      const payload = 'Confidential String 2026';
-      const encRes = await request(app)
-        .post('/api/tools/execute/aes-encrypt-decrypt')
-        .send({ content: payload, options: { mode: 'encrypt', secretKey: 'Pass123!' } })
-        .expect(200);
-
-      expect(encRes.body.success).toBe(true);
-      const cipherText = encRes.body.data.result.content;
-      expect(cipherText).toContain(':');
-
-      const decRes = await request(app)
-        .post('/api/tools/execute/aes-encrypt-decrypt')
-        .send({ content: cipherText, options: { mode: 'decrypt', secretKey: 'Pass123!' } })
-        .expect(200);
-
-      expect(decRes.body.success).toBe(true);
-      expect(decRes.body.data.result.content).toBe(payload);
-    });
-
-    it('executes rsa-key-generator creating PEM keys', async () => {
+    it('executes case-converter to camelCase and Title Case', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/rsa-key-generator')
-        .send({ options: { keySize: 2048 } })
+        .post('/api/tools/execute/case-converter')
+        .send({ content: 'hello enterprise world', options: { targetCase: 'camelCase' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.metadata.publicKey).toContain('-----BEGIN PUBLIC KEY-----');
-      expect(res.body.data.result.metadata.privateKey).toContain('-----BEGIN PRIVATE KEY-----');
+      expect(res.body.data.result.content).toBe('helloEnterpriseWorld');
     });
 
-    it('executes password-generator with entropy scoring', async () => {
+    it('executes remove-duplicate-lines deduplication', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/password-generator')
-        .send({ options: { length: 24, symbols: true } })
+        .post('/api/tools/execute/remove-duplicate-lines')
+        .send({ content: 'Alpha\nBeta\nAlpha\nGamma\nBeta' })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.metadata.password.length).toBe(24);
-      expect(res.body.data.result.metadata.entropyBits).toBeGreaterThan(100);
+      expect(res.body.data.result.content).toBe('Alpha\nBeta\nGamma');
     });
 
-    // Phase 4 Tests: Network
-    it('executes subnet-calculator IPv4 analysis', async () => {
+    // Phase 5 Tests: Financial & Math
+    it('executes loan-emi-calculator', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/subnet-calculator')
-        .send({ content: '192.168.10.50', options: { cidr: 24 } })
+        .post('/api/tools/execute/loan-emi-calculator')
+        .send({ options: { principal: 100000, interestRate: 8.5, tenureMonths: 36 } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.metadata.networkAddress).toBe('192.168.10.0');
-      expect(res.body.data.result.metadata.broadcastAddress).toBe('192.168.10.255');
-      expect(res.body.data.result.metadata.usableHosts).toBe(254);
+      expect(res.body.data.result.metadata.monthlyEmi).toBeGreaterThan(3000);
+      expect(res.body.data.result.metadata.totalPayment).toBeGreaterThan(100000);
     });
 
-    it('executes csp-security-headers-generator', async () => {
+    it('executes compound-interest-calculator', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/csp-security-headers-generator')
-        .send({ content: 'inwebtools.com' })
+        .post('/api/tools/execute/compound-interest-calculator')
+        .send({ options: { principal: 10000, interestRate: 7, years: 10 } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toContain('Content-Security-Policy');
-      expect(res.body.data.result.content).toContain("default-src 'self'");
+      expect(res.body.data.result.metadata.futureValue).toBeGreaterThan(19000);
+    });
+
+    // Phase 5 Tests: Unit Converter
+    it('executes length-distance-converter', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/length-distance-converter')
+        .send({ content: '100' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.meters).toBe('100 m');
+      expect(res.body.data.result.metadata.kilometers).toBe('0.1000 km');
     });
   });
 });

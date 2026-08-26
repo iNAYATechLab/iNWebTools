@@ -31,6 +31,8 @@ import { DeveloperExplorer } from './components/tools/Developer/DeveloperExplore
 import { DeveloperToolView } from './components/tools/Developer/DeveloperToolView';
 import { SecurityNetworkExplorer } from './components/tools/SecurityNetwork/SecurityNetworkExplorer';
 import { SecurityNetworkToolView } from './components/tools/SecurityNetwork/SecurityNetworkToolView';
+import { TextCalcExplorer } from './components/tools/TextCalc/TextCalcExplorer';
+import { TextCalcToolView } from './components/tools/TextCalc/TextCalcToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -117,6 +119,8 @@ export default function App() {
             <Route path="/tools/developer-code/:toolSlug" element={<DeveloperToolView />} />
             <Route path="/tools/security-network" element={<SecurityNetworkExplorer />} />
             <Route path="/tools/security-network/:toolSlug" element={<SecurityNetworkToolView />} />
+            <Route path="/tools/text-calculators" element={<TextCalcExplorer />} />
+            <Route path="/tools/text-calculators/:toolSlug" element={<TextCalcToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>
