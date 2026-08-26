@@ -39,6 +39,8 @@ import { DesignExplorer } from './components/tools/Design/DesignExplorer';
 import { DesignToolView } from './components/tools/Design/DesignToolView';
 import { ProductivityExplorer } from './components/tools/Productivity/ProductivityExplorer';
 import { ProductivityToolView } from './components/tools/Productivity/ProductivityToolView';
+import { ScienceMathExplorer } from './components/tools/ScienceMath/ScienceMathExplorer';
+import { ScienceMathToolView } from './components/tools/ScienceMath/ScienceMathToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -133,6 +135,8 @@ export default function App() {
             <Route path="/tools/color-design/:toolSlug" element={<DesignToolView />} />
             <Route path="/tools/ai-productivity" element={<ProductivityExplorer />} />
             <Route path="/tools/ai-productivity/:toolSlug" element={<ProductivityToolView />} />
+            <Route path="/tools/math-science" element={<ScienceMathExplorer />} />
+            <Route path="/tools/math-science/:toolSlug" element={<ScienceMathToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

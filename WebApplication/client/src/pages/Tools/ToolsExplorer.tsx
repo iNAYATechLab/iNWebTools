@@ -19,6 +19,7 @@ import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToo
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
 import { ProductivityToolView } from '../../components/tools/Productivity/ProductivityToolView';
+import { ScienceMathToolView } from '../../components/tools/ScienceMath/ScienceMathToolView';
 import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
 import { SeoWebmasterToolView } from '../../components/tools/SeoWebmaster/SeoWebmasterToolView';
 import { TextCalcToolView } from '../../components/tools/TextCalc/TextCalcToolView';
@@ -132,6 +133,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-purple-400/30 bg-purple-500/10 px-3.5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/20 transition-colors"
           >
             ⚡ AI & Productivity Studio →
+          </Link>
+          <Link
+            to="/tools/math-science"
+            className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-colors"
+          >
+            🔬 Health, Math & Science Suite →
           </Link>
         </div>
       </header>
@@ -341,6 +348,33 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const MATH_SCIENCE_SLUGS = [
+  'bmi-calculator',
+  'bmr-calculator',
+  'body-fat-percentage-calculator',
+  'ideal-body-weight-calculator',
+  'waist-to-height-hip-ratio-calculator',
+  'daily-calorie-intake-calculator',
+  'water-intake-calculator',
+  'target-heart-rate-calculator',
+  'pregnancy-due-date-calculator',
+  'macro-nutrient-calculator',
+  'matrix-calculator',
+  'fraction-calculator',
+  'prime-factorization-tool',
+  'gcd-lcm-calculator',
+  'quadratic-equation-solver',
+  'exponential-logarithm-calculator',
+  'scientific-calculator-online',
+  'geometry-area-volume-calculator',
+  'speed-velocity-acceleration-calculator',
+  'force-newton-calculator',
+  'work-energy-calculator',
+  'ohms-law-calculator',
+  'power-energy-cost-calculator',
+  'frequency-wavelength-converter',
+];
+
 const PRODUCTIVITY_SLUGS = [
   'ai-prompt-enhancer',
   'ai-content-rewriter',
@@ -507,6 +541,11 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isMathScience = toolSlug && MATH_SCIENCE_SLUGS.includes(toolSlug);
+  if (isMathScience) {
+    return <ScienceMathToolView slugOverride={toolSlug} />;
+  }
 
   const isProductivity = toolSlug && PRODUCTIVITY_SLUGS.includes(toolSlug);
   if (isProductivity) {
