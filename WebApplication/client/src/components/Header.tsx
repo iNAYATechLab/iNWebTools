@@ -8,6 +8,7 @@ import { LOCALES, translations } from '../i18n/translations';
 import type { HealthStatus } from '../types';
 import type { LayoutActionButton, LayoutLink } from '../types/layout';
 import { GlobeIcon, WaveIcon } from './icons';
+import { CommandPalette } from './search/CommandPalette';
 
 /** Small coloured pill reflecting backend availability. */
 function StatusPill({ health, loading }: { health: HealthStatus | null; loading: boolean }) {
@@ -110,6 +111,7 @@ export function Header() {
   const [health, setHealth] = useState<HealthStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const h = layout.header;
   const hasNav = h.navLinks.length > 0;
@@ -119,8 +121,6 @@ export function Header() {
     const controller = new AbortController();
     let active = true;
 
-    // `.finally()` still runs after an abort, so guard every state write —
-    // otherwise StrictMode's double-mount updates an unmounted component.
     getHealth(controller.signal)
       .then((value) => {
         if (active) setHealth(value);
@@ -138,139 +138,186 @@ export function Header() {
     };
   }, []);
 
+  // Global Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-30 border-b border-white/5 bg-ink-900/80 backdrop-blur-xl">
-      {h.notice.isVisible && h.notice.text && (
-        <NoticeBar text={h.notice.text} linkLabel={h.notice.linkLabel} linkUrl={h.notice.linkUrl} />
-      )}
-
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
-        {/* Logo + title */}
-        <a href="/" className="group flex min-w-0 items-center gap-3" aria-label={h.siteTitle}>
-          <span className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 text-white shadow-lg shadow-brand-500/25 transition-transform group-hover:scale-105">
-            {h.logoUrl ? (
-              <img src={h.logoUrl} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <WaveIcon className="h-5 w-5" />
-            )}
-          </span>
-          <span className="min-w-0 leading-tight">
-            <span className="block truncate text-lg font-bold tracking-tight text-white">
-              {h.siteTitle}
-            </span>
-            <span className="block truncate text-[11px] font-medium text-slate-400">
-              {h.tagline || t.header.tagline}
-            </span>
-          </span>
-        </a>
-
-        {/* Desktop navigation */}
-        {hasNav && (
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-            {h.navLinks.map((link: LayoutLink) => (
-              <a
-                key={`${link.label}-${link.url}`}
-                href={link.url}
-                {...linkProps(link.newTab)}
-                className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+    <>
+      <header className="sticky top-0 z-30 border-b border-white/5 bg-ink-900/80 backdrop-blur-xl">
+        {h.notice.isVisible && h.notice.text && (
+          <NoticeBar
+            text={h.notice.text}
+            linkLabel={h.notice.linkLabel}
+            linkUrl={h.notice.linkUrl}
+          />
         )}
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          {h.showStatusPill && (
-            <span className="hidden sm:block">
-              <StatusPill health={health} loading={loading} />
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+          {/* Logo + title */}
+          <a href="/" className="group flex min-w-0 items-center gap-3" aria-label={h.siteTitle}>
+            <span className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 text-white shadow-lg shadow-brand-500/25 transition-transform group-hover:scale-105">
+              {h.logoUrl ? (
+                <img src={h.logoUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <WaveIcon className="h-5 w-5" />
+              )}
             </span>
-          )}
-
-          {hasActions && (
-            <span className="hidden items-center gap-2 md:flex">
-              {h.actionButtons.map((button) => (
-                <ActionButton key={`${button.label}-${button.url}`} button={button} />
-              ))}
+            <span className="min-w-0 leading-tight">
+              <span className="block truncate text-lg font-bold tracking-tight text-white">
+                {h.siteTitle}
+              </span>
+              <span className="block truncate text-[11px] font-medium text-slate-400">
+                {h.tagline || t.header.tagline}
+              </span>
             </span>
-          )}
+          </a>
 
-          {h.showLocaleToggle && (
-            <div
-              className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
-              role="group"
-              aria-label="Language / ভাষা"
+          {/* Quick Global Search Trigger Button */}
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-1.5 text-xs text-slate-400 transition-colors hover:border-brand-500/40 hover:bg-slate-900 hover:text-white"
+            title="Search all tools (Ctrl+K)"
+          >
+            <svg
+              className="h-3.5 w-3.5 text-slate-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <GlobeIcon className="ml-1.5 h-3.5 w-3.5 text-slate-400" />
-              {LOCALES.map((code) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLocale(code)}
-                  aria-pressed={locale === code}
-                  className={`rounded-full px-2.5 py-1 text-xs font-semibold transition-colors ${
-                    locale === code
-                      ? 'bg-brand-500 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  {translations[code].meta.label}
-                </button>
-              ))}
-            </div>
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <span className="hidden sm:inline">Search 242+ tools...</span>
+            <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-mono text-slate-400">
+              ⌘K
+            </kbd>
+          </button>
 
-          <AccountMenu />
-
-          {/* Mobile menu toggle — only when there is something to reveal. */}
-          {(hasNav || hasActions) && (
-            <button
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-slate-300 transition-colors hover:bg-white/5 lg:hidden"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
-                <path
-                  d={menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'}
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Mobile drawer */}
-      {menuOpen && (hasNav || hasActions) && (
-        <div className="border-t border-white/5 bg-ink-900/95 px-4 py-3 lg:hidden">
+          {/* Desktop navigation */}
           {hasNav && (
-            <nav className="flex flex-col gap-1" aria-label="Mobile">
-              {h.navLinks.map((link) => (
+            <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+              {h.navLinks.map((link: LayoutLink) => (
                 <a
-                  key={`m-${link.label}-${link.url}`}
+                  key={`${link.label}-${link.url}`}
                   href={link.url}
                   {...linkProps(link.newTab)}
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
                 >
                   {link.label}
                 </a>
               ))}
             </nav>
           )}
-          {hasActions && (
-            <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3 md:hidden">
-              {h.actionButtons.map((button) => (
-                <ActionButton key={`m-${button.label}-${button.url}`} button={button} />
-              ))}
-            </div>
-          )}
+
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            {h.showStatusPill && (
+              <span className="hidden sm:block">
+                <StatusPill health={health} loading={loading} />
+              </span>
+            )}
+
+            {hasActions && (
+              <span className="hidden items-center gap-2 md:flex">
+                {h.actionButtons.map((button) => (
+                  <ActionButton key={`${button.label}-${button.url}`} button={button} />
+                ))}
+              </span>
+            )}
+
+            {h.showLocaleToggle && (
+              <div
+                className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
+                role="group"
+                aria-label="Language / ভাষা"
+              >
+                <GlobeIcon className="ml-1.5 h-3.5 w-3.5 text-slate-400" />
+                {LOCALES.map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => setLocale(code)}
+                    aria-pressed={locale === code}
+                    className={`rounded-full px-2.5 py-1 text-xs font-semibold transition-colors ${
+                      locale === code
+                        ? 'bg-brand-500 text-white shadow-sm'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {translations[code].meta.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <AccountMenu />
+
+            {/* Mobile menu toggle */}
+            {(hasNav || hasActions) && (
+              <button
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-slate-300 transition-colors hover:bg-white/5 lg:hidden"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
+                  <path
+                    d={menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'}
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile drawer */}
+        {menuOpen && (hasNav || hasActions) && (
+          <div className="border-t border-white/5 bg-ink-900/95 px-4 py-3 lg:hidden">
+            {hasNav && (
+              <nav className="flex flex-col gap-1" aria-label="Mobile">
+                {h.navLinks.map((link) => (
+                  <a
+                    key={`m-${link.label}-${link.url}`}
+                    href={link.url}
+                    {...linkProps(link.newTab)}
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            )}
+            {hasActions && (
+              <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3 md:hidden">
+                {h.actionButtons.map((button) => (
+                  <ActionButton key={`m-${button.label}-${button.url}`} button={button} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </header>
+
+      {/* Global Command Palette Modal */}
+      {searchOpen && <CommandPalette isOpen={searchOpen} onClose={() => setSearchOpen(false)} />}
+    </>
   );
 }

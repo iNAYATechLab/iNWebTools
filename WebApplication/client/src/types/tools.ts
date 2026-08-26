@@ -27,8 +27,10 @@ export interface ToolModule {
 export interface ToolDefinition {
   slug: string;
   name: string;
+  nameBn?: string;
   tagline?: string;
   description?: string;
+  descriptionBn?: string;
   module: 'document-pdf' | 'image-graphics' | string;
   categorySlug: string;
   subcategorySlug?: string;

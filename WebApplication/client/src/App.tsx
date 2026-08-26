@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { Footer } from './components/Footer';
@@ -23,24 +24,6 @@ import { TimeRangeStats } from './pages/AdminDashboard/Userinfo/TimeRangeStats';
 import { UserOnlineNow } from './pages/AdminDashboard/Userinfo/UserOnlineNow';
 import { WidgetLayout } from './components/widgets/WidgetLayout';
 import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
-import { DocumentImageExplorer } from './components/tools/DocumentImage/DocumentImageExplorer';
-import { DocumentImageToolView } from './components/tools/DocumentImage/DocumentImageToolView';
-import { MediaExplorer } from './components/tools/Media/MediaExplorer';
-import { MediaToolView } from './components/tools/Media/MediaToolView';
-import { DeveloperExplorer } from './components/tools/Developer/DeveloperExplorer';
-import { DeveloperToolView } from './components/tools/Developer/DeveloperToolView';
-import { SecurityNetworkExplorer } from './components/tools/SecurityNetwork/SecurityNetworkExplorer';
-import { SecurityNetworkToolView } from './components/tools/SecurityNetwork/SecurityNetworkToolView';
-import { TextCalcExplorer } from './components/tools/TextCalc/TextCalcExplorer';
-import { TextCalcToolView } from './components/tools/TextCalc/TextCalcToolView';
-import { SeoWebmasterExplorer } from './components/tools/SeoWebmaster/SeoWebmasterExplorer';
-import { SeoWebmasterToolView } from './components/tools/SeoWebmaster/SeoWebmasterToolView';
-import { DesignExplorer } from './components/tools/Design/DesignExplorer';
-import { DesignToolView } from './components/tools/Design/DesignToolView';
-import { ProductivityExplorer } from './components/tools/Productivity/ProductivityExplorer';
-import { ProductivityToolView } from './components/tools/Productivity/ProductivityToolView';
-import { ScienceMathExplorer } from './components/tools/ScienceMath/ScienceMathExplorer';
-import { ScienceMathToolView } from './components/tools/ScienceMath/ScienceMathToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -48,6 +31,104 @@ import {
   ToolsIndexPage,
   ToolsLayout,
 } from './pages/Tools/ToolsExplorer';
+
+// Lazy Loaded Tool Suites for Performance Optimization
+const DocumentImageExplorer = lazy(() =>
+  import('./components/tools/DocumentImage/DocumentImageExplorer').then((m) => ({
+    default: m.DocumentImageExplorer,
+  })),
+);
+const DocumentImageToolView = lazy(() =>
+  import('./components/tools/DocumentImage/DocumentImageToolView').then((m) => ({
+    default: m.DocumentImageToolView,
+  })),
+);
+const MediaExplorer = lazy(() =>
+  import('./components/tools/Media/MediaExplorer').then((m) => ({ default: m.MediaExplorer })),
+);
+const MediaToolView = lazy(() =>
+  import('./components/tools/Media/MediaToolView').then((m) => ({ default: m.MediaToolView })),
+);
+const DeveloperExplorer = lazy(() =>
+  import('./components/tools/Developer/DeveloperExplorer').then((m) => ({
+    default: m.DeveloperExplorer,
+  })),
+);
+const DeveloperToolView = lazy(() =>
+  import('./components/tools/Developer/DeveloperToolView').then((m) => ({
+    default: m.DeveloperToolView,
+  })),
+);
+const SecurityNetworkExplorer = lazy(() =>
+  import('./components/tools/SecurityNetwork/SecurityNetworkExplorer').then((m) => ({
+    default: m.SecurityNetworkExplorer,
+  })),
+);
+const SecurityNetworkToolView = lazy(() =>
+  import('./components/tools/SecurityNetwork/SecurityNetworkToolView').then((m) => ({
+    default: m.SecurityNetworkToolView,
+  })),
+);
+const TextCalcExplorer = lazy(() =>
+  import('./components/tools/TextCalc/TextCalcExplorer').then((m) => ({
+    default: m.TextCalcExplorer,
+  })),
+);
+const TextCalcToolView = lazy(() =>
+  import('./components/tools/TextCalc/TextCalcToolView').then((m) => ({
+    default: m.TextCalcToolView,
+  })),
+);
+const SeoWebmasterExplorer = lazy(() =>
+  import('./components/tools/SeoWebmaster/SeoWebmasterExplorer').then((m) => ({
+    default: m.SeoWebmasterExplorer,
+  })),
+);
+const SeoWebmasterToolView = lazy(() =>
+  import('./components/tools/SeoWebmaster/SeoWebmasterToolView').then((m) => ({
+    default: m.SeoWebmasterToolView,
+  })),
+);
+const DesignExplorer = lazy(() =>
+  import('./components/tools/Design/DesignExplorer').then((m) => ({ default: m.DesignExplorer })),
+);
+const DesignToolView = lazy(() =>
+  import('./components/tools/Design/DesignToolView').then((m) => ({ default: m.DesignToolView })),
+);
+const ProductivityExplorer = lazy(() =>
+  import('./components/tools/Productivity/ProductivityExplorer').then((m) => ({
+    default: m.ProductivityExplorer,
+  })),
+);
+const ProductivityToolView = lazy(() =>
+  import('./components/tools/Productivity/ProductivityToolView').then((m) => ({
+    default: m.ProductivityToolView,
+  })),
+);
+const ScienceMathExplorer = lazy(() =>
+  import('./components/tools/ScienceMath/ScienceMathExplorer').then((m) => ({
+    default: m.ScienceMathExplorer,
+  })),
+);
+const ScienceMathToolView = lazy(() =>
+  import('./components/tools/ScienceMath/ScienceMathToolView').then((m) => ({
+    default: m.ScienceMathToolView,
+  })),
+);
+
+/** Fast visual fallback for lazy modules */
+function ToolLoadingFallback() {
+  return (
+    <div className="mx-auto max-w-6xl space-y-6 px-4 py-12 animate-pulse">
+      <div className="h-8 w-48 rounded-xl bg-white/5" />
+      <div className="h-40 rounded-3xl bg-white/[0.03]" />
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="h-72 rounded-3xl bg-white/[0.02]" />
+        <div className="h-72 rounded-3xl bg-white/[0.02]" />
+      </div>
+    </div>
+  );
+}
 
 /** The public transcription app. */
 function PublicApp() {
@@ -110,33 +191,167 @@ export default function App() {
               </LocaleProvider>
             }
           >
-            {/* Direct SEO-Friendly Module & Tool Routes */}
+            {/* Direct SEO-Friendly Module & Tool Routes with Suspense */}
             <Route
               path="/tools/document-pdf"
-              element={<DocumentImageExplorer moduleSlug="document-pdf" />}
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DocumentImageExplorer moduleSlug="document-pdf" />
+                </Suspense>
+              }
             />
-            <Route path="/tools/document-pdf/:toolSlug" element={<DocumentImageToolView />} />
+            <Route
+              path="/tools/document-pdf/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DocumentImageToolView />
+                </Suspense>
+              }
+            />
             <Route
               path="/tools/image-graphics"
-              element={<DocumentImageExplorer moduleSlug="image-graphics" />}
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DocumentImageExplorer moduleSlug="image-graphics" />
+                </Suspense>
+              }
             />
-            <Route path="/tools/image-graphics/:toolSlug" element={<DocumentImageToolView />} />
-            <Route path="/tools/audio-video" element={<MediaExplorer />} />
-            <Route path="/tools/audio-video/:toolSlug" element={<MediaToolView />} />
-            <Route path="/tools/developer-code" element={<DeveloperExplorer />} />
-            <Route path="/tools/developer-code/:toolSlug" element={<DeveloperToolView />} />
-            <Route path="/tools/security-network" element={<SecurityNetworkExplorer />} />
-            <Route path="/tools/security-network/:toolSlug" element={<SecurityNetworkToolView />} />
-            <Route path="/tools/text-calculators" element={<TextCalcExplorer />} />
-            <Route path="/tools/text-calculators/:toolSlug" element={<TextCalcToolView />} />
-            <Route path="/tools/seo-webmaster" element={<SeoWebmasterExplorer />} />
-            <Route path="/tools/seo-webmaster/:toolSlug" element={<SeoWebmasterToolView />} />
-            <Route path="/tools/color-design" element={<DesignExplorer />} />
-            <Route path="/tools/color-design/:toolSlug" element={<DesignToolView />} />
-            <Route path="/tools/ai-productivity" element={<ProductivityExplorer />} />
-            <Route path="/tools/ai-productivity/:toolSlug" element={<ProductivityToolView />} />
-            <Route path="/tools/math-science" element={<ScienceMathExplorer />} />
-            <Route path="/tools/math-science/:toolSlug" element={<ScienceMathToolView />} />
+            <Route
+              path="/tools/image-graphics/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DocumentImageToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/audio-video"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <MediaExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/audio-video/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <MediaToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/developer-code"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DeveloperExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/developer-code/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DeveloperToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/security-network"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <SecurityNetworkExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/security-network/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <SecurityNetworkToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/text-calculators"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <TextCalcExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/text-calculators/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <TextCalcToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/seo-webmaster"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <SeoWebmasterExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/seo-webmaster/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <SeoWebmasterToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/color-design"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DesignExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/color-design/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <DesignToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/ai-productivity"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <ProductivityExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/ai-productivity/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <ProductivityToolView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/math-science"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <ScienceMathExplorer />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/tools/math-science/:toolSlug"
+              element={
+                <Suspense fallback={<ToolLoadingFallback />}>
+                  <ScienceMathToolView />
+                </Suspense>
+              }
+            />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

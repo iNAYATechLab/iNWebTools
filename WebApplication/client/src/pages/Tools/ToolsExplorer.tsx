@@ -7,26 +7,72 @@
  *   /tools/:categorySlug/:subcategorySlug/:tool  ToolPage
  */
 
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 
 import { Breadcrumbs, type Crumb } from '../../components/categories/Breadcrumbs';
 import { CategoryGrid } from '../../components/categories/CategoryGrid';
 import { CategoryIcon } from '../../components/categories/CategoryIcon';
 import { CategorySidebar } from '../../components/categories/CategorySidebar';
-import { DesignToolView } from '../../components/tools/Design/DesignToolView';
-import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToolView';
-import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
-import { MediaToolView } from '../../components/tools/Media/MediaToolView';
-import { ProductivityToolView } from '../../components/tools/Productivity/ProductivityToolView';
-import { ScienceMathToolView } from '../../components/tools/ScienceMath/ScienceMathToolView';
-import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
-import { SeoWebmasterToolView } from '../../components/tools/SeoWebmaster/SeoWebmasterToolView';
-import { TextCalcToolView } from '../../components/tools/TextCalc/TextCalcToolView';
 import { useCategories } from '../../hooks/useCategories';
 import { getToolsRegistry } from '../../services/toolsApi';
 import { categoryPath, subcategoryPath } from '../../types/categories';
 import type { ToolDefinition } from '../../types/tools';
+
+// Lazy Loaded Tool Views
+const DesignToolView = lazy(() =>
+  import('../../components/tools/Design/DesignToolView').then((m) => ({
+    default: m.DesignToolView,
+  })),
+);
+const DeveloperToolView = lazy(() =>
+  import('../../components/tools/Developer/DeveloperToolView').then((m) => ({
+    default: m.DeveloperToolView,
+  })),
+);
+const DocumentImageToolView = lazy(() =>
+  import('../../components/tools/DocumentImage/DocumentImageToolView').then((m) => ({
+    default: m.DocumentImageToolView,
+  })),
+);
+const MediaToolView = lazy(() =>
+  import('../../components/tools/Media/MediaToolView').then((m) => ({ default: m.MediaToolView })),
+);
+const ProductivityToolView = lazy(() =>
+  import('../../components/tools/Productivity/ProductivityToolView').then((m) => ({
+    default: m.ProductivityToolView,
+  })),
+);
+const ScienceMathToolView = lazy(() =>
+  import('../../components/tools/ScienceMath/ScienceMathToolView').then((m) => ({
+    default: m.ScienceMathToolView,
+  })),
+);
+const SecurityNetworkToolView = lazy(() =>
+  import('../../components/tools/SecurityNetwork/SecurityNetworkToolView').then((m) => ({
+    default: m.SecurityNetworkToolView,
+  })),
+);
+const SeoWebmasterToolView = lazy(() =>
+  import('../../components/tools/SeoWebmaster/SeoWebmasterToolView').then((m) => ({
+    default: m.SeoWebmasterToolView,
+  })),
+);
+const TextCalcToolView = lazy(() =>
+  import('../../components/tools/TextCalc/TextCalcToolView').then((m) => ({
+    default: m.TextCalcToolView,
+  })),
+);
+
+/** Fast fallback */
+function ToolLoadingFallback() {
+  return (
+    <div className="space-y-4 p-8 animate-pulse">
+      <div className="h-8 w-48 rounded-xl bg-white/5" />
+      <div className="h-40 rounded-2xl bg-white/[0.03]" />
+    </div>
+  );
+}
 
 /** Set the tab title, restoring the previous one on unmount. */
 function useDocumentTitle(title: string | null) {
@@ -544,22 +590,38 @@ export function ToolPage() {
 
   const isMathScience = toolSlug && MATH_SCIENCE_SLUGS.includes(toolSlug);
   if (isMathScience) {
-    return <ScienceMathToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <ScienceMathToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isProductivity = toolSlug && PRODUCTIVITY_SLUGS.includes(toolSlug);
   if (isProductivity) {
-    return <ProductivityToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <ProductivityToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isDesign = toolSlug && DESIGN_SLUGS.includes(toolSlug);
   if (isDesign) {
-    return <DesignToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <DesignToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isSeoWebmaster = toolSlug && SEO_WEBMASTER_SLUGS.includes(toolSlug);
   if (isSeoWebmaster) {
-    return <SeoWebmasterToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <SeoWebmasterToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isTextCalc =
@@ -568,7 +630,11 @@ export function ToolPage() {
     (toolSlug && TEXT_CALC_SLUGS.includes(toolSlug));
 
   if (isTextCalc) {
-    return <TextCalcToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <TextCalcToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isSecurity =
@@ -576,14 +642,22 @@ export function ToolPage() {
     (toolSlug && SECURITY_SLUGS.includes(toolSlug));
 
   if (isSecurity) {
-    return <SecurityNetworkToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <SecurityNetworkToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isDeveloper =
     categorySlug === 'developer-code-utilities' || (toolSlug && DEVELOPER_SLUGS.includes(toolSlug));
 
   if (isDeveloper) {
-    return <DeveloperToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <DeveloperToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
   const isAudioVideo =
@@ -617,10 +691,18 @@ export function ToolPage() {
       ].includes(toolSlug));
 
   if (isAudioVideo) {
-    return <MediaToolView slugOverride={toolSlug} />;
+    return (
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <MediaToolView slugOverride={toolSlug} />
+      </Suspense>
+    );
   }
 
-  return <DocumentImageToolView slugOverride={toolSlug} />;
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <DocumentImageToolView slugOverride={toolSlug} />
+    </Suspense>
+  );
 }
 
 /* ------------------------------------------------------------------ *

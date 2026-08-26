@@ -7,10 +7,10 @@ import { defineConfig, loadEnv } from 'vite';
 /**
  * Vite configuration for the iNWebTools SPA.
  *
- * The browser always calls the relative path `/api/...`. In development Vite
- * proxies that to the Express server; in production both are served from the
- * same origin. Either way the client never hardcodes a backend host, so there
- * are no CORS surprises and no environment-specific URLs in the bundle.
+ * Production optimizations:
+ * - Vendor chunk splitting
+ * - Asset minification and compression
+ * - Modern ES2022 target
  */
 export default defineConfig(({ mode }) => {
   // Load .env from WebApplication/ so client and server share one file.
@@ -35,6 +35,8 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': { target: apiTarget, changeOrigin: true, secure: false },
         '/health': { target: apiTarget, changeOrigin: true, secure: false },
+        '/sitemap.xml': { target: apiTarget, changeOrigin: true, secure: false },
+        '/robots.txt': { target: apiTarget, changeOrigin: true, secure: false },
       },
     },
 
@@ -46,8 +48,17 @@ export default defineConfig(({ mode }) => {
 
     build: {
       outDir: 'dist',
+      target: 'es2022',
       sourcemap: mode !== 'production',
-      chunkSizeWarningLimit: 900,
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 950,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          },
+        },
+      },
     },
   };
 });

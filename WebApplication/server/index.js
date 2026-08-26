@@ -35,6 +35,7 @@ import {
   uploadAudio,
   verifyAudioSignature,
 } from './middlewares/upload.js';
+import { getRobotsTxt, getSitemapXml } from './controllers/sitemapController.js';
 import { adminRouter } from './routes/admin.routes.js';
 import { authRouter } from './routes/auth.routes.js';
 import { categoriesRouter } from './routes/categories.routes.js';
@@ -383,6 +384,14 @@ app.use('/api/widgets', widgetsRouter);
 
 app.use('/api/categories', categoriesRouter);
 app.use('/api/tools', toolsRouter);
+
+/* ------------------------------------------------------------------ *
+ * Global Sitemap & SEO Robots Endpoints
+ * ------------------------------------------------------------------ */
+
+app.get('/sitemap.xml', getSitemapXml);
+app.get('/api/sitemap.xml', getSitemapXml);
+app.get('/robots.txt', getRobotsTxt);
 
 /* ------------------------------------------------------------------ *
  * 404 + centralised error handling
