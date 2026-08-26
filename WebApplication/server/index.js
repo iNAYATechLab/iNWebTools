@@ -39,9 +39,11 @@ import { adminRouter } from './routes/admin.routes.js';
 import { authRouter } from './routes/auth.routes.js';
 import { categoriesRouter } from './routes/categories.routes.js';
 import { layoutRouter } from './routes/layout.routes.js';
+import { toolsRouter } from './routes/tools.routes.js';
 import { widgetsRouter } from './routes/widgets.routes.js';
 import { logConversion, logSystemError, touchSession } from './services/analytics.service.js';
 import { syncSeed as syncCategorySeed } from './services/categories.service.js';
+import { syncToolsSeed } from './services/toolsRegistry.service.js';
 import { transcribeAudio } from './services/huggingface.service.js';
 import { ApiError, asyncHandler } from './utils/ApiError.js';
 import { logger } from './utils/logger.js';
@@ -376,14 +378,11 @@ app.use('/api/layout', layoutRouter);
 app.use('/api/widgets', widgetsRouter);
 
 /* ------------------------------------------------------------------ *
- * Category registry
- *
- * The taxonomy behind the tool catalogue and the /tools/... URL structure.
- * Public reads (the site navigation depends on them) with admin-guarded
- * writes inside the router.
+ * Category & Tools registry
  * ------------------------------------------------------------------ */
 
 app.use('/api/categories', categoriesRouter);
+app.use('/api/tools', toolsRouter);
 
 /* ------------------------------------------------------------------ *
  * 404 + centralised error handling
@@ -464,8 +463,9 @@ function start() {
     if (!dbReady()) return;
     try {
       await syncCategorySeed();
+      await syncToolsSeed();
     } catch (error) {
-      logger.error('Category seed failed', { error: error.message });
+      logger.error('Category/Tools seed failed', { error: error.message });
     }
   });
 

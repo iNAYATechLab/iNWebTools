@@ -1,0 +1,1267 @@
+{
+  "version": 1,
+  "modules": [
+    {
+      "id": "document-pdf",
+      "name": "Document, Spreadsheet & PDF Tools",
+      "slug": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "description": "High-speed converters and editors for Word, Excel, PowerPoint, CSV, JSON, and PDF documents."
+    },
+    {
+      "id": "image-graphics",
+      "name": "Image Tools & Extended Converters",
+      "slug": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "description": "Multi-format image converter and advanced editing utilities including AI background removal, resizing, filters, and EXIF tools."
+    }
+  ],
+  "tools": [
+    {
+      "slug": "word-to-pdf",
+      "name": "Word to PDF Converter",
+      "tagline": "Convert DOCX and DOC documents into pristine PDF files.",
+      "description": "Easily convert Microsoft Word (.docx, .doc) files into universally compatible, high-quality PDF documents preserving layout, fonts, and images.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["word", "docx", "doc", "pdf", "converter", "office"],
+      "inputFormats": [".docx", ".doc", ".txt", ".rtf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "pageOrientation",
+          "label": "Page Orientation",
+          "type": "select",
+          "options": ["portrait", "landscape"],
+          "default": "portrait"
+        },
+        {
+          "id": "margin",
+          "label": "Margins",
+          "type": "select",
+          "options": ["normal", "narrow", "wide"],
+          "default": "normal"
+        },
+        { "id": "includeHeader", "label": "Include Document Header", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "word-to-excel",
+      "name": "Word to Excel Converter",
+      "tagline": "Extract tables and tabular data from Word into Excel spreadsheets.",
+      "description": "Intelligently scan Word documents for tables and structured lists, converting them into clean Microsoft Excel (.xlsx) or CSV spreadsheets.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["word", "excel", "tables", "data-extraction", "spreadsheet"],
+      "inputFormats": [".docx", ".doc"],
+      "outputFormats": [".xlsx", ".csv"],
+      "defaultOutput": "xlsx",
+      "options": [
+        {
+          "id": "tableMode",
+          "label": "Extraction Mode",
+          "type": "select",
+          "options": ["all-tables", "delimited-text", "auto-detect"],
+          "default": "all-tables"
+        },
+        { "id": "format", "label": "Output Format", "type": "select", "options": ["xlsx", "csv"], "default": "xlsx" }
+      ]
+    },
+    {
+      "slug": "word-to-png",
+      "name": "Word to PNG Converter",
+      "tagline": "Render pages of Word documents into crisp, high-resolution PNG images.",
+      "description": "Convert pages of DOCX/DOC documents into individual or multi-page PNG graphic images suitable for presentations and web sharing.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "image",
+      "tags": ["word", "docx", "png", "image", "render"],
+      "inputFormats": [".docx", ".doc"],
+      "outputFormats": [".png"],
+      "defaultOutput": "png",
+      "options": [
+        {
+          "id": "dpi",
+          "label": "Resolution (DPI)",
+          "type": "slider",
+          "min": 72,
+          "max": 300,
+          "step": 24,
+          "default": 150,
+          "unit": "DPI"
+        },
+        { "id": "pageRange", "label": "Page Range (e.g. 1-3)", "type": "text", "default": "all" }
+      ]
+    },
+    {
+      "slug": "word-to-txt",
+      "name": "Word to TXT Extractor",
+      "tagline": "Extract clean, unformatted plain text from Word documents.",
+      "description": "Strip formatting and extract raw plain text from Word files (.docx, .doc) with clean paragraph separation and encoding preservation.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "type",
+      "tags": ["word", "docx", "txt", "text", "extract"],
+      "inputFormats": [".docx", ".doc", ".rtf"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "encoding",
+          "label": "Text Encoding",
+          "type": "select",
+          "options": ["utf-8", "ascii", "latin1"],
+          "default": "utf-8"
+        },
+        { "id": "removeEmptyLines", "label": "Remove Blank Lines", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "excel-to-png",
+      "name": "Excel to PNG Converter",
+      "tagline": "Export Excel sheets, charts, and tables as high-quality PNG images.",
+      "description": "Convert Microsoft Excel spreadsheets and tables into sharp PNG graphics with transparent or white background for reports and dashboards.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "image",
+      "tags": ["excel", "xlsx", "png", "chart", "table", "graphic"],
+      "inputFormats": [".xlsx", ".xls", ".csv"],
+      "outputFormats": [".png"],
+      "defaultOutput": "png",
+      "options": [
+        {
+          "id": "renderTheme",
+          "label": "Table Theme",
+          "type": "select",
+          "options": ["dark", "light", "enterprise", "minimal"],
+          "default": "dark"
+        },
+        { "id": "includeGridlines", "label": "Show Gridlines", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "excel-to-pdf",
+      "name": "Excel to PDF Converter",
+      "tagline": "Convert spreadsheets into cleanly formatted, printable PDF documents.",
+      "description": "Transform Excel workbooks (.xlsx, .xls) into professional PDF reports with fit-to-page scaling, page breaks, and customized margins.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["excel", "xlsx", "pdf", "sheet", "converter"],
+      "inputFormats": [".xlsx", ".xls", ".csv"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "pageFit",
+          "label": "Fit to Page",
+          "type": "select",
+          "options": ["fit-width", "fit-all", "actual-size"],
+          "default": "fit-width"
+        },
+        {
+          "id": "orientation",
+          "label": "Orientation",
+          "type": "select",
+          "options": ["landscape", "portrait"],
+          "default": "landscape"
+        }
+      ]
+    },
+    {
+      "slug": "excel-to-csv",
+      "name": "Excel to CSV Converter",
+      "tagline": "Convert multi-sheet Excel files into standard RFC-4180 CSV files.",
+      "description": "Extract tabular data from Excel spreadsheets and convert it into universal Comma-Separated Values (CSV) format with custom delimiters.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["excel", "csv", "data", "export", "spreadsheet"],
+      "inputFormats": [".xlsx", ".xls"],
+      "outputFormats": [".csv"],
+      "defaultOutput": "csv",
+      "options": [
+        { "id": "delimiter", "label": "Delimiter", "type": "select", "options": [",", ";", "\t", "|"], "default": "," },
+        { "id": "quoteStrings", "label": "Quote All Fields", "type": "toggle", "default": false }
+      ]
+    },
+    {
+      "slug": "csv-to-excel",
+      "name": "CSV to Excel Converter",
+      "tagline": "Convert CSV files into Microsoft Excel (.xlsx) workbooks.",
+      "description": "Import CSV data files and generate formatted Excel (.xlsx) workbooks with auto-fitted column widths and auto-detected number formats.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["csv", "excel", "xlsx", "spreadsheet", "import"],
+      "inputFormats": [".csv", ".tsv", ".txt"],
+      "outputFormats": [".xlsx"],
+      "defaultOutput": "xlsx",
+      "options": [
+        { "id": "autoFilter", "label": "Enable Auto-Filter", "type": "toggle", "default": true },
+        { "id": "firstRowHeader", "label": "First Row as Header", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "csv-to-json",
+      "name": "CSV to JSON Converter",
+      "tagline": "Convert CSV table rows into structured JSON arrays and objects.",
+      "description": "Transform comma-separated CSV records into clean, validated JSON datasets with automatic data type parsing (numbers, booleans, strings).",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["csv", "json", "parser", "data", "api"],
+      "inputFormats": [".csv", ".tsv", ".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "indent",
+          "label": "JSON Indentation",
+          "type": "select",
+          "options": ["2 spaces", "4 spaces", "Minified"],
+          "default": "2 spaces"
+        },
+        { "id": "parseNumbers", "label": "Parse Numeric Values", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "csv-to-xml",
+      "name": "CSV to XML Converter",
+      "tagline": "Convert tabular CSV records into hierarchical XML document trees.",
+      "description": "Parse CSV files and generate schema-compliant XML files with customizable root tags, record elements, and attribute mappings.",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["csv", "xml", "data", "transform", "schema"],
+      "inputFormats": [".csv", ".tsv", ".txt"],
+      "outputFormats": [".xml"],
+      "defaultOutput": "xml",
+      "options": [
+        { "id": "rootElement", "label": "Root Element Tag", "type": "text", "default": "dataset" },
+        { "id": "rowElement", "label": "Row Element Tag", "type": "text", "default": "record" }
+      ]
+    },
+    {
+      "slug": "csv-to-markdown",
+      "name": "CSV to Markdown Converter",
+      "tagline": "Convert CSV tables into GitHub Flavored Markdown (GFM) tables.",
+      "description": "Generate clean, beautifully formatted Markdown tables from CSV or TSV files, ready to paste directly into GitHub READMEs, docs, and notes.",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["csv", "markdown", "gfm", "table", "documentation"],
+      "inputFormats": [".csv", ".tsv", ".txt"],
+      "outputFormats": [".md", ".txt"],
+      "defaultOutput": "md",
+      "options": [
+        {
+          "id": "alignment",
+          "label": "Column Alignment",
+          "type": "select",
+          "options": ["left", "center", "right", "auto"],
+          "default": "left"
+        },
+        { "id": "padSpaces", "label": "Pad with Spaces", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "json-to-csv",
+      "name": "JSON to CSV Converter",
+      "tagline": "Convert JSON arrays and objects into downloadable CSV spreadsheet files.",
+      "description": "Flatten complex nested or flat JSON objects and arrays into standard CSV tabular format with customizable headers and delimiters.",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["json", "csv", "data", "flatten", "api"],
+      "inputFormats": [".json", ".txt"],
+      "outputFormats": [".csv"],
+      "defaultOutput": "csv",
+      "isFeatured": true,
+      "options": [
+        { "id": "flattenNested", "label": "Flatten Nested Keys (dot.notation)", "type": "toggle", "default": true },
+        { "id": "delimiter", "label": "Delimiter", "type": "select", "options": [",", ";", "\t"], "default": "," }
+      ]
+    },
+    {
+      "slug": "json-to-xml",
+      "name": "JSON to XML Converter",
+      "tagline": "Transform JSON payloads into well-formed XML documents.",
+      "description": "Seamlessly convert JSON strings, objects, and arrays into formatted XML documents with custom namespaces and root elements.",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["json", "xml", "transform", "serializer"],
+      "inputFormats": [".json", ".txt"],
+      "outputFormats": [".xml"],
+      "defaultOutput": "xml",
+      "options": [
+        { "id": "rootTag", "label": "Root Element Tag", "type": "text", "default": "root" },
+        { "id": "declaration", "label": "Include XML Declaration", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "json-to-bson",
+      "name": "JSON to BSON Converter",
+      "tagline": "Encode JSON objects into Binary JSON (BSON) format and hex representations.",
+      "description": "Convert JSON documents into MongoDB-compatible binary BSON files or inspectable hexadecimal stream representations.",
+      "module": "document-pdf",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["json", "bson", "binary", "mongodb", "database"],
+      "inputFormats": [".json", ".txt"],
+      "outputFormats": [".bson", ".hex", ".txt"],
+      "defaultOutput": "bson",
+      "options": [
+        {
+          "id": "outputMode",
+          "label": "Output Mode",
+          "type": "select",
+          "options": ["binary-bson", "hex-dump", "base64"],
+          "default": "binary-bson"
+        }
+      ]
+    },
+    {
+      "slug": "powerpoint-to-pdf",
+      "name": "PowerPoint to PDF Converter",
+      "tagline": "Convert PPTX and PPT presentations into professional PDF handouts.",
+      "description": "Transform PowerPoint slide decks into high-resolution, vector-accurate PDF files with support for all slide dimensions and notes.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "file-text",
+      "tags": ["powerpoint", "pptx", "ppt", "pdf", "presentation"],
+      "inputFormats": [".pptx", ".ppt"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "slideFormat",
+          "label": "Slides per Page",
+          "type": "select",
+          "options": ["1-per-page", "2-per-page", "3-with-notes", "6-grid"],
+          "default": "1-per-page"
+        }
+      ]
+    },
+    {
+      "slug": "powerpoint-to-png",
+      "name": "PowerPoint to PNG Slides",
+      "tagline": "Export PowerPoint presentation slides as individual PNG images.",
+      "description": "Convert slide presentations (.pptx) into crisp PNG graphics ideal for web galleries, blog embeds, and social sharing.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "image",
+      "tags": ["powerpoint", "pptx", "png", "slides", "graphics"],
+      "inputFormats": [".pptx", ".ppt"],
+      "outputFormats": [".png", ".zip"],
+      "defaultOutput": "png",
+      "options": [
+        {
+          "id": "quality",
+          "label": "Slide Quality",
+          "type": "select",
+          "options": ["standard (1080p)", "high (4K)", "compact (720p)"],
+          "default": "standard (1080p)"
+        }
+      ]
+    },
+    {
+      "slug": "powerpoint-to-jpg",
+      "name": "PowerPoint to JPG Slides",
+      "tagline": "Export PowerPoint slides into lightweight JPG graphics.",
+      "description": "Export all slides from a presentation deck into compressed, high-speed JPG files packaged for instant web download.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "image",
+      "tags": ["powerpoint", "pptx", "jpg", "slides", "export"],
+      "inputFormats": [".pptx", ".ppt"],
+      "outputFormats": [".jpg", ".zip"],
+      "defaultOutput": "jpg",
+      "options": [
+        {
+          "id": "compression",
+          "label": "JPEG Compression",
+          "type": "slider",
+          "min": 50,
+          "max": 100,
+          "step": 5,
+          "default": 85,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "epub-to-pdf",
+      "name": "EPUB to PDF Converter",
+      "tagline": "Convert EPUB electronic books into printable, formatted PDF documents.",
+      "description": "Format and convert EPUB e-books into clean PDF documents with table of contents, customizable typography, and page numbers.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "e-book-document-specialty",
+      "icon": "file-text",
+      "tags": ["epub", "ebook", "pdf", "reader", "book"],
+      "inputFormats": [".epub"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "pageSize",
+          "label": "Page Size",
+          "type": "select",
+          "options": ["A4", "Letter", "A5 (Book)"],
+          "default": "A4"
+        },
+        {
+          "id": "fontSize",
+          "label": "Base Font Size",
+          "type": "slider",
+          "min": 10,
+          "max": 18,
+          "step": 1,
+          "default": 12,
+          "unit": "pt"
+        }
+      ]
+    },
+    {
+      "slug": "pdf-to-epub",
+      "name": "PDF to EPUB Converter",
+      "tagline": "Convert PDF documents into reflowable EPUB e-books.",
+      "description": "Transform PDF books and documents into reflowable EPUB files optimized for Apple Books, Kindle, and modern e-readers.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "e-book-document-specialty",
+      "icon": "file-text",
+      "tags": ["pdf", "epub", "ebook", "kindle", "ereader"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".epub"],
+      "defaultOutput": "epub",
+      "options": [{ "id": "extractImages", "label": "Retain Embedded Images", "type": "toggle", "default": true }]
+    },
+    {
+      "slug": "rtf-to-pdf",
+      "name": "RTF to PDF Converter",
+      "tagline": "Convert Rich Text Format (.rtf) documents to PDF format.",
+      "description": "Convert styled RTF documents into polished, standardized PDF files while preserving rich text formatting, styles, and alignments.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "e-book-document-specialty",
+      "icon": "file-text",
+      "tags": ["rtf", "rich-text", "pdf", "converter"],
+      "inputFormats": [".rtf", ".txt"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        { "id": "pageSize", "label": "Page Size", "type": "select", "options": ["A4", "Letter"], "default": "A4" }
+      ]
+    },
+    {
+      "slug": "pdf-to-rtf",
+      "name": "PDF to RTF Converter",
+      "tagline": "Convert PDF documents into editable Rich Text Format files.",
+      "description": "Extract text, layout, and styling from PDF files and export into editable RTF documents compatible with WordPad and MS Word.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "e-book-document-specialty",
+      "icon": "file-text",
+      "tags": ["pdf", "rtf", "editable", "text-editor"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".rtf"],
+      "defaultOutput": "rtf",
+      "options": [{ "id": "layoutPreserve", "label": "Preserve Exact Page Layout", "type": "toggle", "default": true }]
+    },
+    {
+      "slug": "html-to-pdf",
+      "name": "HTML to PDF Converter",
+      "tagline": "Convert HTML web pages and source code into styled PDF documents.",
+      "description": "Render HTML documents or web snippets into PDF with full CSS styling, responsive media emulation, and background graphics.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "code",
+      "tags": ["html", "css", "web", "pdf", "render"],
+      "inputFormats": [".html", ".htm", ".txt"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "mediaType",
+          "label": "Media Emulation",
+          "type": "select",
+          "options": ["screen", "print"],
+          "default": "screen"
+        },
+        { "id": "printBackground", "label": "Print Background Graphics", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "pdf-to-html",
+      "name": "PDF to HTML Converter",
+      "tagline": "Extract PDF documents as interactive HTML5 web pages.",
+      "description": "Convert PDF documents into modern HTML5 pages with clean CSS, responsive text reflow, and embedded SVG vectors.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "code",
+      "tags": ["pdf", "html", "html5", "webpage", "export"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".html", ".zip"],
+      "defaultOutput": "html",
+      "options": [{ "id": "embedImages", "label": "Embed Images (Data URIs)", "type": "toggle", "default": true }]
+    },
+    {
+      "slug": "pdf-to-image",
+      "name": "PDF to Image Converter",
+      "tagline": "Convert PDF pages into high-resolution PNG, JPG, WebP, or SVG graphics.",
+      "description": "Render and extract PDF pages into crisp raster or vector graphics. Supports PNG, JPG, WebP, and SVG formats with multi-page batch export.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-converters",
+      "icon": "image",
+      "tags": ["pdf", "image", "png", "jpg", "webp", "svg", "converter"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".png", ".jpg", ".webp", ".svg", ".zip"],
+      "defaultOutput": "png",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "format",
+          "label": "Target Format",
+          "type": "select",
+          "options": ["png", "jpg", "webp", "svg"],
+          "default": "png"
+        },
+        {
+          "id": "dpi",
+          "label": "Resolution (DPI)",
+          "type": "slider",
+          "min": 72,
+          "max": 300,
+          "step": 36,
+          "default": 150,
+          "unit": "DPI"
+        },
+        { "id": "pageRange", "label": "Page Range (e.g. 1-5)", "type": "text", "default": "all" }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "name": "Merge PDF Files",
+      "tagline": "Combine multiple PDF files into a single organized document.",
+      "description": "Upload multiple PDF files, reorder pages intuitively with drag-and-drop, and merge them into a single, unified PDF document.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "file-text",
+      "tags": ["merge", "pdf", "combine", "join", "binder"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "isFeatured": true,
+      "options": [
+        { "id": "normalizeOrientation", "label": "Normalize Page Orientation", "type": "toggle", "default": true },
+        { "id": "addBookmarks", "label": "Add File Name Bookmarks", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "split-pdf",
+      "name": "Split PDF Pages",
+      "tagline": "Split large PDF files into separate documents or specific page ranges.",
+      "description": "Divide multi-page PDF documents into individual page files, extract custom ranges (e.g., 1-4, 7-10), or split by fixed intervals.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "file-text",
+      "tags": ["split", "pdf", "pages", "extract", "cutter"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf", ".zip"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "splitMode",
+          "label": "Split Mode",
+          "type": "select",
+          "options": ["range", "every-page", "odd-even"],
+          "default": "range"
+        },
+        { "id": "ranges", "label": "Page Ranges (e.g. 1-3, 5, 8-10)", "type": "text", "default": "1-2" }
+      ]
+    },
+    {
+      "slug": "compress-pdf",
+      "name": "Compress PDF",
+      "tagline": "Reduce PDF file size while preserving high visual sharpness.",
+      "description": "Optimize PDF streams, compress embedded images, and strip redundant metadata to dramatically decrease file size for email and web.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "sparkle",
+      "tags": ["compress", "pdf", "optimize", "reduce-size", "fast"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "compressionLevel",
+          "label": "Compression Level",
+          "type": "select",
+          "options": ["extreme (max compression)", "recommended (balanced)", "low (high quality)"],
+          "default": "recommended (balanced)"
+        },
+        { "id": "grayscale", "label": "Convert to Grayscale", "type": "toggle", "default": false }
+      ]
+    },
+    {
+      "slug": "rotate-pdf",
+      "name": "Rotate PDF Pages",
+      "tagline": "Permanently rotate PDF pages clockwise, counter-clockwise, or 180°.",
+      "description": "Fix upside-down and sideways scanned PDF documents by rotating all or select pages by 90°, 180°, or 270° degrees.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "wrench",
+      "tags": ["rotate", "pdf", "orientation", "turn", "scan-fix"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "rotationAngle",
+          "label": "Rotation Angle",
+          "type": "select",
+          "options": ["90° Clockwise", "180° Invert", "270° Counter-Clockwise"],
+          "default": "90° Clockwise"
+        },
+        {
+          "id": "applyTo",
+          "label": "Apply To",
+          "type": "select",
+          "options": ["all-pages", "portrait-only", "landscape-only"],
+          "default": "all-pages"
+        }
+      ]
+    },
+    {
+      "slug": "crop-pdf",
+      "name": "Crop PDF Pages",
+      "tagline": "Trim margins and custom crop PDF document page dimensions.",
+      "description": "Adjust CropBox and MediaBox bounds to trim unnecessary white borders or focus on specific content regions in your PDF files.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "wrench",
+      "tags": ["crop", "pdf", "margins", "trim", "resize"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "marginTrim",
+          "label": "Margin Trim",
+          "type": "select",
+          "options": ["auto-trim-margins", "custom-margins", "no-trim"],
+          "default": "auto-trim-margins"
+        },
+        {
+          "id": "customPadding",
+          "label": "Padding (mm)",
+          "type": "slider",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "default": 10,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "slug": "pdf-extract-text",
+      "name": "PDF Extract Text & OCR",
+      "tagline": "Extract embedded text and run Optical Character Recognition (OCR).",
+      "description": "Extract text layers directly or run OCR on scanned PDF pages with multilingual language support and formatted text output.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "type",
+      "tags": ["ocr", "pdf", "text-extraction", "scanner", "multilingual"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".txt", ".json", ".docx"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "ocrLanguage",
+          "label": "OCR Language",
+          "type": "select",
+          "options": ["English (eng)", "Bengali (ben)", "Spanish (spa)", "French (fra)", "Auto-detect"],
+          "default": "Auto-detect"
+        },
+        { "id": "preserveLayout", "label": "Preserve Line Breaks", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "pdf-extract-images",
+      "name": "Extract Images from PDF",
+      "tagline": "Extract and download all embedded raster images from PDF files.",
+      "description": "Scan PDF documents for all embedded photographic images and graphics, extracting them at original native resolution into a ZIP archive.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "image",
+      "tags": ["pdf", "images", "extract", "photos", "rip"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".zip", ".png", ".jpg"],
+      "defaultOutput": "zip",
+      "options": [
+        { "id": "minImageSize", "label": "Filter Tiny Graphics (<50px)", "type": "toggle", "default": true },
+        {
+          "id": "imageFormat",
+          "label": "Export Format",
+          "type": "select",
+          "options": ["original", "png", "jpg"],
+          "default": "original"
+        }
+      ]
+    },
+    {
+      "slug": "protect-pdf",
+      "name": "Protect PDF with Password",
+      "tagline": "Encrypt PDF documents with 256-bit AES password security.",
+      "description": "Add user and owner passwords to your PDF files. Restrict printing, copying, and modifications with enterprise encryption.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "shield",
+      "tags": ["protect", "pdf", "encrypt", "password", "security", "aes"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        { "id": "userPassword", "label": "User Password (to open)", "type": "password", "default": "" },
+        { "id": "allowPrinting", "label": "Allow High-Resolution Printing", "type": "toggle", "default": true },
+        { "id": "allowCopying", "label": "Allow Content Copying", "type": "toggle", "default": false }
+      ]
+    },
+    {
+      "slug": "unlock-pdf",
+      "name": "Unlock PDF Password",
+      "tagline": "Remove password protection and printing restrictions from PDF files.",
+      "description": "Safely decrypt password-protected PDF files (when password is provided) to produce an unencumbered, standard PDF document.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "shield",
+      "tags": ["unlock", "pdf", "decrypt", "remove-password", "security"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        { "id": "currentPassword", "label": "Current Password (if required)", "type": "password", "default": "" }
+      ]
+    },
+    {
+      "slug": "sign-pdf",
+      "name": "Digital Sign PDF",
+      "tagline": "Sign PDF documents with digital signature and cryptographic verification.",
+      "description": "Add visual handwritten signatures, corporate stamps, and verifiable cryptographic SHA-256 integrity metadata to your PDF documents.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "shield",
+      "tags": ["sign", "pdf", "digital-signature", "stamp", "contract"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        { "id": "signerName", "label": "Signer Full Name", "type": "text", "default": "Authorized Signer" },
+        { "id": "signatureReason", "label": "Reason / Purpose", "type": "text", "default": "Approved & Verified" },
+        { "id": "includeTimestamp", "label": "Include UTC Timestamp Stamp", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "pdf-watermark",
+      "name": "Add Watermark to PDF",
+      "tagline": "Stamp customized text or logo watermarks across PDF pages.",
+      "description": "Apply confidential stamps, copyright watermarks, and custom logos across all pages with customizable opacity, rotation, and position.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "shield",
+      "tags": ["watermark", "pdf", "stamp", "copyright", "confidential"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        { "id": "watermarkText", "label": "Watermark Text", "type": "text", "default": "CONFIDENTIAL" },
+        {
+          "id": "opacity",
+          "label": "Opacity",
+          "type": "slider",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "default": 30,
+          "unit": "%"
+        },
+        {
+          "id": "rotation",
+          "label": "Angle (°)",
+          "type": "slider",
+          "min": -90,
+          "max": 90,
+          "step": 15,
+          "default": -45,
+          "unit": "°"
+        }
+      ]
+    },
+    {
+      "slug": "pdf-page-numbering",
+      "name": "Add Page Numbers to PDF",
+      "tagline": "Insert headers, footers, and pagination numbers on PDF pages.",
+      "description": "Customize and insert clean page numbering (e.g. 'Page 1 of 20') in top or bottom margins with selectable fonts, offsets, and styles.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "type",
+      "tags": ["page-number", "pdf", "header", "footer", "pagination"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "position",
+          "label": "Number Position",
+          "type": "select",
+          "options": ["bottom-center", "bottom-right", "top-right", "top-center"],
+          "default": "bottom-center"
+        },
+        {
+          "id": "formatStyle",
+          "label": "Number Format",
+          "type": "select",
+          "options": ["Page {n} of {total}", "{n} / {total}", "Page {n}", "{n}"],
+          "default": "Page {n} of {total}"
+        },
+        {
+          "id": "startNumber",
+          "label": "Start Numbering At",
+          "type": "slider",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 1,
+          "unit": ""
+        }
+      ]
+    },
+    {
+      "slug": "redact-pdf",
+      "name": "Redact PDF Content",
+      "tagline": "Permanently sanitize and black out sensitive data from PDF files.",
+      "description": "Permanently blackout names, social security numbers, credit cards, or keyword patterns to guarantee privacy compliance.",
+      "module": "document-pdf",
+      "categorySlug": "pdf-document-tools",
+      "subcategorySlug": "pdf-editing-management",
+      "icon": "shield",
+      "tags": ["redact", "pdf", "sanitize", "privacy", "security", "blackout"],
+      "inputFormats": [".pdf"],
+      "outputFormats": [".pdf"],
+      "defaultOutput": "pdf",
+      "options": [
+        {
+          "id": "keywords",
+          "label": "Keywords to Auto-Redact (comma separated)",
+          "type": "text",
+          "default": "confidential, secret, password"
+        },
+        {
+          "id": "redactionStyle",
+          "label": "Redaction Style",
+          "type": "select",
+          "options": ["solid-black", "solid-white", "crosshatch"],
+          "default": "solid-black"
+        }
+      ]
+    },
+    {
+      "slug": "image-converter",
+      "name": "Universal Image Converter",
+      "tagline": "Convert between PNG, JPG, WebP, SVG, BMP, HEIC, AVIF, TIFF, PSD, AI, EPS, DDS, EXR, and RAW formats.",
+      "description": "High-performance multi-format image converter supporting standard web formats (PNG, JPG, WebP, SVG, BMP, AVIF, HEIC) as well as professional formats (TIFF, PSD, AI, EPS, DDS, EXR, DNG, CR2, NEF).",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "standard-image-converters",
+      "icon": "image",
+      "tags": ["image", "converter", "png", "jpg", "webp", "svg", "heic", "avif", "tiff", "raw", "psd", "eps"],
+      "inputFormats": [
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp",
+        ".svg",
+        ".bmp",
+        ".heic",
+        ".avif",
+        ".tiff",
+        ".tif",
+        ".psd",
+        ".ai",
+        ".eps",
+        ".dds",
+        ".exr",
+        ".dng",
+        ".cr2",
+        ".nef"
+      ],
+      "outputFormats": [".png", ".jpg", ".webp", ".svg", ".bmp", ".avif", ".tiff"],
+      "defaultOutput": "webp",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetFormat",
+          "label": "Target Format",
+          "type": "select",
+          "options": ["webp", "png", "jpg", "avif", "svg", "bmp", "tiff"],
+          "default": "webp"
+        },
+        {
+          "id": "quality",
+          "label": "Quality / Compression",
+          "type": "slider",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "default": 85,
+          "unit": "%"
+        },
+        { "id": "preserveMetadata", "label": "Preserve Color Profile & Metadata", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "image-resizer",
+      "name": "Image Resizer",
+      "tagline": "Resize images by exact pixel dimensions, percentages, or social presets.",
+      "description": "Scale and resize photos and graphics with bicubic interpolation, aspect ratio lock, and preset templates for YouTube, Instagram, and web.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "image",
+      "tags": ["resize", "image", "scale", "dimensions", "pixels", "social-presets"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".svg", ".bmp", ".avif"],
+      "outputFormats": [".png", ".jpg", ".webp"],
+      "defaultOutput": "webp",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "preset",
+          "label": "Dimension Preset",
+          "type": "select",
+          "options": [
+            "Custom",
+            "Instagram Post (1080x1080)",
+            "YouTube Thumbnail (1280x720)",
+            "Twitter Banner (1500x500)",
+            "Full HD (1920x1080)",
+            "4K UHD (3840x2160)"
+          ],
+          "default": "Custom"
+        },
+        {
+          "id": "width",
+          "label": "Target Width (px)",
+          "type": "slider",
+          "min": 100,
+          "max": 3840,
+          "step": 20,
+          "default": 1280,
+          "unit": "px"
+        },
+        { "id": "lockAspectRatio", "label": "Maintain Aspect Ratio", "type": "toggle", "default": true }
+      ]
+    },
+    {
+      "slug": "image-compressor",
+      "name": "Smart Image Compressor",
+      "tagline": "Compress image file sizes up to 90% without visible loss in quality.",
+      "description": "Optimize PNG, JPG, and WebP images with perceptual compression algorithms to drastically improve page speed and bandwidth savings.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "sparkle",
+      "tags": ["compress", "image", "optimize", "reduce-size", "png-compressor", "jpg-compressor"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif"],
+      "outputFormats": [".webp", ".jpg", ".png"],
+      "defaultOutput": "webp",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "compressionLevel",
+          "label": "Optimization Level",
+          "type": "select",
+          "options": [
+            "Smart Lossy (recommended, ~80% smaller)",
+            "Lossless (zero quality loss)",
+            "Extreme (max speed, ~92% smaller)"
+          ],
+          "default": "Smart Lossy (recommended, ~80% smaller)"
+        },
+        {
+          "id": "quality",
+          "label": "Quality Target",
+          "type": "slider",
+          "min": 30,
+          "max": 95,
+          "step": 5,
+          "default": 80,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "image-cropper",
+      "name": "Image Cropper",
+      "tagline": "Crop, frame, and cut images with freeform or fixed aspect ratios.",
+      "description": "Interactive visual canvas image cropper with grid overlays, aspect ratio locks (1:1, 16:9, 4:3, 3:2), and circle avatar cropping.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "wrench",
+      "tags": ["crop", "image", "cut", "avatar", "aspect-ratio", "canvas"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif"],
+      "outputFormats": [".png", ".jpg", ".webp"],
+      "defaultOutput": "png",
+      "options": [
+        {
+          "id": "aspectRatio",
+          "label": "Aspect Ratio",
+          "type": "select",
+          "options": ["freeform", "1:1 (Square)", "16:9 (Widescreen)", "4:3 (Standard)", "Circle Avatar"],
+          "default": "16:9 (Widescreen)"
+        },
+        {
+          "id": "outputFormat",
+          "label": "Format",
+          "type": "select",
+          "options": ["png", "jpg", "webp"],
+          "default": "png"
+        }
+      ]
+    },
+    {
+      "slug": "image-background-remover",
+      "name": "AI Background Remover",
+      "tagline": "Remove image backgrounds automatically with transparent cutout generation.",
+      "description": "Isolate people, products, and foreground objects from complex backgrounds using smart edge-detection and AI alpha channel segmentation.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "sparkle",
+      "tags": ["background-remover", "transparent", "ai-bg", "cutout", "png", "e-commerce"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".avif"],
+      "outputFormats": [".png", ".webp"],
+      "defaultOutput": "png",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "feathering",
+          "label": "Edge Feathering / Softness",
+          "type": "slider",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 4,
+          "unit": "px"
+        },
+        {
+          "id": "backgroundColor",
+          "label": "Replace Background With",
+          "type": "select",
+          "options": ["transparent", "white", "black", "custom-color"],
+          "default": "transparent"
+        }
+      ]
+    },
+    {
+      "slug": "image-color-picker",
+      "name": "Image Color Picker & Palette",
+      "tagline": "Extract dominant color palettes, HEX codes, RGB, and contrast analysis.",
+      "description": "Upload any graphic to extract top harmonious color palettes, calculate WCAG accessibility contrast ratios, and copy CSS color variables.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "color-design-utilities",
+      "icon": "image",
+      "tags": ["color-picker", "palette", "hex", "rgb", "contrast", "design"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".svg", ".bmp", ".avif"],
+      "outputFormats": [".json", ".css", ".png"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "paletteCount",
+          "label": "Number of Colors",
+          "type": "slider",
+          "min": 4,
+          "max": 12,
+          "step": 1,
+          "default": 6,
+          "unit": "colors"
+        },
+        {
+          "id": "exportFormat",
+          "label": "Palette Export",
+          "type": "select",
+          "options": ["HEX Codes", "CSS Variables", "Tailwind Theme", "JSON"],
+          "default": "HEX Codes"
+        }
+      ]
+    },
+    {
+      "slug": "image-filters",
+      "name": "Artistic Image Filters",
+      "tagline": "Apply Vintage, Vignette, Glitch, Sepia, Grayscale, and Blur filters.",
+      "description": "Transform photos instantly with live canvas filters including Vintage film, Vignette lens shading, Cyberpunk RGB Glitch, Sepia, and Sharpen.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "sparkle",
+      "tags": ["filters", "vintage", "vignette", "glitch", "sepia", "grayscale", "blur", "effects"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif"],
+      "outputFormats": [".png", ".jpg", ".webp"],
+      "defaultOutput": "png",
+      "options": [
+        {
+          "id": "filterType",
+          "label": "Filter Effect",
+          "type": "select",
+          "options": ["vintage", "vignette", "glitch", "sepia", "grayscale", "invert", "blur", "sharpen"],
+          "default": "vintage"
+        },
+        {
+          "id": "intensity",
+          "label": "Effect Intensity",
+          "type": "slider",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "default": 75,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "image-exif-viewer",
+      "name": "EXIF Metadata Viewer",
+      "tagline": "Inspect camera model, exposure settings, GPS coordinates, and date tags.",
+      "description": "Read comprehensive EXIF, IPTC, and XMP metadata from camera photos including aperture, ISO, shutter speed, lens focal length, and geolocation.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "shield",
+      "tags": ["exif", "metadata", "camera", "gps", "iso", "shutter", "viewer"],
+      "inputFormats": [".jpg", ".jpeg", ".png", ".tiff", ".heic", ".dng", ".cr2", ".nef"],
+      "outputFormats": [".json", ".txt"],
+      "defaultOutput": "json",
+      "options": [{ "id": "showGpsMap", "label": "Show GPS Coordinates Location", "type": "toggle", "default": true }]
+    },
+    {
+      "slug": "image-exif-eraser",
+      "name": "EXIF Metadata Eraser",
+      "tagline": "Strip GPS location, camera serials, and private EXIF tags before sharing.",
+      "description": "Protect your privacy by stripping all embedded EXIF tags, GPS geolocations, device identifiers, and timestamp data from photos.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "shield",
+      "tags": ["exif-remover", "privacy", "strip-metadata", "sanitize", "gps-cleaner"],
+      "inputFormats": [".jpg", ".jpeg", ".png", ".tiff", ".webp", ".heic"],
+      "outputFormats": [".jpg", ".png", ".webp"],
+      "defaultOutput": "jpg",
+      "options": [{ "id": "stripColorProfile", "label": "Strip Color Profiles", "type": "toggle", "default": false }]
+    },
+    {
+      "slug": "image-watermark",
+      "name": "Image Watermark Adder",
+      "tagline": "Overlay customizable text or logo watermarks over images.",
+      "description": "Protect intellectual property with custom text watermarks or PNG logo stamps with position grids, opacity sliders, and angle rotations.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "shield",
+      "tags": ["watermark", "image", "logo-stamp", "branding", "copyright"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif"],
+      "outputFormats": [".png", ".jpg", ".webp"],
+      "defaultOutput": "png",
+      "options": [
+        { "id": "watermarkText", "label": "Watermark Text", "type": "text", "default": "© iNWebTools" },
+        {
+          "id": "watermarkPosition",
+          "label": "Position",
+          "type": "select",
+          "options": ["bottom-right", "bottom-left", "center", "top-right", "tiled-grid"],
+          "default": "bottom-right"
+        },
+        {
+          "id": "opacity",
+          "label": "Opacity",
+          "type": "slider",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "default": 40,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "image-upscaler",
+      "name": "AI Image Upscaler",
+      "tagline": "Upscale low-resolution photos 2x or 4x with enhanced edge sharpness.",
+      "description": "Super-resolution image upscaler using deep edge-enhancement and bicubic filtering to increase image dimensions without pixelation.",
+      "module": "image-graphics",
+      "categorySlug": "image-graphics-tools",
+      "subcategorySlug": "image-editing-processing",
+      "icon": "sparkle",
+      "tags": ["upscaler", "super-resolution", "ai-enhance", "2x-upscale", "4x-upscale", "sharpen"],
+      "inputFormats": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif"],
+      "outputFormats": [".png", ".webp", ".jpg"],
+      "defaultOutput": "png",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "scaleFactor",
+          "label": "Upscale Multiplier",
+          "type": "select",
+          "options": ["2x Super-Resolution", "4x Ultra-Resolution"],
+          "default": "2x Super-Resolution"
+        },
+        { "id": "noiseReduction", "label": "Denoise & Edge Smooth", "type": "toggle", "default": true }
+      ]
+    }
+  ]
+}

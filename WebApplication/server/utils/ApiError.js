@@ -25,6 +25,10 @@ export class ApiError extends Error {
     return new ApiError(400, code, message, details);
   }
 
+  static notFound(code = 'NOT_FOUND', message = 'Resource not found.', details) {
+    return new ApiError(404, code, message, details);
+  }
+
   static payloadTooLarge(message, details) {
     return new ApiError(413, 'FILE_TOO_LARGE', message, details);
   }

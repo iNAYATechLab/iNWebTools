@@ -23,6 +23,8 @@ import { TimeRangeStats } from './pages/AdminDashboard/Userinfo/TimeRangeStats';
 import { UserOnlineNow } from './pages/AdminDashboard/Userinfo/UserOnlineNow';
 import { WidgetLayout } from './components/widgets/WidgetLayout';
 import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
+import { DocumentImageExplorer } from './components/tools/DocumentImage/DocumentImageExplorer';
+import { DocumentImageToolView } from './components/tools/DocumentImage/DocumentImageToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -107,6 +109,19 @@ export default function App() {
               </LocaleProvider>
             }
           >
+            {/* Direct SEO-Friendly Module & Tool Routes */}
+            <Route
+              path="/tools/document-pdf"
+              element={<DocumentImageExplorer moduleSlug="document-pdf" />}
+            />
+            <Route path="/tools/document-pdf/:toolSlug" element={<DocumentImageToolView />} />
+            <Route
+              path="/tools/image-graphics"
+              element={<DocumentImageExplorer moduleSlug="image-graphics" />}
+            />
+            <Route path="/tools/image-graphics/:toolSlug" element={<DocumentImageToolView />} />
+
+            {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>
               <Route index element={<ToolsIndexPage />} />
               <Route path=":categorySlug" element={<CategoryPage />} />
