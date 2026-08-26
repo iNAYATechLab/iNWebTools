@@ -21,6 +21,7 @@
  */
 
 import express from 'express';
+import bcrypt from 'bcryptjs';
 import rateLimit from 'express-rate-limit';
 
 import { MIN_ADMIN_PASSWORD_LENGTH, env } from '../config/env.js';
@@ -33,6 +34,7 @@ import {
   verifyCredentials,
   verifyToken,
 } from '../services/auth.service.js';
+import { syncToolsSeed } from '../services/toolsRegistry.service.js';
 import { ApiError, asyncHandler } from '../utils/ApiError.js';
 
 export const adminRouter = express.Router();
@@ -45,9 +47,87 @@ const ok = (req, res, data, extraMeta = {}) =>
     meta: { requestId: req.id, timestamp: new Date().toISOString(), ...extraMeta },
   });
 
-/* ------------------------------------------------------------------ *
- * Auth
- * ------------------------------------------------------------------ */
+/* ---------------- Setup Super Admin ---------------- */
+
+adminRouter.post(
+  '/setup-super-admin',
+  requireDatabase,
+  asyncHandler(async (req, res) => {
+    const username = String(req.body?.username ?? 'admin')
+      .trim()
+      .toLowerCase();
+    const email = String(req.body?.email ?? 'admin@inwebtools.com')
+      .trim()
+      .toLowerCase();
+    const password = String(req.body?.password ?? '');
+    const fullName = String(req.body?.fullName ?? 'Master Super Administrator').trim();
+    const setupSecret = String(req.body?.setupSecret ?? '').trim();
+
+    if (!password || password.length < MIN_ADMIN_PASSWORD_LENGTH) {
+      throw ApiError.badRequest(
+        'WEAK_PASSWORD',
+        `Password must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters.`,
+      );
+    }
+
+    // Security check: if a super_admin already exists, verify setupSecret or JWT
+    const existingSuperAdmin = await queryOne(
+      "SELECT id FROM users WHERE role = 'super_admin' AND is_active = TRUE LIMIT 1",
+    );
+
+    if (existingSuperAdmin) {
+      const validSecret =
+        process.env.ADMIN_SETUP_SECRET ||
+        process.env.JWT_SECRET ||
+        'inwebtools_master_setup_secret';
+      if (setupSecret !== validSecret) {
+        throw new ApiError(
+          403,
+          'FORBIDDEN',
+          'A Super Admin account already exists. Provide a valid setupSecret to proceed.',
+        );
+      }
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    const existingUser = await queryOne(
+      'SELECT id, username, email FROM users WHERE LOWER(username) = ? OR LOWER(email) = ? LIMIT 1',
+      [username, email],
+    );
+
+    let user;
+    if (existingUser) {
+      user = await queryOne(
+        `UPDATE users
+         SET username = ?, email = ?, password_hash = ?, full_name = ?, role = 'super_admin', is_active = TRUE, updated_at = NOW()
+         WHERE id = ?
+         RETURNING id, username, email, full_name, role, is_active`,
+        [username, email, passwordHash, fullName, existingUser.id],
+      );
+    } else {
+      user = await queryOne(
+        `INSERT INTO users (username, email, password_hash, full_name, role, is_active, created_at, updated_at)
+         VALUES (?, ?, ?, ?, 'super_admin', TRUE, NOW(), NOW())
+         RETURNING id, username, email, full_name, role, is_active`,
+        [username, email, passwordHash, fullName],
+      );
+    }
+
+    await recordAudit({
+      username: user.username,
+      action: 'super_admin_setup',
+      detail: `Super admin initialized for ${user.username}`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    const tokens = issueTokens(user);
+    ok(req, res, { user, ...tokens, message: 'Super Admin initialized successfully.' });
+  }),
+);
+
+/* ---------------- Auth ---------------- */
 
 // Brute-force protection on the login endpoint specifically.
 //
@@ -653,6 +733,488 @@ adminRouter.post(
       userAgent: req.get('user-agent'),
     });
     ok(req, res, { changed: true });
+  }),
+);
+
+/* ---------------- Super Admin: Overview & System Stats ---------------- */
+
+adminRouter.get(
+  '/overview/stats',
+  asyncHandler(async (req, res) => {
+    // 1. User metrics
+    const userSummary = await queryOne(`
+      SELECT
+        COUNT(*) AS total_users,
+        COUNT(*) FILTER (WHERE role = 'super_admin') AS super_admins,
+        COUNT(*) FILTER (WHERE role = 'admin') AS admins,
+        COUNT(*) FILTER (WHERE role = 'user') AS regular_users,
+        COUNT(*) FILTER (WHERE is_active = TRUE) AS active_users
+      FROM users
+    `);
+
+    // 2. Tool metrics
+    const toolSummary = await queryOne(`
+      SELECT
+        COUNT(*) AS total_tools,
+        COUNT(*) FILTER (WHERE status = 'published') AS published_tools,
+        COUNT(*) FILTER (WHERE is_featured = TRUE) AS featured_tools,
+        COUNT(*) FILTER (WHERE is_premium = TRUE) AS premium_tools,
+        COALESCE(SUM(usage_count), 0) AS total_executions
+      FROM tools
+    `);
+
+    // 3. Conversion / execution stats today
+    const conversionToday = await queryOne(`
+      SELECT
+        COUNT(*) AS today_executions,
+        COUNT(*) FILTER (WHERE status = 'success') AS today_successes,
+        COUNT(*) FILTER (WHERE status = 'failed') AS today_failures,
+        COALESCE(SUM(characters), 0) AS today_characters
+      FROM conversion_logs
+      WHERE created_at::date = CURRENT_DATE
+    `);
+
+    // 4. Live Sessions & System telemetry
+    const memUsage = process.memoryUsage();
+    const systemInfo = {
+      nodeVersion: process.version,
+      platform: process.platform,
+      arch: process.arch,
+      uptimeSeconds: Math.round(process.uptime()),
+      memory: {
+        rssMb: Math.round((memUsage.rss / 1024 / 1024) * 100) / 100,
+        heapUsedMb: Math.round((memUsage.heapUsed / 1024 / 1024) * 100) / 100,
+        heapTotalMb: Math.round((memUsage.heapTotal / 1024 / 1024) * 100) / 100,
+      },
+      environment: process.env.NODE_ENV || 'development',
+      asrModel: process.env.ASR_MODEL || 'openai/whisper-large-v3-turbo',
+      database: {
+        engine: 'PostgreSQL 17',
+        status: 'healthy',
+      },
+    };
+
+    ok(req, res, {
+      users: {
+        total: Number(userSummary?.total_users ?? 0),
+        superAdmins: Number(userSummary?.super_admins ?? 0),
+        admins: Number(userSummary?.admins ?? 0),
+        regularUsers: Number(userSummary?.regular_users ?? 0),
+        active: Number(userSummary?.active_users ?? 0),
+      },
+      tools: {
+        total: Number(toolSummary?.total_tools ?? 0),
+        published: Number(toolSummary?.published_tools ?? 0),
+        featured: Number(toolSummary?.featured_tools ?? 0),
+        premium: Number(toolSummary?.premium_tools ?? 0),
+        totalExecutions: Number(toolSummary?.total_executions ?? 0),
+      },
+      todayActivity: {
+        executions: Number(conversionToday?.today_executions ?? 0),
+        successes: Number(conversionToday?.today_successes ?? 0),
+        failures: Number(conversionToday?.today_failures ?? 0),
+        characters: Number(conversionToday?.today_characters ?? 0),
+      },
+      system: systemInfo,
+    });
+  }),
+);
+
+/* ---------------- Super Admin: Master Tools Manager ---------------- */
+
+adminRouter.get(
+  '/tools/list',
+  asyncHandler(async (req, res) => {
+    const { limit, page, offset } = paging(req, 20);
+    const search = String(req.query.search ?? '').trim();
+    const moduleFilter = String(req.query.module ?? '').trim();
+    const statusFilter = String(req.query.status ?? '').trim();
+    const featuredFilter = req.query.featured;
+
+    const where = ['1 = 1'];
+    const params = [];
+
+    if (search) {
+      where.push('(t.name ILIKE ? OR t.slug ILIKE ? OR t.tagline ILIKE ?)');
+      const like = `%${search}%`;
+      params.push(like, like, like);
+    }
+
+    if (moduleFilter && moduleFilter !== 'all') {
+      where.push("t.metadata->>'module' = ?");
+      params.push(moduleFilter);
+    }
+
+    if (statusFilter && statusFilter !== 'all') {
+      where.push('t.status = ?');
+      params.push(statusFilter);
+    }
+
+    if (featuredFilter !== undefined && featuredFilter !== 'all') {
+      where.push('t.is_featured = ?');
+      params.push(featuredFilter === 'true');
+    }
+
+    const clause = where.join(' AND ');
+
+    const rows = await query(
+      `SELECT t.id, t.slug, t.name, t.tagline, t.description, t.route,
+              t.icon, t.tags, t.status, t.is_featured, t.is_premium,
+              t.usage_count, t.sort_order, t.metadata, t.created_at, t.updated_at,
+              c.slug AS category_slug, c.name AS category_name
+       FROM tools t
+       JOIN categories c ON c.id = t.category_id
+       WHERE ${clause}
+       ORDER BY t.sort_order ASC, t.usage_count DESC, t.name ASC
+       LIMIT ? OFFSET ?`,
+      [...params, String(limit), String(offset)],
+    );
+
+    const count = await queryOne(
+      `SELECT COUNT(*) AS total
+       FROM tools t
+       JOIN categories c ON c.id = t.category_id
+       WHERE ${clause}`,
+      params,
+    );
+
+    const total = Number(count?.total ?? 0);
+
+    ok(req, res, {
+      items: rows.map((r) => ({
+        id: r.id,
+        slug: r.slug,
+        name: r.name,
+        tagline: r.tagline,
+        description: r.description,
+        route: r.route,
+        icon: r.icon,
+        tags: r.tags,
+        status: r.status,
+        isFeatured: r.is_featured,
+        isPremium: r.is_premium,
+        usageCount: Number(r.usage_count ?? 0),
+        sortOrder: r.sort_order,
+        module: r.metadata?.module ?? '',
+        categorySlug: r.category_slug,
+        categoryName: r.category_name,
+        metadata: r.metadata,
+      })),
+      pagination: { page, limit, total, pages: Math.max(Math.ceil(total / limit), 1) },
+    });
+  }),
+);
+
+adminRouter.patch(
+  '/tools/:slug',
+  requireRole('super_admin', 'admin'),
+  asyncHandler(async (req, res) => {
+    const slug = String(req.params.slug).trim().toLowerCase();
+    const existing = await queryOne(
+      'SELECT id, name, status, is_featured, is_premium, metadata FROM tools WHERE slug = ?',
+      [slug],
+    );
+    if (!existing) {
+      throw new ApiError(404, 'TOOL_NOT_FOUND', `Tool with slug "${slug}" not found.`);
+    }
+
+    const sets = ['updated_at = NOW()'];
+    const params = [];
+
+    if (req.body?.status !== undefined) {
+      const status = String(req.body.status);
+      if (!['draft', 'published', 'archived'].includes(status)) {
+        throw ApiError.badRequest(
+          'INVALID_STATUS',
+          'Status must be draft, published, or archived.',
+        );
+      }
+      sets.push('status = ?');
+      params.push(status);
+      if (status === 'published') {
+        sets.push('published_at = COALESCE(published_at, NOW())');
+      }
+    }
+
+    if (req.body?.isFeatured !== undefined) {
+      sets.push('is_featured = ?');
+      params.push(Boolean(req.body.isFeatured));
+    }
+
+    if (req.body?.isPremium !== undefined) {
+      sets.push('is_premium = ?');
+      params.push(Boolean(req.body.isPremium));
+    }
+
+    if (req.body?.name !== undefined && String(req.body.name).trim()) {
+      sets.push('name = ?');
+      params.push(String(req.body.name).trim());
+    }
+
+    if (req.body?.tagline !== undefined) {
+      sets.push('tagline = ?');
+      params.push(String(req.body.tagline).trim());
+    }
+
+    if (req.body?.description !== undefined) {
+      sets.push('description = ?');
+      params.push(String(req.body.description).trim());
+    }
+
+    if (Array.isArray(req.body?.tags)) {
+      sets.push('tags = ?');
+      params.push(req.body.tags);
+    }
+
+    params.push(slug);
+
+    await query(`UPDATE tools SET ${sets.join(', ')} WHERE slug = ?`, params);
+
+    const updated = await queryOne('SELECT * FROM tools WHERE slug = ?', [slug]);
+
+    await recordAudit({
+      username: req.admin.username,
+      action: 'tool_updated',
+      detail: `Tool "${slug}" modified: ${JSON.stringify(req.body)}`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    ok(req, res, { tool: updated });
+  }),
+);
+
+adminRouter.post(
+  '/tools/sync',
+  requireRole('super_admin'),
+  asyncHandler(async (req, res) => {
+    const result = await syncToolsSeed();
+    await recordAudit({
+      username: req.admin.username,
+      action: 'tools_synced',
+      detail: `Tools registry resynced: ${result.total} tools`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+    ok(req, res, { result, message: 'Tools catalog successfully synchronized.' });
+  }),
+);
+
+/* ---------------- Super Admin: Monetization & Ad Manager ---------------- */
+
+adminRouter.get(
+  '/settings/monetization',
+  asyncHandler(async (req, res) => {
+    const stored = await readSetting('monetization_config', {
+      adsensePubId: '',
+      autoAdsEnabled: false,
+      topBannerEnabled: false,
+      sidebarBannerEnabled: false,
+      inContentAdEnabled: false,
+      adBlockNoticeEnabled: false,
+      headerScripts: '',
+      customSponsorHtml: '',
+      sponsorName: '',
+      sponsorLink: '',
+    });
+    ok(req, res, stored);
+  }),
+);
+
+adminRouter.put(
+  '/settings/monetization',
+  requireRole('super_admin'),
+  asyncHandler(async (req, res) => {
+    const value = {
+      adsensePubId: String(req.body?.adsensePubId ?? '')
+        .trim()
+        .slice(0, 100),
+      autoAdsEnabled: Boolean(req.body?.autoAdsEnabled),
+      topBannerEnabled: Boolean(req.body?.topBannerEnabled),
+      sidebarBannerEnabled: Boolean(req.body?.sidebarBannerEnabled),
+      inContentAdEnabled: Boolean(req.body?.inContentAdEnabled),
+      adBlockNoticeEnabled: Boolean(req.body?.adBlockNoticeEnabled),
+      headerScripts: String(req.body?.headerScripts ?? '')
+        .trim()
+        .slice(0, 4000),
+      customSponsorHtml: String(req.body?.customSponsorHtml ?? '')
+        .trim()
+        .slice(0, 4000),
+      sponsorName: String(req.body?.sponsorName ?? '')
+        .trim()
+        .slice(0, 100),
+      sponsorLink: String(req.body?.sponsorLink ?? '')
+        .trim()
+        .slice(0, 500),
+    };
+
+    await writeSetting('monetization_config', value, req.admin.username);
+    await recordAudit({
+      username: req.admin.username,
+      action: 'setting_changed',
+      detail: `monetization_config updated: pubId=${value.adsensePubId}`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    ok(req, res, { value, message: 'Monetization & Ad settings saved successfully.' });
+  }),
+);
+
+/* ---------------- Super Admin: User & Role Management ---------------- */
+
+adminRouter.get(
+  '/users/list',
+  asyncHandler(async (req, res) => {
+    const { limit, page, offset } = paging(req, 20);
+    const search = String(req.query.search ?? '').trim();
+    const roleFilter = String(req.query.role ?? '').trim();
+    const statusFilter = req.query.status;
+
+    const where = ['1 = 1'];
+    const params = [];
+
+    if (search) {
+      where.push('(username ILIKE ? OR email ILIKE ? OR full_name ILIKE ?)');
+      const like = `%${search}%`;
+      params.push(like, like, like);
+    }
+
+    if (roleFilter && roleFilter !== 'all') {
+      where.push('role = ?');
+      params.push(roleFilter);
+    }
+
+    if (statusFilter !== undefined && statusFilter !== 'all') {
+      where.push('is_active = ?');
+      params.push(statusFilter === 'true');
+    }
+
+    const clause = where.join(' AND ');
+
+    const rows = await query(
+      `SELECT id, username, email, full_name, role, is_active, last_login_at, created_at, updated_at
+       FROM users
+       WHERE ${clause}
+       ORDER BY created_at DESC
+       LIMIT ? OFFSET ?`,
+      [...params, String(limit), String(offset)],
+    );
+
+    const count = await queryOne(`SELECT COUNT(*) AS total FROM users WHERE ${clause}`, params);
+    const total = Number(count?.total ?? 0);
+
+    ok(req, res, {
+      items: rows,
+      pagination: { page, limit, total, pages: Math.max(Math.ceil(total / limit), 1) },
+    });
+  }),
+);
+
+adminRouter.patch(
+  '/users/:id/role',
+  requireRole('super_admin'),
+  asyncHandler(async (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) throw ApiError.badRequest('INVALID_ID', 'Invalid user ID.');
+
+    const newRole = String(req.body?.role ?? '').trim();
+    if (!['user', 'admin', 'super_admin'].includes(newRole)) {
+      throw ApiError.badRequest('INVALID_ROLE', 'Role must be user, admin, or super_admin.');
+    }
+
+    // Safety guard: prevent demoting oneself if you are the logged in super_admin
+    if (req.admin.id === id && newRole !== 'super_admin') {
+      throw new ApiError(
+        400,
+        'CANNOT_DEMOTE_SELF',
+        'You cannot demote your own Super Admin account.',
+      );
+    }
+
+    const targetUser = await queryOne('SELECT id, username, role FROM users WHERE id = ?', [id]);
+    if (!targetUser) throw new ApiError(404, 'USER_NOT_FOUND', 'User not found.');
+
+    await query('UPDATE users SET role = ?, updated_at = NOW() WHERE id = ?', [newRole, id]);
+
+    await recordAudit({
+      username: req.admin.username,
+      action: 'user_role_changed',
+      detail: `User "${targetUser.username}" (ID ${id}) role changed from ${targetUser.role} to ${newRole}`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    const updated = await queryOne(
+      'SELECT id, username, email, full_name, role, is_active FROM users WHERE id = ?',
+      [id],
+    );
+    ok(req, res, { user: updated });
+  }),
+);
+
+adminRouter.patch(
+  '/users/:id/status',
+  requireRole('super_admin'),
+  asyncHandler(async (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) throw ApiError.badRequest('INVALID_ID', 'Invalid user ID.');
+
+    const isActive = Boolean(req.body?.isActive);
+
+    // Safety guard: prevent banning oneself
+    if (req.admin.id === id && !isActive) {
+      throw new ApiError(400, 'CANNOT_BAN_SELF', 'You cannot deactivate your own account.');
+    }
+
+    const targetUser = await queryOne('SELECT id, username, is_active FROM users WHERE id = ?', [
+      id,
+    ]);
+    if (!targetUser) throw new ApiError(404, 'USER_NOT_FOUND', 'User not found.');
+
+    await query('UPDATE users SET is_active = ?, updated_at = NOW() WHERE id = ?', [isActive, id]);
+
+    await recordAudit({
+      username: req.admin.username,
+      action: isActive ? 'user_unbanned' : 'user_banned',
+      detail: `User "${targetUser.username}" (ID ${id}) active status set to ${isActive}`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    const updated = await queryOne(
+      'SELECT id, username, email, full_name, role, is_active FROM users WHERE id = ?',
+      [id],
+    );
+    ok(req, res, { user: updated });
+  }),
+);
+
+adminRouter.delete(
+  '/users/:id',
+  requireRole('super_admin'),
+  asyncHandler(async (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) throw ApiError.badRequest('INVALID_ID', 'Invalid user ID.');
+
+    if (req.admin.id === id) {
+      throw new ApiError(400, 'CANNOT_DELETE_SELF', 'You cannot delete your own account.');
+    }
+
+    const targetUser = await queryOne('SELECT id, username FROM users WHERE id = ?', [id]);
+    if (!targetUser) throw new ApiError(404, 'USER_NOT_FOUND', 'User not found.');
+
+    await query('DELETE FROM users WHERE id = ?', [id]);
+
+    await recordAudit({
+      username: req.admin.username,
+      action: 'user_deleted',
+      detail: `User "${targetUser.username}" (ID ${id}) deleted`,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    ok(req, res, { deleted: true, id });
   }),
 );
 

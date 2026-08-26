@@ -34,6 +34,10 @@ const GUARDED_ROUTES = [
   ['put', '/api/admin/settings/notice'],
   ['get', '/api/admin/security/admin-access'],
   ['post', '/api/admin/security/password'],
+  ['get', '/api/admin/overview/stats'],
+  ['get', '/api/admin/tools/list'],
+  ['get', '/api/admin/settings/monetization'],
+  ['get', '/api/admin/users/list'],
 ];
 
 describe('admin API — database unavailable', () => {

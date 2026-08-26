@@ -8,14 +8,21 @@
 
 import type {
   AdminAccessResponse,
+  AdminToolItem,
+  AdminToolPatch,
+  AdminToolsResponse,
+  AdminUserItem,
+  AdminUsersResponse,
   ConversionLog,
   GlobalNotice,
   LimitsConfig,
   LoginResponse,
+  MonetizationConfig,
   OnlineNowResponse,
   Paged,
   SessionDetail,
   SystemErrorsResponse,
+  SystemStats,
   TimeRange,
   TimeRangeStats,
 } from '../types/admin';
@@ -388,4 +395,99 @@ export const reorderCategories = (level: 'category' | 'subcategory', order: Reor
     method: 'POST',
     body: { level, order },
     base: '/api/categories',
+  });
+
+/* ---------------- Super Admin Overview ---------------- */
+
+export const getSystemStats = (signal?: AbortSignal) =>
+  request<SystemStats>('/overview/stats', { signal });
+
+/* ---------------- Super Admin Master Tools Manager ---------------- */
+
+export const getAdminToolsList = (
+  params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    module?: string;
+    status?: string;
+    featured?: boolean | string;
+  },
+  signal?: AbortSignal,
+) => {
+  const q = new URLSearchParams();
+  if (params.page) q.set('page', String(params.page));
+  if (params.limit) q.set('limit', String(params.limit));
+  if (params.search) q.set('search', params.search);
+  if (params.module && params.module !== 'all') q.set('module', params.module);
+  if (params.status && params.status !== 'all') q.set('status', params.status);
+  if (params.featured !== undefined && params.featured !== 'all') {
+    q.set('featured', String(params.featured));
+  }
+  return request<AdminToolsResponse>(`/tools/list?${q}`, { signal });
+};
+
+export const updateAdminTool = (slug: string, patch: AdminToolPatch) =>
+  request<{ tool: AdminToolItem }>(`/tools/${encodeURIComponent(slug)}`, {
+    method: 'PATCH',
+    body: patch,
+  });
+
+export const syncAdminTools = () =>
+  request<{ result: { inserted: number; updated: number; total: number }; message: string }>(
+    '/tools/sync',
+    {
+      method: 'POST',
+    },
+  );
+
+/* ---------------- Super Admin Monetization & Ads ---------------- */
+
+export const getMonetizationSettings = (signal?: AbortSignal) =>
+  request<MonetizationConfig>('/settings/monetization', { signal });
+
+export const updateMonetizationSettings = (value: MonetizationConfig['value']) =>
+  request<{ value: MonetizationConfig['value']; message: string }>('/settings/monetization', {
+    method: 'PUT',
+    body: value,
+  });
+
+/* ---------------- Super Admin User & Role Management ---------------- */
+
+export const getAdminUsersList = (
+  params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    role?: string;
+    status?: boolean | string;
+  },
+  signal?: AbortSignal,
+) => {
+  const q = new URLSearchParams();
+  if (params.page) q.set('page', String(params.page));
+  if (params.limit) q.set('limit', String(params.limit));
+  if (params.search) q.set('search', params.search);
+  if (params.role && params.role !== 'all') q.set('role', params.role);
+  if (params.status !== undefined && params.status !== 'all') {
+    q.set('status', String(params.status));
+  }
+  return request<AdminUsersResponse>(`/users/list?${q}`, { signal });
+};
+
+export const updateUserRole = (id: number, role: 'user' | 'admin' | 'super_admin') =>
+  request<{ user: AdminUserItem }>(`/users/${id}/role`, {
+    method: 'PATCH',
+    body: { role },
+  });
+
+export const updateUserStatus = (id: number, isActive: boolean) =>
+  request<{ user: AdminUserItem }>(`/users/${id}/status`, {
+    method: 'PATCH',
+    body: { isActive },
+  });
+
+export const deleteUser = (id: number) =>
+  request<{ deleted: boolean; id: number }>(`/users/${id}`, {
+    method: 'DELETE',
   });

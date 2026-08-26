@@ -3,27 +3,32 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom
 
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { WidgetLayout } from './components/widgets/WidgetLayout';
 import { LocaleProvider } from './i18n/LocaleContext';
 import { AdminAuthProvider } from './pages/AdminDashboard/AdminAuthContext';
-import { ForgotPasswordPage } from './pages/Auth/ForgotPasswordPage';
-import { LoginPage } from './pages/Auth/LoginPage';
-import { RegisterPage } from './pages/Auth/RegisterPage';
-import { ResetPasswordPage } from './pages/Auth/ResetPasswordPage';
-import { UserDashboard } from './pages/Dashboard/UserDashboard';
-import { RequireUser } from './pages/Auth/RequireUser';
 import { AdminLayout } from './pages/AdminDashboard/AdminLayout';
-import { RequireAdmin } from './pages/AdminDashboard/RequireAdmin';
+import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
 import { ConversionHistory } from './pages/AdminDashboard/Logs/ConversionHistory';
 import { SystemErrors } from './pages/AdminDashboard/Logs/SystemErrors';
+import { AdMonetizationManager } from './pages/AdminDashboard/Monetization/AdMonetizationManager';
+import { SystemOverview } from './pages/AdminDashboard/Overview/SystemOverview';
+import { RequireAdmin } from './pages/AdminDashboard/RequireAdmin';
 import { AdminAccess } from './pages/AdminDashboard/Security/AdminAccess';
 import { GlobalNotice } from './pages/AdminDashboard/Settings/GlobalNotice';
 import { HeaderFooterManager } from './pages/AdminDashboard/Settings/HeaderFooterManager';
 import { LimitsConfig } from './pages/AdminDashboard/Settings/LimitsConfig';
 import { WidgetCustomizer } from './pages/AdminDashboard/Settings/WidgetCustomizer';
+import { MasterToolsManager } from './pages/AdminDashboard/Tools/MasterToolsManager';
 import { TimeRangeStats } from './pages/AdminDashboard/Userinfo/TimeRangeStats';
 import { UserOnlineNow } from './pages/AdminDashboard/Userinfo/UserOnlineNow';
-import { WidgetLayout } from './components/widgets/WidgetLayout';
-import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
+import { UserRoleManager } from './pages/AdminDashboard/Users/UserRoleManager';
+import { ForgotPasswordPage } from './pages/Auth/ForgotPasswordPage';
+import { LoginPage } from './pages/Auth/LoginPage';
+import { RegisterPage } from './pages/Auth/RegisterPage';
+import { RequireUser } from './pages/Auth/RequireUser';
+import { ResetPasswordPage } from './pages/Auth/ResetPasswordPage';
+import { UserDashboard } from './pages/Dashboard/UserDashboard';
+import { Home } from './pages/Home';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -130,21 +135,24 @@ function ToolLoadingFallback() {
   );
 }
 
-/** The public transcription app. */
-function PublicApp() {
+/** The public homepage shell */
+function PublicHome() {
   return (
-    <div className="relative flex min-h-screen flex-col">
-      {/* Decorative background — pointer-events-none so it never blocks the UI. */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-500/15 blur-[120px]" />
-        <div className="absolute -bottom-52 right-0 h-[420px] w-[620px] rounded-full bg-accent-500/10 blur-[120px]" />
-      </div>
+    <div className="relative flex min-h-screen flex-col bg-slate-950">
+      <Header />
+      <Home />
+      <Footer />
+    </div>
+  );
+}
 
-      <div className="relative flex min-h-screen flex-col">
-        <Header />
-        <WidgetLayout />
-        <Footer />
-      </div>
+/** Dedicated transcriber view */
+function TranscriberView() {
+  return (
+    <div className="relative flex min-h-screen flex-col bg-slate-950">
+      <Header />
+      <WidgetLayout />
+      <Footer />
     </div>
   );
 }
@@ -154,7 +162,7 @@ function PublicApp() {
  */
 function PublicShell() {
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col bg-slate-950">
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-500/15 blur-[120px]" />
         <div className="absolute -bottom-52 right-0 h-[420px] w-[620px] rounded-full bg-accent-500/10 blur-[120px]" />
@@ -174,11 +182,22 @@ export default function App() {
     <BrowserRouter>
       <AdminAuthProvider>
         <Routes>
+          {/* Main Professional Homepage */}
           <Route
             path="/"
             element={
               <LocaleProvider>
-                <PublicApp />
+                <PublicHome />
+              </LocaleProvider>
+            }
+          />
+
+          {/* Dedicated Instant Transcriber page */}
+          <Route
+            path="/transcribe"
+            element={
+              <LocaleProvider>
+                <TranscriberView />
               </LocaleProvider>
             }
           />
@@ -386,7 +405,7 @@ export default function App() {
             />
           </Route>
 
-          {/* Admin area */}
+          {/* Super Admin area */}
           <Route
             path="/AdminDashboard"
             element={
@@ -395,7 +414,12 @@ export default function App() {
               </RequireAdmin>
             }
           >
-            <Route index element={<Navigate to="Userinfo/UserOnlineNow" replace />} />
+            <Route index element={<Navigate to="Overview" replace />} />
+            <Route path="Overview" element={<SystemOverview />} />
+            <Route path="Tools/MasterManager" element={<MasterToolsManager />} />
+            <Route path="Monetization/AdManager" element={<AdMonetizationManager />} />
+            <Route path="Users/RoleManager" element={<UserRoleManager />} />
+            <Route path="CMS/Categories" element={<CategoriesManager />} />
             <Route path="Userinfo/UserOnlineNow" element={<UserOnlineNow />} />
             <Route path="Userinfo/TimeRangeStats" element={<TimeRangeStats />} />
             <Route path="Logs/ConversionHistory" element={<ConversionHistory />} />
@@ -404,9 +428,15 @@ export default function App() {
             <Route path="Settings/GlobalNotice" element={<GlobalNotice />} />
             <Route path="Settings/HeaderFooterManager" element={<HeaderFooterManager />} />
             <Route path="Settings/WidgetCustomizer" element={<WidgetCustomizer />} />
-            <Route path="CMS/Categories" element={<CategoriesManager />} />
             <Route path="Security/AdminAccess" element={<AdminAccess />} />
           </Route>
+
+          {/* Aliases for Admin navigation */}
+          <Route path="/admin" element={<Navigate to="/AdminDashboard" replace />} />
+          <Route
+            path="/admin/dashboard"
+            element={<Navigate to="/AdminDashboard/Overview" replace />}
+          />
 
           {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -38,6 +38,7 @@ describe('CommandPalette Component', () => {
 
   beforeEach(() => {
     vi.spyOn(toolsApi, 'getToolsRegistry').mockResolvedValue({
+      modules: [],
       total: 2,
       tools: mockTools as any,
     });

@@ -1,9 +1,8 @@
 /**
  * Types for the admin dashboard API.
  *
- * Field names are snake_case where they come straight from a MySQL row, and
- * camelCase where the server composes the object. Keeping that distinction
- * visible avoids a translation layer that would only hide where data is from.
+ * Field names are snake_case where they come straight from a DB row, and
+ * camelCase where the server composes the object.
  */
 
 /** Roles are stored on the single `users` table; staff are admin/super_admin. */
@@ -29,6 +28,117 @@ export type LoginResponse = {
   expiresInSeconds: number;
   tokenType: string;
 };
+
+/* ---------------- Super Admin Overview & Telemetry ---------------- */
+
+export type SystemStats = {
+  users: {
+    total: number;
+    superAdmins: number;
+    admins: number;
+    regularUsers: number;
+    active: number;
+  };
+  tools: {
+    total: number;
+    published: number;
+    featured: number;
+    premium: number;
+    totalExecutions: number;
+  };
+  todayActivity: {
+    executions: number;
+    successes: number;
+    failures: number;
+    characters: number;
+  };
+  system: {
+    nodeVersion: string;
+    platform: string;
+    arch: string;
+    uptimeSeconds: number;
+    memory: {
+      rssMb: number;
+      heapUsedMb: number;
+      heapTotalMb: number;
+    };
+    environment: string;
+    asrModel: string;
+    database: {
+      engine: string;
+      status: string;
+    };
+  };
+};
+
+/* ---------------- Super Admin Master Tools Manager ---------------- */
+
+export type AdminToolItem = {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string | null;
+  description: string | null;
+  route: string | null;
+  icon: string | null;
+  tags: string[];
+  status: 'draft' | 'published' | 'archived';
+  isFeatured: boolean;
+  isPremium: boolean;
+  usageCount: number;
+  sortOrder: number;
+  module: string;
+  categorySlug: string;
+  categoryName: string;
+  metadata?: Record<string, any>;
+};
+
+export type AdminToolsResponse = Paged<AdminToolItem>;
+
+export type AdminToolPatch = {
+  status?: 'draft' | 'published' | 'archived';
+  isFeatured?: boolean;
+  isPremium?: boolean;
+  name?: string;
+  tagline?: string;
+  description?: string;
+  tags?: string[];
+};
+
+/* ---------------- Super Admin Monetization & Ad Manager ---------------- */
+
+export type MonetizationConfig = {
+  value: {
+    adsensePubId: string;
+    autoAdsEnabled: boolean;
+    topBannerEnabled: boolean;
+    sidebarBannerEnabled: boolean;
+    inContentAdEnabled: boolean;
+    adBlockNoticeEnabled: boolean;
+    headerScripts: string;
+    customSponsorHtml: string;
+    sponsorName: string;
+    sponsorLink: string;
+  };
+  updatedAt: string | null;
+  updatedBy: string | null;
+};
+
+/* ---------------- Super Admin User & Role Management ---------------- */
+
+export type AdminUserItem = {
+  id: number;
+  username: string;
+  email: string | null;
+  full_name: string | null;
+  role: AdminRole;
+  is_active: boolean;
+  last_login_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminUsersResponse = Paged<AdminUserItem>;
 
 /* ---------------- Userinfo ---------------- */
 

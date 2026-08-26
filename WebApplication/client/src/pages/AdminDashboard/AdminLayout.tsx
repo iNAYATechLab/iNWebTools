@@ -5,45 +5,50 @@ import { useAdminAuth } from '../../hooks/useAdminAuth';
 
 /**
  * Chrome for every /AdminDashboard route: sidebar, top bar and sign-out.
- *
- * The sidebar is a fixed drawer on phones and a static column from lg up, so
- * the same markup serves both without duplicating the nav.
  */
 
-type NavItem = { to: string; label: string };
+type NavItem = { to: string; label: string; badge?: string };
 type NavGroup = { heading: string; items: NavItem[] };
 
 const NAV: NavGroup[] = [
   {
-    heading: 'Userinfo',
+    heading: 'Core Operations',
     items: [
-      { to: '/AdminDashboard/Userinfo/UserOnlineNow', label: 'User Online Now' },
-      { to: '/AdminDashboard/Userinfo/TimeRangeStats', label: 'Time Range Stats' },
+      { to: '/AdminDashboard/Overview', label: '📊 System Overview' },
+      { to: '/AdminDashboard/Tools/MasterManager', label: '🛠️ Master Tools Manager' },
     ],
   },
   {
-    heading: 'Logs',
+    heading: 'Content & Monetization',
     items: [
-      { to: '/AdminDashboard/Logs/ConversionHistory', label: 'Conversion History' },
-      { to: '/AdminDashboard/Logs/SystemErrors', label: 'System Errors' },
+      { to: '/AdminDashboard/CMS/Categories', label: '📂 Category CMS' },
+      { to: '/AdminDashboard/Monetization/AdManager', label: '💰 AdSense & Ads' },
+      { to: '/AdminDashboard/Settings/HeaderFooterManager', label: '🎨 Header & Footer' },
+      { to: '/AdminDashboard/Settings/WidgetCustomizer', label: '🧩 Widget Customizer' },
     ],
   },
   {
-    heading: 'Settings',
+    heading: 'Governance & RBAC',
     items: [
-      { to: '/AdminDashboard/Settings/LimitsConfig', label: 'Limits Config' },
-      { to: '/AdminDashboard/Settings/GlobalNotice', label: 'Global Notice' },
-      { to: '/AdminDashboard/Settings/HeaderFooterManager', label: 'Header & Footer CMS' },
-      { to: '/AdminDashboard/Settings/WidgetCustomizer', label: 'Widget Customizer' },
+      { to: '/AdminDashboard/Users/RoleManager', label: '👥 Users & Roles' },
+      { to: '/AdminDashboard/Security/AdminAccess', label: '🔒 Security & Access' },
     ],
   },
   {
-    heading: 'CMS',
-    items: [{ to: '/AdminDashboard/CMS/Categories', label: 'Category Manager' }],
+    heading: 'Telemetry & Logs',
+    items: [
+      { to: '/AdminDashboard/Userinfo/UserOnlineNow', label: '🟢 Live Visitors' },
+      { to: '/AdminDashboard/Userinfo/TimeRangeStats', label: '📈 Analytics & Stats' },
+      { to: '/AdminDashboard/Logs/ConversionHistory', label: '📜 Execution Logs' },
+      { to: '/AdminDashboard/Logs/SystemErrors', label: '⚠️ System Errors' },
+    ],
   },
   {
-    heading: 'Security',
-    items: [{ to: '/AdminDashboard/Security/AdminAccess', label: 'Admin Access' }],
+    heading: 'Platform Config',
+    items: [
+      { to: '/AdminDashboard/Settings/LimitsConfig', label: '⚙️ Upload Limits' },
+      { to: '/AdminDashboard/Settings/GlobalNotice', label: '📢 Global Notice' },
+    ],
   },
 ];
 
@@ -54,7 +59,7 @@ export function AdminLayout() {
 
   const currentLabel =
     NAV.flatMap((g) => g.items).find((i) => location.pathname.startsWith(i.to))?.label ??
-    'Overview';
+    'Super Admin Dashboard';
 
   const nav = (
     <nav className="space-y-6" aria-label="Admin sections">
@@ -70,9 +75,9 @@ export function AdminLayout() {
                   to={item.to}
                   onClick={() => setDrawerOpen(false)}
                   className={({ isActive }) =>
-                    `block rounded-lg px-3 py-2 text-sm transition-colors ${
+                    `block rounded-xl px-3 py-2 text-xs sm:text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-brand-500/15 font-medium text-white'
+                        ? 'bg-brand-500/20 font-semibold text-brand-300 border border-brand-400/30'
                         : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'
                     }`
                   }
@@ -100,14 +105,16 @@ export function AdminLayout() {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 transform border-r border-white/10 bg-slate-950 p-4 transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 transform border-r border-white/10 bg-slate-950 p-4 transition-transform duration-200 overflow-y-auto lg:translate-x-0 ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="mb-6 flex items-center justify-between px-3">
           <div>
-            <p className="text-sm font-semibold text-white">iNWebTools</p>
-            <p className="text-[11px] text-slate-500">Admin Dashboard</p>
+            <p className="text-base font-extrabold text-white flex items-center gap-1.5">
+              <span className="text-brand-400">⚡</span> iNWebTools
+            </p>
+            <p className="text-[11px] text-slate-500 font-mono">Super Admin Hub</p>
           </div>
           <button
             type="button"
@@ -123,12 +130,12 @@ export function AdminLayout() {
 
         {nav}
 
-        <div className="absolute inset-x-4 bottom-4 border-t border-white/10 pt-3">
+        <div className="mt-8 border-t border-white/10 pt-3">
           <a
             href="/"
-            className="block rounded-lg px-3 py-2 text-xs text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-300"
+            className="block rounded-lg px-3 py-2 text-xs text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
           >
-            ← Back to the app
+            ← Back to Public Website
           </a>
         </div>
       </aside>
@@ -150,26 +157,26 @@ export function AdminLayout() {
             </svg>
           </button>
 
-          <p className="flex-1 truncate text-sm font-medium text-slate-300">{currentLabel}</p>
+          <p className="flex-1 truncate text-sm font-semibold text-slate-200">{currentLabel}</p>
 
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-slate-500 sm:inline">
-              {user?.username}
-              <span className="ml-1.5 rounded border border-white/15 px-1.5 py-0.5 text-[10px] uppercase text-slate-400">
+            <span className="hidden text-xs text-slate-400 sm:inline flex items-center gap-1.5">
+              <span>{user?.fullName || user?.username}</span>
+              <span className="rounded-full bg-purple-500/15 border border-purple-400/30 px-2 py-0.5 text-[10px] font-bold uppercase text-purple-300">
                 {user?.role}
               </span>
             </span>
             <button
               type="button"
               onClick={() => void signOut()}
-              className="rounded-lg border border-white/15 px-2.5 py-1 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5"
+              className="rounded-xl border border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
             >
               Sign out
             </button>
           </div>
         </header>
 
-        <main className="mx-auto max-w-7xl p-4 sm:p-6">
+        <main className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>
