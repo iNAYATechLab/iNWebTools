@@ -17,6 +17,7 @@ import { CategorySidebar } from '../../components/categories/CategorySidebar';
 import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToolView';
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
+import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
 import { useCategories } from '../../hooks/useCategories';
 import { getToolsRegistry } from '../../services/toolsApi';
 import { categoryPath, subcategoryPath } from '../../types/categories';
@@ -97,6 +98,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-colors"
           >
             💻 Developer & Code Engine →
+          </Link>
+          <Link
+            to="/tools/security-network"
+            className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/20 transition-colors"
+          >
+            🛡️ Security & Network Engine →
           </Link>
         </div>
       </header>
@@ -306,6 +313,27 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const SECURITY_SLUGS = [
+  'hash-generator-suite',
+  'aes-encrypt-decrypt',
+  'password-generator',
+  'password-strength-checker',
+  'rsa-key-generator',
+  'ecdsa-ed25519-generator',
+  'uuid-generator',
+  'jwt-decoder-debugger',
+  'hmac-generator',
+  'pbkdf2-hasher',
+  'text-encrypter-decrypter',
+  'subnet-calculator',
+  'user-agent-parser',
+  'ip-geolocation-lookup',
+  'dns-lookup-records',
+  'http-headers-status-checker',
+  'ssl-certificate-inspector',
+  'csp-security-headers-generator',
+];
+
 const DEVELOPER_SLUGS = [
   'curl-to-code',
   'json-to-types',
@@ -342,6 +370,14 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isSecurity =
+    categorySlug === 'seo-network-security-tools' ||
+    (toolSlug && SECURITY_SLUGS.includes(toolSlug));
+
+  if (isSecurity) {
+    return <SecurityNetworkToolView slugOverride={toolSlug} />;
+  }
 
   const isDeveloper =
     categorySlug === 'developer-code-utilities' || (toolSlug && DEVELOPER_SLUGS.includes(toolSlug));

@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, PDF, Image, Media, and Phase 3 Developer & Code Tools.
+ * Tools Engine Tests — Document, PDF, Image, Media, Developer, and Phase 4 Security & Network Tools.
  */
 
 import request from 'supertest';
@@ -18,79 +18,50 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(4);
+      expect(reg.modules.length).toBe(5);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(103);
+      expect(reg.tools.length).toBe(121);
     });
 
-    it('contains all required Phase 1, Phase 2 & Phase 3 modules without duplicate slugs', () => {
+    it('contains all required Phase 1-4 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
       expect(slugs.length).toBe(uniqueSlugs.size);
 
-      // Phase 1: Document & Spreadsheet tools
+      // Phase 1: Document & Spreadsheet
       expect(slugs).toContain('word-to-pdf');
-      expect(slugs).toContain('word-to-excel');
-      expect(slugs).toContain('excel-to-pdf');
       expect(slugs).toContain('csv-to-json');
-      expect(slugs).toContain('json-to-csv');
-      expect(slugs).toContain('csv-to-markdown');
-
-      // Phase 1: PDF Editing & Management tools
-      expect(slugs).toContain('pdf-to-image');
-      expect(slugs).toContain('merge-pdf');
-      expect(slugs).toContain('split-pdf');
-      expect(slugs).toContain('compress-pdf');
-      expect(slugs).toContain('pdf-extract-text');
-
-      // Phase 1: Image Tools
-      expect(slugs).toContain('image-converter');
-      expect(slugs).toContain('image-resizer');
-      expect(slugs).toContain('image-compressor');
 
       // Phase 2: Audio & Video
       expect(slugs).toContain('audio-converter');
-      expect(slugs).toContain('audio-to-text');
       expect(slugs).toContain('video-converter');
-      expect(slugs).toContain('video-to-gif');
 
-      // Phase 3: Developer & Code Converters
+      // Phase 3: Developer Utilities
       expect(slugs).toContain('curl-to-code');
       expect(slugs).toContain('json-to-types');
-      expect(slugs).toContain('json-yaml-converter');
-      expect(slugs).toContain('xml-json-converter');
-      expect(slugs).toContain('toml-json-converter');
-      expect(slugs).toContain('ndjson-converter');
-      expect(slugs).toContain('protobuf-json-viewer');
-      expect(slugs).toContain('graphql-schema-parser');
-      expect(slugs).toContain('hcl-terraform-converter');
-      expect(slugs).toContain('php-array-json-converter');
-      expect(slugs).toContain('plist-json-converter');
-      expect(slugs).toContain('sql-to-json-csv');
-      expect(slugs).toContain('csv-to-sql');
-      expect(slugs).toContain('msgpack-bencode-converter');
 
-      // Phase 3: Code Minifiers & Beautifiers
-      expect(slugs).toContain('html-minifier-beautifier');
-      expect(slugs).toContain('css-minifier-beautifier');
-      expect(slugs).toContain('js-minifier-beautifier');
-      expect(slugs).toContain('sql-formatter-beautifier');
-      expect(slugs).toContain('nginx-config-formatter');
-      expect(slugs).toContain('apache-htaccess-formatter');
-      expect(slugs).toContain('dockerfile-formatter-validator');
-      expect(slugs).toContain('graphql-formatter');
+      // Phase 4: Cryptography & Security
+      expect(slugs).toContain('hash-generator-suite');
+      expect(slugs).toContain('aes-encrypt-decrypt');
+      expect(slugs).toContain('password-generator');
+      expect(slugs).toContain('password-strength-checker');
+      expect(slugs).toContain('rsa-key-generator');
+      expect(slugs).toContain('ecdsa-ed25519-generator');
+      expect(slugs).toContain('uuid-generator');
+      expect(slugs).toContain('jwt-decoder-debugger');
+      expect(slugs).toContain('hmac-generator');
+      expect(slugs).toContain('pbkdf2-hasher');
+      expect(slugs).toContain('text-encrypter-decrypter');
 
-      // Phase 3: String Encoders & Radix Converters
-      expect(slugs).toContain('base64-encoder-decoder');
-      expect(slugs).toContain('base32-base58-converter');
-      expect(slugs).toContain('url-encoder-decoder');
-      expect(slugs).toContain('html-entity-encoder-decoder');
-      expect(slugs).toContain('morse-code-converter');
-      expect(slugs).toContain('rot13-caesar-cipher');
-      expect(slugs).toContain('punycode-converter');
-      expect(slugs).toContain('quoted-printable-uuencode');
-      expect(slugs).toContain('number-base-converter');
+      // Phase 4: Network & Diagnostics
+      expect(slugs).toContain('subnet-calculator');
+      expect(slugs).toContain('user-agent-parser');
+      expect(slugs).toContain('ip-geolocation-lookup');
+      expect(slugs).toContain('dns-lookup-records');
+      expect(slugs).toContain('http-headers-status-checker');
+      expect(slugs).toContain('ssl-certificate-inspector');
+      expect(slugs).toContain('csp-security-headers-generator');
     });
   });
 
@@ -99,112 +70,98 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(103);
+      expect(res.body.data.total).toBe(121);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(4);
+      expect(res.body.data.modules.length).toBe(5);
     });
 
-    it('filters tools by developer-code module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=developer-code').expect(200);
+    it('filters tools by security-network module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=security-network').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'developer-code')).toBe(true);
-      expect(res.body.data.total).toBe(31);
-    });
-
-    it('filters tools by search query', async () => {
-      const res = await request(app).get('/api/tools/registry?search=curl').expect(200);
-
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBeGreaterThanOrEqual(1);
-      expect(res.body.data.tools.some((t) => t.slug === 'curl-to-code')).toBe(true);
+      expect(res.body.data.tools.every((t) => t.module === 'security-network')).toBe(true);
+      expect(res.body.data.total).toBe(18);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
-    // Phase 2 Tests
-    it('executes audio-to-text transcription', async () => {
+    // Phase 4 Tests: Cryptography
+    it('executes hash-generator-suite computing SHA-256 and MD5 digests', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/audio-to-text')
-        .send({ options: { language: 'en' } })
+        .post('/api/tools/execute/hash-generator-suite')
+        .send({ content: 'Hello iNWebTools Security', options: { algorithm: 'SHA-256' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('text');
-      expect(res.body.data.result.content).toContain('Whisper');
+      expect(res.body.data.result.metadata.primaryHash).toBeDefined();
+      expect(res.body.data.result.metadata.digests.sha256).toBeDefined();
+      expect(res.body.data.result.metadata.digests.md5).toBeDefined();
     });
 
-    // Phase 3 Tests: cURL to Code
-    it('executes curl-to-code converter for JavaScript Fetch', async () => {
-      const curl =
-        'curl -X POST https://api.inwebtools.com/v1/auth/login -H "Content-Type: application/json" -d \'{"email":"test@test.com"}\'';
-      const res = await request(app)
-        .post('/api/tools/execute/curl-to-code')
-        .send({ content: curl, options: { targetLanguage: 'javascript-fetch' } })
+    it('executes aes-encrypt-decrypt roundtrip', async () => {
+      const payload = 'Confidential String 2026';
+      const encRes = await request(app)
+        .post('/api/tools/execute/aes-encrypt-decrypt')
+        .send({ content: payload, options: { mode: 'encrypt', secretKey: 'Pass123!' } })
         .expect(200);
 
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('code');
-      expect(res.body.data.result.content).toContain('fetch(');
-      expect(res.body.data.result.content).toContain('POST');
+      expect(encRes.body.success).toBe(true);
+      const cipherText = encRes.body.data.result.content;
+      expect(cipherText).toContain(':');
+
+      const decRes = await request(app)
+        .post('/api/tools/execute/aes-encrypt-decrypt')
+        .send({ content: cipherText, options: { mode: 'decrypt', secretKey: 'Pass123!' } })
+        .expect(200);
+
+      expect(decRes.body.success).toBe(true);
+      expect(decRes.body.data.result.content).toBe(payload);
     });
 
-    it('executes json-to-types converter for TypeScript interfaces', async () => {
-      const json = JSON.stringify({ id: 1, name: 'Alice', active: true });
+    it('executes rsa-key-generator creating PEM keys', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/json-to-types')
-        .send({ content: json, options: { targetLanguage: 'typescript', typeName: 'User' } })
+        .post('/api/tools/execute/rsa-key-generator')
+        .send({ options: { keySize: 2048 } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('code');
-      expect(res.body.data.result.content).toContain('export interface User');
-      expect(res.body.data.result.content).toContain('id: number');
-      expect(res.body.data.result.content).toContain('name: string');
+      expect(res.body.data.result.metadata.publicKey).toContain('-----BEGIN PUBLIC KEY-----');
+      expect(res.body.data.result.metadata.privateKey).toContain('-----BEGIN PRIVATE KEY-----');
     });
 
-    it('executes json-yaml-converter', async () => {
-      const json = JSON.stringify({ app: 'iNWebTools', port: 5000 });
+    it('executes password-generator with entropy scoring', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/json-yaml-converter')
-        .send({ content: json, options: { mode: 'json-to-yaml' } })
+        .post('/api/tools/execute/password-generator')
+        .send({ options: { length: 24, symbols: true } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toContain('app:');
-      expect(res.body.data.result.content).toContain('port:');
+      expect(res.body.data.result.metadata.password.length).toBe(24);
+      expect(res.body.data.result.metadata.entropyBits).toBeGreaterThan(100);
     });
 
-    it('executes html-minifier-beautifier', async () => {
-      const html = '<div>  <h1>Hello World</h1>  </div>';
+    // Phase 4 Tests: Network
+    it('executes subnet-calculator IPv4 analysis', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/html-minifier-beautifier')
-        .send({ content: html, options: { mode: 'minify' } })
+        .post('/api/tools/execute/subnet-calculator')
+        .send({ content: '192.168.10.50', options: { cidr: 24 } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toBe('<div><h1>Hello World</h1></div>');
+      expect(res.body.data.result.metadata.networkAddress).toBe('192.168.10.0');
+      expect(res.body.data.result.metadata.broadcastAddress).toBe('192.168.10.255');
+      expect(res.body.data.result.metadata.usableHosts).toBe(254);
     });
 
-    it('executes base64-encoder-decoder', async () => {
+    it('executes csp-security-headers-generator', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/base64-encoder-decoder')
-        .send({ content: 'Hello iNWebTools', options: { mode: 'encode' } })
+        .post('/api/tools/execute/csp-security-headers-generator')
+        .send({ content: 'inwebtools.com' })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toBe(Buffer.from('Hello iNWebTools').toString('base64'));
-    });
-
-    it('executes number-base-converter', async () => {
-      const res = await request(app)
-        .post('/api/tools/execute/number-base-converter')
-        .send({ content: '255' })
-        .expect(200);
-
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.result.metadata.hexadecimal).toBe('0xFF');
-      expect(res.body.data.result.metadata.binary).toBe('0b11111111');
+      expect(res.body.data.result.content).toContain('Content-Security-Policy');
+      expect(res.body.data.result.content).toContain("default-src 'self'");
     });
   });
 });

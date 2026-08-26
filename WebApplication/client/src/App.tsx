@@ -29,6 +29,8 @@ import { MediaExplorer } from './components/tools/Media/MediaExplorer';
 import { MediaToolView } from './components/tools/Media/MediaToolView';
 import { DeveloperExplorer } from './components/tools/Developer/DeveloperExplorer';
 import { DeveloperToolView } from './components/tools/Developer/DeveloperToolView';
+import { SecurityNetworkExplorer } from './components/tools/SecurityNetwork/SecurityNetworkExplorer';
+import { SecurityNetworkToolView } from './components/tools/SecurityNetwork/SecurityNetworkToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -113,6 +115,8 @@ export default function App() {
             <Route path="/tools/audio-video/:toolSlug" element={<MediaToolView />} />
             <Route path="/tools/developer-code" element={<DeveloperExplorer />} />
             <Route path="/tools/developer-code/:toolSlug" element={<DeveloperToolView />} />
+            <Route path="/tools/security-network" element={<SecurityNetworkExplorer />} />
+            <Route path="/tools/security-network/:toolSlug" element={<SecurityNetworkToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

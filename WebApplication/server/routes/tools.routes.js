@@ -1,6 +1,6 @@
 /**
  * Tools Router — exposes registry lookups and tool execution endpoints
- * for Document, Spreadsheet, PDF, Image, Audio, Video, and Developer modules.
+ * for Document, Spreadsheet, PDF, Image, Audio, Video, Developer, and Security/Network modules.
  */
 
 import { Router } from 'express';
@@ -8,6 +8,7 @@ import { Router } from 'express';
 import { executeTool, getRegistry, getTool } from '../controllers/tools/documentImageController.js';
 import { executeMediaTool } from '../controllers/tools/mediaController.js';
 import { executeDeveloperTool } from '../controllers/tools/developerController.js';
+import { executeSecurityNetworkTool } from '../controllers/tools/securityNetworkController.js';
 import { uploadToolFiles } from '../middlewares/toolUpload.js';
 import { getToolBySlug } from '../services/toolsRegistry.service.js';
 
@@ -29,6 +30,9 @@ toolsRouter.post('/execute/:slug', uploadToolFiles, async (req, res, next) => {
     if (tool && tool.module === 'developer-code') {
       return executeDeveloperTool(req, res, next);
     }
+    if (tool && tool.module === 'security-network') {
+      return executeSecurityNetworkTool(req, res, next);
+    }
     return executeTool(req, res, next);
   } catch (err) {
     next(err);
@@ -43,6 +47,9 @@ toolsRouter.post('/process', uploadToolFiles, async (req, res, next) => {
   }
   if (tool && tool.module === 'developer-code') {
     return executeDeveloperTool(req, res, next);
+  }
+  if (tool && tool.module === 'security-network') {
+    return executeSecurityNetworkTool(req, res, next);
   }
   return executeTool(req, res, next);
 });

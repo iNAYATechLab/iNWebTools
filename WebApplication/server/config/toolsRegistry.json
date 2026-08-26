@@ -28,6 +28,13 @@
       "slug": "developer-code",
       "categorySlug": "developer-code-utilities",
       "description": "Comprehensive developer workbench for cURL to code transpilation, JSON to type interfaces, code minifiers, SQL formatters, and cryptographic string encoders."
+    },
+    {
+      "id": "security-network",
+      "name": "Security, Cryptography & Network Diagnostics",
+      "slug": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "description": "Enterprise-grade cryptography, hash generators, password security, RSA/ECDSA key pair generators, IP/subnet calculators, and network diagnostics."
     }
   ],
   "tools": [
@@ -3068,6 +3075,433 @@
           "default": "Decimal (Base 10)"
         }
       ]
+    },
+    {
+      "slug": "hash-generator-suite",
+      "name": "Universal Hash Generator Suite",
+      "tagline": "Compute MD5, SHA-1, SHA-256, SHA-512, SHA-3, Keccak-256, BLAKE2, and CRC32 digests simultaneously.",
+      "description": "Calculate cryptographic hashes and checksums with real-time comparison and HMAC keying.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["hash", "sha256", "sha512", "md5", "keccak", "sha3", "cryptography"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt", ".json"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "algorithm",
+          "label": "Primary Algorithm",
+          "type": "select",
+          "options": ["SHA-256", "SHA-512", "SHA-1", "MD5", "SHA-3", "CRC32"],
+          "default": "SHA-256"
+        },
+        {
+          "id": "hmacKey",
+          "label": "HMAC Secret Key (Optional)",
+          "type": "text",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "slug": "aes-encrypt-decrypt",
+      "name": "AES-256 Symmetric Encrypter & Decrypter",
+      "tagline": "Encrypt and decrypt sensitive text and data using military-grade AES-256-CBC.",
+      "description": "Secure symmetric cipher with automatic 256-bit key derivation and cryptographically random IV.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["aes", "aes256", "encryption", "decryption", "cbc", "cipher"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Mode",
+          "type": "select",
+          "options": ["encrypt", "decrypt"],
+          "default": "encrypt"
+        },
+        {
+          "id": "secretKey",
+          "label": "Encryption Password / Secret Key",
+          "type": "text",
+          "default": "inwebtools-master-key-2026"
+        }
+      ]
+    },
+    {
+      "slug": "password-generator",
+      "name": "Cryptographic Password Generator",
+      "tagline": "Generate high-entropy, cryptographically secure passwords and passphrases.",
+      "description": "Create customizable passwords with uppercase, lowercase, numbers, and symbols backed by OS CSPRNG.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["password", "generator", "csprng", "entropy", "security"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "length",
+          "label": "Password Length",
+          "type": "slider",
+          "min": 8,
+          "max": 64,
+          "step": 1,
+          "default": 20,
+          "unit": "chars"
+        },
+        {
+          "id": "uppercase",
+          "label": "Include Uppercase (A-Z)",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "lowercase",
+          "label": "Include Lowercase (a-z)",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "numbers",
+          "label": "Include Numbers (0-9)",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "symbols",
+          "label": "Include Symbols (!@#$)",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "password-strength-checker",
+      "name": "Password Strength & Entropy Inspector",
+      "tagline": "Audit password complexity, Shannon entropy, and crack-time resilience.",
+      "description": "Analyze password strength, bit-entropy, pattern vulnerabilities, and get hardening recommendations.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["password-checker", "entropy", "strength-meter", "security-audit"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "rsa-key-generator",
+      "name": "RSA Key Pair Generator",
+      "tagline": "Generate 2048-bit and 4096-bit RSA public and private key pairs in PEM format.",
+      "description": "Generate standard PKCS#8 private keys and SPKI public keys for SSH, TLS, and asymmetric encryption.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["rsa", "keypair", "public-key", "private-key", "pem", "ssh", "ssl"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".pem", ".txt"],
+      "defaultOutput": "pem",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "keySize",
+          "label": "RSA Key Size",
+          "type": "select",
+          "options": ["2048", "4096"],
+          "default": "2048"
+        }
+      ]
+    },
+    {
+      "slug": "ecdsa-ed25519-generator",
+      "name": "Ed25519 & ECDSA Key Generator",
+      "tagline": "Generate high-speed, modern Ed25519 and ECDSA (P-256) cryptographic key pairs.",
+      "description": "Modern Edwards-curve and Elliptic-curve key generator for fast signatures and SSH authentication.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["ed25519", "ecdsa", "p256", "elliptic-curve", "ssh-key", "crypto"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".pem", ".txt"],
+      "defaultOutput": "pem",
+      "options": [
+        {
+          "id": "curve",
+          "label": "Curve Type",
+          "type": "select",
+          "options": ["ed25519", "p-256 (prime256v1)"],
+          "default": "ed25519"
+        }
+      ]
+    },
+    {
+      "slug": "uuid-generator",
+      "name": "UUID / GUID Generator",
+      "tagline": "Bulk generate RFC 4122 compliant UUID v4 and v1 identifiers.",
+      "description": "Create cryptographically unique 128-bit Universally Unique Identifiers in bulk.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["uuid", "guid", "rfc4122", "uuidv4", "identifiers"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "count",
+          "label": "Quantity to Generate",
+          "type": "slider",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "default": 5,
+          "unit": "UUIDs"
+        }
+      ]
+    },
+    {
+      "slug": "jwt-decoder-debugger",
+      "name": "JWT Token Decoder & Inspector",
+      "tagline": "Decode and debug JSON Web Tokens (JWT) payload, header, and expiry timestamps.",
+      "description": "Inspect JWT claims, token issuance dates, expiration validity, and signing algorithms.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["jwt", "token-decoder", "jwt-io", "claims", "auth-token"],
+      "inputFormats": [".txt", ".jwt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "hmac-generator",
+      "name": "HMAC Hash & Signature Generator",
+      "tagline": "Generate Hash-based Message Authentication Codes with secret key verification.",
+      "description": "Create HMAC signatures with SHA-256, SHA-512, or MD5 for secure API webhook authentication.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["hmac", "webhook-signature", "sha256-hmac", "api-auth"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "algorithm",
+          "label": "HMAC Algorithm",
+          "type": "select",
+          "options": ["SHA-256", "SHA-512", "MD5"],
+          "default": "SHA-256"
+        },
+        {
+          "id": "secretKey",
+          "label": "Secret Key",
+          "type": "text",
+          "default": "my-secret-webhook-key"
+        }
+      ]
+    },
+    {
+      "slug": "pbkdf2-hasher",
+      "name": "PBKDF2 Key Derivation Hasher",
+      "tagline": "Derive secure cryptographic keys using PBKDF2 with custom iterations and salts.",
+      "description": "NIST-compliant Password-Based Key Derivation Function 2 for password hashing and encryption keys.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["pbkdf2", "key-derivation", "kdf", "salt", "iterations"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".hex"],
+      "defaultOutput": "hex",
+      "options": [
+        {
+          "id": "iterations",
+          "label": "Iterations",
+          "type": "select",
+          "options": ["100000", "250000", "500000"],
+          "default": "100000"
+        },
+        {
+          "id": "salt",
+          "label": "Salt String",
+          "type": "text",
+          "default": "inwebtools_salt"
+        }
+      ]
+    },
+    {
+      "slug": "text-encrypter-decrypter",
+      "name": "Password Text Encrypter & Decrypter",
+      "tagline": "Quickly scramble and secure confidential messages with password protection.",
+      "description": "Lock private notes and messages with AES-256 encryption and unlock with your secret passphrase.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "security-cryptography",
+      "icon": "shield",
+      "tags": ["encrypt-text", "secret-notes", "scramble", "aes"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Operation",
+          "type": "select",
+          "options": ["encrypt", "decrypt"],
+          "default": "encrypt"
+        },
+        {
+          "id": "key",
+          "label": "Passphrase",
+          "type": "text",
+          "default": "SecretPass123"
+        }
+      ]
+    },
+    {
+      "slug": "subnet-calculator",
+      "name": "IPv4 Subnet & CIDR Calculator",
+      "tagline": "Calculate network addresses, broadcast IPs, netmasks, wildcard masks, and usable host ranges.",
+      "description": "Comprehensive IP subnet calculator with CIDR prefix support from /1 to /32 and binary representations.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "network-web-diagnostics",
+      "icon": "globe",
+      "tags": ["subnet", "cidr", "ip-calculator", "netmask", "networking", "ipv4"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "cidr",
+          "label": "CIDR Mask (/8 to /30)",
+          "type": "select",
+          "options": ["24", "16", "8", "28", "29", "30", "20", "22", "26", "27"],
+          "default": "24"
+        }
+      ]
+    },
+    {
+      "slug": "user-agent-parser",
+      "name": "User Agent & Device Inspector",
+      "tagline": "Parse browser User-Agent strings to extract OS, device, engine, and version info.",
+      "description": "Instant User-Agent analyzer detecting client browsers, operating systems, and device form-factors.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "network-web-diagnostics",
+      "icon": "globe",
+      "tags": ["user-agent", "ua-parser", "browser-detection", "os-detection"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "ip-geolocation-lookup",
+      "name": "IP Geolocation & ASN Lookup",
+      "tagline": "Look up geographical location, ISP, country code, and Autonomous System Number (ASN) of any IP.",
+      "description": "Query IP routing metadata, ISP organization, country coordinates, and timezone.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "network-web-diagnostics",
+      "icon": "globe",
+      "tags": ["ip-lookup", "geolocation", "asn", "whois-ip", "networking"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "dns-lookup-records",
+      "name": "DNS Records & Propagation Lookup",
+      "tagline": "Query A, AAAA, MX, TXT, CNAME, CAA, and SPF records for any domain name.",
+      "description": "Perform deep DNS lookups and inspect mail server routing, DKIM, and DMARC TXT records.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "network-web-diagnostics",
+      "icon": "globe",
+      "tags": ["dns", "dns-lookup", "mx-records", "txt-records", "spf", "dkim", "cname"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "recordType",
+          "label": "DNS Record Type",
+          "type": "select",
+          "options": ["ALL", "A", "MX", "TXT"],
+          "default": "ALL"
+        }
+      ]
+    },
+    {
+      "slug": "http-headers-status-checker",
+      "name": "HTTP Response Headers & Status Inspector",
+      "tagline": "Inspect HTTP response status codes, cache headers, HSTS, and CORS headers.",
+      "description": "Test live HTTP/HTTPS endpoints to inspect response headers, redirect status codes, and server signatures.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "network-web-diagnostics",
+      "icon": "globe",
+      "tags": ["http-headers", "status-code", "hsts", "cors", "curl-headers"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "ssl-certificate-inspector",
+      "name": "SSL / TLS Certificate Expiry & Chain Inspector",
+      "tagline": "Inspect SSL certificate validity, issuer authority, expiration date, and SAN domains.",
+      "description": "Audit TLS certificates, check days until expiry, verify CA issuer chains, and detect misconfigurations.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "shield",
+      "tags": ["ssl", "tls", "certificate-checker", "ssl-expiry", "https-audit"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "csp-security-headers-generator",
+      "name": "Content Security Policy (CSP) & Header Generator",
+      "tagline": "Generate hardened Content-Security-Policy (CSP), HSTS, and X-Frame-Options headers.",
+      "description": "Build production-ready security headers configuration for Nginx, Apache, and Cloudflare to prevent XSS and Clickjacking.",
+      "module": "security-network",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "shield",
+      "tags": ["csp", "security-headers", "xss-protection", "clickjacking", "hsts"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".conf", ".txt"],
+      "defaultOutput": "conf",
+      "options": []
     }
   ]
 }
