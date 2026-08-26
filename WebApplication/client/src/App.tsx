@@ -33,6 +33,8 @@ import { SecurityNetworkExplorer } from './components/tools/SecurityNetwork/Secu
 import { SecurityNetworkToolView } from './components/tools/SecurityNetwork/SecurityNetworkToolView';
 import { TextCalcExplorer } from './components/tools/TextCalc/TextCalcExplorer';
 import { TextCalcToolView } from './components/tools/TextCalc/TextCalcToolView';
+import { SeoWebmasterExplorer } from './components/tools/SeoWebmaster/SeoWebmasterExplorer';
+import { SeoWebmasterToolView } from './components/tools/SeoWebmaster/SeoWebmasterToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -121,6 +123,8 @@ export default function App() {
             <Route path="/tools/security-network/:toolSlug" element={<SecurityNetworkToolView />} />
             <Route path="/tools/text-calculators" element={<TextCalcExplorer />} />
             <Route path="/tools/text-calculators/:toolSlug" element={<TextCalcToolView />} />
+            <Route path="/tools/seo-webmaster" element={<SeoWebmasterExplorer />} />
+            <Route path="/tools/seo-webmaster/:toolSlug" element={<SeoWebmasterToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

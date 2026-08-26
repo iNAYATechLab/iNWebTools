@@ -1,6 +1,6 @@
 /**
  * Tools Router — exposes registry lookups and tool execution endpoints
- * for Document, Spreadsheet, PDF, Image, Audio, Video, Developer, Security, Text & Calculators.
+ * for Document, Spreadsheet, PDF, Image, Audio, Video, Developer, Security, Text, Calculators & SEO/Webmaster.
  */
 
 import { Router } from 'express';
@@ -10,6 +10,7 @@ import { executeMediaTool } from '../controllers/tools/mediaController.js';
 import { executeDeveloperTool } from '../controllers/tools/developerController.js';
 import { executeSecurityNetworkTool } from '../controllers/tools/securityNetworkController.js';
 import { executeTextCalcTool } from '../controllers/tools/textCalcController.js';
+import { executeSeoWebmasterTool } from '../controllers/tools/seoWebmasterController.js';
 import { uploadToolFiles } from '../middlewares/toolUpload.js';
 import { getToolBySlug } from '../services/toolsRegistry.service.js';
 
@@ -37,6 +38,9 @@ toolsRouter.post('/execute/:slug', uploadToolFiles, async (req, res, next) => {
     if (tool && tool.module === 'text-calculators') {
       return executeTextCalcTool(req, res, next);
     }
+    if (tool && tool.module === 'seo-webmaster') {
+      return executeSeoWebmasterTool(req, res, next);
+    }
     return executeTool(req, res, next);
   } catch (err) {
     next(err);
@@ -57,6 +61,9 @@ toolsRouter.post('/process', uploadToolFiles, async (req, res, next) => {
   }
   if (tool && tool.module === 'text-calculators') {
     return executeTextCalcTool(req, res, next);
+  }
+  if (tool && tool.module === 'seo-webmaster') {
+    return executeSeoWebmasterTool(req, res, next);
   }
   return executeTool(req, res, next);
 });

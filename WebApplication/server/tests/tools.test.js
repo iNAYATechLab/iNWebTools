@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text & Calculators.
+ * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text, Calculators, SEO & Webmaster.
  */
 
 import request from 'supertest';
@@ -18,12 +18,12 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(6);
+      expect(reg.modules.length).toBe(7);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(148);
+      expect(reg.tools.length).toBe(162);
     });
 
-    it('contains all required Phase 1-5 modules without duplicate slugs', () => {
+    it('contains all required Phase 1-6 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
@@ -57,6 +57,22 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('statistics-mean-std-dev');
       expect(slugs).toContain('length-distance-converter');
       expect(slugs).toContain('weight-mass-converter');
+
+      // Phase 6: SEO & Webmaster Utilities
+      expect(slugs).toContain('xml-sitemap-generator');
+      expect(slugs).toContain('robots-txt-generator');
+      expect(slugs).toContain('schema-markup-generator');
+      expect(slugs).toContain('meta-tag-generator');
+      expect(slugs).toContain('hreflang-tag-generator');
+      expect(slugs).toContain('canonical-tag-generator');
+      expect(slugs).toContain('serp-snippet-preview');
+      expect(slugs).toContain('keyword-density-checker');
+      expect(slugs).toContain('htaccess-seo-generator');
+      expect(slugs).toContain('open-graph-generator');
+      expect(slugs).toContain('twitter-card-generator');
+      expect(slugs).toContain('social-image-resizer');
+      expect(slugs).toContain('youtube-thumbnail-downloader');
+      expect(slugs).toContain('utm-campaign-builder');
     });
   });
 
@@ -65,21 +81,213 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(148);
+      expect(res.body.data.total).toBe(162);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(6);
+      expect(res.body.data.modules.length).toBe(7);
     });
 
-    it('filters tools by text-calculators module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=text-calculators').expect(200);
+    it('filters tools by seo-webmaster module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=seo-webmaster').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'text-calculators')).toBe(true);
-      expect(res.body.data.total).toBe(27);
+      expect(res.body.data.tools.every((t) => t.module === 'seo-webmaster')).toBe(true);
+      expect(res.body.data.total).toBe(14);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
+    // Phase 6 Tests: SEO & Webmaster Utilities
+    it('executes xml-sitemap-generator', async () => {
+      const urls = 'https://example.com/\nhttps://example.com/about\nhttps://example.com/contact';
+      const res = await request(app)
+        .post('/api/tools/execute/xml-sitemap-generator')
+        .send({ content: urls, options: { changefreq: 'weekly', priority: '0.8' } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('<?xml version="1.0" encoding="UTF-8"?>');
+      expect(res.body.data.result.content).toContain('<loc>https://example.com/</loc>');
+      expect(res.body.data.result.metadata.totalUrls).toBe(3);
+    });
+
+    it('executes robots-txt-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/robots-txt-generator')
+        .send({
+          options: {
+            sitemapUrl: 'https://example.com/sitemap.xml',
+            disallowPaths: '/admin/\n/private/',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('User-agent: *');
+      expect(res.body.data.result.content).toContain('Disallow: /admin/');
+      expect(res.body.data.result.content).toContain('Sitemap: https://example.com/sitemap.xml');
+    });
+
+    it('executes schema-markup-generator for Organization', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/schema-markup-generator')
+        .send({
+          options: {
+            schemaType: 'Organization',
+            name: 'iNWebTools Lab',
+            url: 'https://inwebtools.com',
+            logo: 'https://inwebtools.com/logo.png',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('"@type": "Organization"');
+      expect(res.body.data.result.content).toContain('"name": "iNWebTools Lab"');
+      expect(res.body.data.result.metadata.schemaType).toBe('Organization');
+    });
+
+    it('executes meta-tag-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/meta-tag-generator')
+        .send({
+          options: {
+            title: 'Awesome SEO Suite',
+            description: 'Free high-speed online SEO webmaster utility suite.',
+            keywords: 'seo, webmaster, tools, optimizer',
+            canonicalUrl: 'https://example.com/suite',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('<title>Awesome SEO Suite</title>');
+      expect(res.body.data.result.content).toContain('name="description"');
+      expect(res.body.data.result.content).toContain('rel="canonical"');
+    });
+
+    it('executes serp-snippet-preview analysis', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/serp-snippet-preview')
+        .send({
+          options: {
+            title: 'iNWebTools — Free 1070+ Online Web Tools Suite',
+            url: 'https://inwebtools.com',
+            description:
+              'High-speed, privacy-first web utilities and developer tools without ads or limits.',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.titleLength).toBeGreaterThan(20);
+      expect(res.body.data.result.metadata.pixelWidthEstimate).toBeGreaterThan(100);
+    });
+
+    it('executes keyword-density-checker', async () => {
+      const text =
+        'SEO optimization tools help webmasters optimize website ranking. Good SEO means higher visibility and organic ranking.';
+      const res = await request(app)
+        .post('/api/tools/execute/keyword-density-checker')
+        .send({ content: text })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.totalWords).toBeGreaterThan(10);
+      expect(Array.isArray(res.body.data.result.metadata.topKeywords)).toBe(true);
+      expect(
+        res.body.data.result.metadata.topKeywords.some(
+          (k) => k.word === 'seo' || k.word === 'ranking',
+        ),
+      ).toBe(true);
+    });
+
+    it('executes open-graph-generator and twitter-card-generator', async () => {
+      const resOg = await request(app)
+        .post('/api/tools/execute/open-graph-generator')
+        .send({
+          options: {
+            title: 'Next Gen Web Tools',
+            url: 'https://example.com/suite',
+            image: 'https://example.com/banner.jpg',
+            type: 'website',
+          },
+        })
+        .expect(200);
+
+      expect(resOg.body.success).toBe(true);
+      expect(resOg.body.data.result.content).toContain('property="og:title"');
+      expect(resOg.body.data.result.content).toContain('property="og:image"');
+
+      const resTw = await request(app)
+        .post('/api/tools/execute/twitter-card-generator')
+        .send({
+          options: {
+            cardType: 'summary_large_image',
+            title: 'Next Gen Web Tools',
+            twitterSite: '@inwebtools',
+          },
+        })
+        .expect(200);
+
+      expect(resTw.body.success).toBe(true);
+      expect(resTw.body.data.result.content).toContain('name="twitter:card"');
+      expect(resTw.body.data.result.content).toContain('content="summary_large_image"');
+    });
+
+    it('executes utm-campaign-builder', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/utm-campaign-builder')
+        .send({
+          options: {
+            baseUrl: 'https://inwebtools.com/promo',
+            utmSource: 'newsletter',
+            utmMedium: 'email',
+            utmCampaign: 'launch2026',
+            utmTerm: 'seo-tools',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toBe(
+        'https://inwebtools.com/promo?utm_source=newsletter&utm_medium=email&utm_campaign=launch2026&utm_term=seo-tools',
+      );
+      expect(res.body.data.result.metadata.paramCount).toBe(4);
+    });
+
+    it('executes youtube-thumbnail-downloader', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/youtube-thumbnail-downloader')
+        .send({
+          content: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.videoId).toBe('dQw4w9WgXcQ');
+      expect(res.body.data.result.metadata.thumbnails.maxres).toContain('maxresdefault.jpg');
+    });
+
+    it('executes htaccess-seo-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/htaccess-seo-generator')
+        .send({
+          options: {
+            forceHttps: true,
+            forceWww: 'non-www',
+            enableGzip: true,
+            enableBrowserCache: true,
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('RewriteEngine On');
+      expect(res.body.data.result.content).toContain('RewriteCond %{HTTPS} off');
+      expect(res.body.data.result.content).toContain('mod_deflate.c');
+      expect(res.body.data.result.content).toContain('mod_expires.c');
+    });
+
     // Phase 5 Tests: Text Metrics
     it('executes word-character-counter and readability analysis', async () => {
       const text = 'The quick brown fox jumps over the lazy dog. It was an amazing day.';

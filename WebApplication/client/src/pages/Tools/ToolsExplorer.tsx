@@ -18,6 +18,7 @@ import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToo
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
 import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
+import { SeoWebmasterToolView } from '../../components/tools/SeoWebmaster/SeoWebmasterToolView';
 import { TextCalcToolView } from '../../components/tools/TextCalc/TextCalcToolView';
 import { useCategories } from '../../hooks/useCategories';
 import { getToolsRegistry } from '../../services/toolsApi';
@@ -111,6 +112,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-3.5 py-2 text-xs font-semibold text-amber-300 hover:bg-amber-500/20 transition-colors"
           >
             📊 Text & Calculators Engine →
+          </Link>
+          <Link
+            to="/tools/seo-webmaster"
+            className="rounded-xl border border-sky-400/30 bg-sky-500/10 px-3.5 py-2 text-xs font-semibold text-sky-300 hover:bg-sky-500/20 transition-colors"
+          >
+            🔍 SEO & Webmaster Engine →
           </Link>
         </div>
       </header>
@@ -320,6 +327,23 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const SEO_WEBMASTER_SLUGS = [
+  'xml-sitemap-generator',
+  'robots-txt-generator',
+  'schema-markup-generator',
+  'meta-tag-generator',
+  'hreflang-tag-generator',
+  'canonical-tag-generator',
+  'serp-snippet-preview',
+  'keyword-density-checker',
+  'htaccess-seo-generator',
+  'open-graph-generator',
+  'twitter-card-generator',
+  'social-image-resizer',
+  'youtube-thumbnail-downloader',
+  'utm-campaign-builder',
+];
+
 const TEXT_CALC_SLUGS = [
   'word-character-counter',
   'readability-score-analyzer',
@@ -407,6 +431,11 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isSeoWebmaster = toolSlug && SEO_WEBMASTER_SLUGS.includes(toolSlug);
+  if (isSeoWebmaster) {
+    return <SeoWebmasterToolView slugOverride={toolSlug} />;
+  }
 
   const isTextCalc =
     categorySlug === 'text-web-utilities' ||

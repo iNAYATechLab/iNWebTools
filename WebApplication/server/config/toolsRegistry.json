@@ -42,6 +42,13 @@
       "slug": "text-calculators",
       "categorySlug": "text-web-utilities",
       "description": "Comprehensive text metrics, readability analyzers, case converters, financial EMI & compound interest calculators, and multi-unit converters."
+    },
+    {
+      "id": "seo-webmaster",
+      "name": "SEO Utilities & Social Media Optimization",
+      "slug": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "description": "XML sitemaps, robots.txt, Google SERP simulator, JSON-LD Schema markup, Open Graph tags, YouTube thumbnail grabbers, and UTM campaign builders."
     }
   ],
   "tools": [
@@ -4185,6 +4192,390 @@
           "label": "Base Storage (Megabytes)",
           "type": "text",
           "default": "1024"
+        }
+      ]
+    },
+    {
+      "slug": "xml-sitemap-generator",
+      "name": "XML Sitemap Generator & Validator",
+      "tagline": "Generate search-engine compliant XML sitemaps with priority and change frequency tags.",
+      "description": "Create standard XML sitemaps for Google Search Console and Bing Webmaster Tools.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["sitemap", "xml-sitemap", "google-search-console", "seo", "webmaster"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".xml"],
+      "defaultOutput": "xml",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "changefreq",
+          "label": "Change Frequency",
+          "type": "select",
+          "options": ["daily", "weekly", "monthly", "yearly"],
+          "default": "weekly"
+        },
+        {
+          "id": "priority",
+          "label": "Default Priority",
+          "type": "select",
+          "options": ["1.0", "0.8", "0.5", "0.3"],
+          "default": "0.8"
+        }
+      ]
+    },
+    {
+      "slug": "robots-txt-generator",
+      "name": "Robots.txt Generator & Tester",
+      "tagline": "Generate and validate robots.txt crawler directives and sitemap endpoints.",
+      "description": "Define crawler permissions for Googlebot, Bingbot, and AI scrapers with disallow and allow rules.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["robots-txt", "crawlers", "googlebot", "seo", "webmaster"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "userAgent",
+          "label": "User-Agent",
+          "type": "text",
+          "default": "*"
+        },
+        {
+          "id": "sitemapUrl",
+          "label": "Sitemap URL",
+          "type": "text",
+          "default": "https://inwebtools.com/sitemap.xml"
+        }
+      ]
+    },
+    {
+      "slug": "schema-markup-generator",
+      "name": "Schema Markup (JSON-LD) Structured Data Generator",
+      "tagline": "Create Google rich result JSON-LD schemas for Software, Articles, FAQs, and Products.",
+      "description": "Generate valid schema.org structured data to enhance SERP rich snippets and search visibility.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "code",
+      "tags": ["schema-org", "json-ld", "structured-data", "rich-snippets", "seo"],
+      "inputFormats": [".txt", ".json"],
+      "outputFormats": [".html", ".json"],
+      "defaultOutput": "html",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "schemaType",
+          "label": "Schema Type",
+          "type": "select",
+          "options": ["SoftwareApplication", "Article", "Organization", "Product", "WebSite", "FAQPage"],
+          "default": "SoftwareApplication"
+        },
+        {
+          "id": "name",
+          "label": "Entity / App Name",
+          "type": "text",
+          "default": "iNWebTools Enterprise"
+        }
+      ]
+    },
+    {
+      "slug": "meta-tag-generator",
+      "name": "Meta Tag Generator & Extractor",
+      "tagline": "Generate standard HTML meta headers for SEO indexing, title, description, and viewport.",
+      "description": "Build complete head metadata for websites to optimize search engine ranking.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["meta-tags", "seo-headers", "html-head", "title-tag", "meta-description"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "options": [
+        {
+          "id": "title",
+          "label": "Page Title",
+          "type": "text",
+          "default": "iNWebTools \u2014 1070+ Free Developer Tools"
+        },
+        {
+          "id": "description",
+          "label": "Meta Description",
+          "type": "text",
+          "default": "High-speed in-memory web developer tools with zero latency."
+        }
+      ]
+    },
+    {
+      "slug": "hreflang-tag-generator",
+      "name": "Hreflang Multi-Language Tag Generator",
+      "tagline": "Generate international SEO hreflang annotations for multi-lingual web pages.",
+      "description": "Ensure search engines serve the correct regional language version to global audiences.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["hreflang", "international-seo", "multi-language", "localization"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "options": [
+        {
+          "id": "defaultUrl",
+          "label": "Base Canonical URL",
+          "type": "text",
+          "default": "https://inwebtools.com"
+        }
+      ]
+    },
+    {
+      "slug": "canonical-tag-generator",
+      "name": "Canonical Tag Generator & Checker",
+      "tagline": "Prevent duplicate content penalties by generating rel=canonical tags.",
+      "description": "Specify the authoritative master URL for search engine crawlers.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["canonical", "rel-canonical", "duplicate-content", "seo"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "options": [
+        {
+          "id": "canonicalUrl",
+          "label": "Canonical Target URL",
+          "type": "text",
+          "default": "https://inwebtools.com/tools/developer-code"
+        }
+      ]
+    },
+    {
+      "slug": "serp-snippet-preview",
+      "name": "Google SERP Snippet Preview Tool",
+      "tagline": "Simulate desktop and mobile Google search engine result snippets in real-time.",
+      "description": "Visualize how your title, meta description, and URL breadcrumbs appear on Google SERPs.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["serp-preview", "google-simulator", "pixel-width", "ctr-optimization"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "title",
+          "label": "SERP Title",
+          "type": "text",
+          "default": "iNWebTools \u2014 1070+ Free Developer & Audio Utilities"
+        },
+        {
+          "id": "description",
+          "label": "Meta Description",
+          "type": "text",
+          "default": "High-speed browser tools for audio transcription, cURL code generation, cryptography, and unit conversion."
+        },
+        {
+          "id": "url",
+          "label": "Target URL",
+          "type": "text",
+          "default": "https://inwebtools.com/tools/developer-code"
+        }
+      ]
+    },
+    {
+      "slug": "keyword-density-checker",
+      "name": "Keyword Density & N-Gram Analyzer",
+      "tagline": "Calculate keyword frequency and density percentage to avoid keyword stuffing.",
+      "description": "Analyze top 1-word and multi-word phrases and ensure ideal 1-2% SEO keyword distribution.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "type",
+      "tags": ["keyword-density", "seo-content", "keyword-stuffing", "n-grams"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "htaccess-seo-generator",
+      "name": "Apache .htaccess SEO & Redirects Generator",
+      "tagline": "Generate .htaccess rules for HTTPS redirection, GZIP compression, and browser caching.",
+      "description": "Hardened Apache web server configuration for SEO optimization and speed performance.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "code",
+      "tags": ["htaccess", "apache", "force-https", "gzip-compression", "redirects"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".conf"],
+      "defaultOutput": "conf",
+      "options": [
+        {
+          "id": "domain",
+          "label": "Domain Name",
+          "type": "text",
+          "default": "inwebtools.com"
+        },
+        {
+          "id": "forceHttps",
+          "label": "Force HTTPS Redirection",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "open-graph-generator",
+      "name": "Open Graph (OG) & Facebook Meta Generator",
+      "tagline": "Generate og:title, og:description, and og:image tags for Facebook & LinkedIn sharing.",
+      "description": "Ensure beautiful rich card previews when your links are shared on social platforms.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "share",
+      "tags": ["open-graph", "og-tags", "facebook-card", "social-meta", "rich-link"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "title",
+          "label": "OG Title",
+          "type": "text",
+          "default": "iNWebTools \u2014 Enterprise Developer Platform"
+        },
+        {
+          "id": "description",
+          "label": "OG Description",
+          "type": "text",
+          "default": "Explore 1070+ free web developer tools and real-time utilities."
+        },
+        {
+          "id": "imageUrl",
+          "label": "OG Image URL (1200x630)",
+          "type": "text",
+          "default": "https://inwebtools.com/og-banner.png"
+        }
+      ]
+    },
+    {
+      "slug": "twitter-card-generator",
+      "name": "Twitter / X Card Meta Tag Generator",
+      "tagline": "Generate summary_large_image Twitter card tags with handle attribution.",
+      "description": "Create engaging Twitter cards with large banner images and creator handles.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "share",
+      "tags": ["twitter-card", "x-card", "summary-large-image", "social-meta"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "cardType",
+          "label": "Card Style",
+          "type": "select",
+          "options": ["summary_large_image", "summary"],
+          "default": "summary_large_image"
+        },
+        {
+          "id": "title",
+          "label": "Card Title",
+          "type": "text",
+          "default": "iNWebTools \u2014 Free Developer Utilities"
+        },
+        {
+          "id": "handle",
+          "label": "Twitter Handle",
+          "type": "text",
+          "default": "@inayatechlab"
+        }
+      ]
+    },
+    {
+      "slug": "social-image-resizer",
+      "name": "Social Media Image Dimensions Cheat-Sheet",
+      "tagline": "Optimal pixel dimensions and aspect ratios for Facebook, Instagram, Twitter, LinkedIn, and YouTube.",
+      "description": "Standardized 2026 social media image dimension guide and aspect ratio calculator.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "image",
+      "tags": ["social-dimensions", "og-image-size", "instagram-ratio", "youtube-banner"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": []
+    },
+    {
+      "slug": "youtube-thumbnail-downloader",
+      "name": "YouTube Thumbnail HD Downloader",
+      "tagline": "Extract and download Maximum Resolution (1080p/720p) YouTube video thumbnails.",
+      "description": "Fetch high-quality HD, HQ, and SD cover images from any YouTube video URL or ID.",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "play",
+      "tags": ["youtube-thumbnail", "maxresdefault", "youtube-cover", "video-thumbnail"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": []
+    },
+    {
+      "slug": "utm-campaign-builder",
+      "name": "Google Analytics UTM Campaign URL Builder",
+      "tagline": "Build custom campaign tracking URLs with utm_source, utm_medium, and utm_campaign.",
+      "description": "Generate error-free encoded campaign tracking links for Google Analytics 4 (GA4).",
+      "module": "seo-webmaster",
+      "categorySlug": "seo-network-security-tools",
+      "subcategorySlug": "seo-webmaster-tools",
+      "icon": "globe",
+      "tags": ["utm-builder", "ga4", "google-analytics", "campaign-tracking", "utm-parameters"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "baseUrl",
+          "label": "Website Base URL",
+          "type": "text",
+          "default": "https://inwebtools.com/tools"
+        },
+        {
+          "id": "utmSource",
+          "label": "Campaign Source (e.g. google, newsletter)",
+          "type": "text",
+          "default": "google"
+        },
+        {
+          "id": "utmMedium",
+          "label": "Campaign Medium (e.g. cpc, banner, email)",
+          "type": "text",
+          "default": "cpc"
+        },
+        {
+          "id": "utmCampaign",
+          "label": "Campaign Name (e.g. spring_launch)",
+          "type": "text",
+          "default": "developer_tools_2026"
         }
       ]
     }
