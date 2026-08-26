@@ -25,6 +25,8 @@ import { WidgetLayout } from './components/widgets/WidgetLayout';
 import { CategoriesManager } from './pages/AdminDashboard/CMS/CategoriesManager';
 import { DocumentImageExplorer } from './components/tools/DocumentImage/DocumentImageExplorer';
 import { DocumentImageToolView } from './components/tools/DocumentImage/DocumentImageToolView';
+import { MediaExplorer } from './components/tools/Media/MediaExplorer';
+import { MediaToolView } from './components/tools/Media/MediaToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -120,6 +122,8 @@ export default function App() {
               element={<DocumentImageExplorer moduleSlug="image-graphics" />}
             />
             <Route path="/tools/image-graphics/:toolSlug" element={<DocumentImageToolView />} />
+            <Route path="/tools/audio-video" element={<MediaExplorer />} />
+            <Route path="/tools/audio-video/:toolSlug" element={<MediaToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

@@ -14,6 +14,13 @@
       "slug": "image-graphics",
       "categorySlug": "image-graphics-tools",
       "description": "Multi-format image converter and advanced editing utilities including AI background removal, resizing, filters, and EXIF tools."
+    },
+    {
+      "id": "audio-video",
+      "name": "Audio & Video Media Tools",
+      "slug": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "description": "Enterprise media processing engines for audio converters, speech-to-text, video compressors, cutters, equalizers, and multimedia editors."
     }
   ],
   "tools": [
@@ -46,7 +53,12 @@
           "options": ["normal", "narrow", "wide"],
           "default": "normal"
         },
-        { "id": "includeHeader", "label": "Include Document Header", "type": "toggle", "default": true }
+        {
+          "id": "includeHeader",
+          "label": "Include Document Header",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -70,7 +82,13 @@
           "options": ["all-tables", "delimited-text", "auto-detect"],
           "default": "all-tables"
         },
-        { "id": "format", "label": "Output Format", "type": "select", "options": ["xlsx", "csv"], "default": "xlsx" }
+        {
+          "id": "format",
+          "label": "Output Format",
+          "type": "select",
+          "options": ["xlsx", "csv"],
+          "default": "xlsx"
+        }
       ]
     },
     {
@@ -97,7 +115,12 @@
           "default": 150,
           "unit": "DPI"
         },
-        { "id": "pageRange", "label": "Page Range (e.g. 1-3)", "type": "text", "default": "all" }
+        {
+          "id": "pageRange",
+          "label": "Page Range (e.g. 1-3)",
+          "type": "text",
+          "default": "all"
+        }
       ]
     },
     {
@@ -121,7 +144,12 @@
           "options": ["utf-8", "ascii", "latin1"],
           "default": "utf-8"
         },
-        { "id": "removeEmptyLines", "label": "Remove Blank Lines", "type": "toggle", "default": true }
+        {
+          "id": "removeEmptyLines",
+          "label": "Remove Blank Lines",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -145,7 +173,12 @@
           "options": ["dark", "light", "enterprise", "minimal"],
           "default": "dark"
         },
-        { "id": "includeGridlines", "label": "Show Gridlines", "type": "toggle", "default": true }
+        {
+          "id": "includeGridlines",
+          "label": "Show Gridlines",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -193,8 +226,19 @@
       "outputFormats": [".csv"],
       "defaultOutput": "csv",
       "options": [
-        { "id": "delimiter", "label": "Delimiter", "type": "select", "options": [",", ";", "\t", "|"], "default": "," },
-        { "id": "quoteStrings", "label": "Quote All Fields", "type": "toggle", "default": false }
+        {
+          "id": "delimiter",
+          "label": "Delimiter",
+          "type": "select",
+          "options": [",", ";", "\t", "|"],
+          "default": ","
+        },
+        {
+          "id": "quoteStrings",
+          "label": "Quote All Fields",
+          "type": "toggle",
+          "default": false
+        }
       ]
     },
     {
@@ -211,8 +255,18 @@
       "outputFormats": [".xlsx"],
       "defaultOutput": "xlsx",
       "options": [
-        { "id": "autoFilter", "label": "Enable Auto-Filter", "type": "toggle", "default": true },
-        { "id": "firstRowHeader", "label": "First Row as Header", "type": "toggle", "default": true }
+        {
+          "id": "autoFilter",
+          "label": "Enable Auto-Filter",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "firstRowHeader",
+          "label": "First Row as Header",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -237,7 +291,12 @@
           "options": ["2 spaces", "4 spaces", "Minified"],
           "default": "2 spaces"
         },
-        { "id": "parseNumbers", "label": "Parse Numeric Values", "type": "toggle", "default": true }
+        {
+          "id": "parseNumbers",
+          "label": "Parse Numeric Values",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -254,8 +313,18 @@
       "outputFormats": [".xml"],
       "defaultOutput": "xml",
       "options": [
-        { "id": "rootElement", "label": "Root Element Tag", "type": "text", "default": "dataset" },
-        { "id": "rowElement", "label": "Row Element Tag", "type": "text", "default": "record" }
+        {
+          "id": "rootElement",
+          "label": "Root Element Tag",
+          "type": "text",
+          "default": "dataset"
+        },
+        {
+          "id": "rowElement",
+          "label": "Row Element Tag",
+          "type": "text",
+          "default": "record"
+        }
       ]
     },
     {
@@ -279,7 +348,12 @@
           "options": ["left", "center", "right", "auto"],
           "default": "left"
         },
-        { "id": "padSpaces", "label": "Pad with Spaces", "type": "toggle", "default": true }
+        {
+          "id": "padSpaces",
+          "label": "Pad with Spaces",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -297,8 +371,19 @@
       "defaultOutput": "csv",
       "isFeatured": true,
       "options": [
-        { "id": "flattenNested", "label": "Flatten Nested Keys (dot.notation)", "type": "toggle", "default": true },
-        { "id": "delimiter", "label": "Delimiter", "type": "select", "options": [",", ";", "\t"], "default": "," }
+        {
+          "id": "flattenNested",
+          "label": "Flatten Nested Keys (dot.notation)",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "delimiter",
+          "label": "Delimiter",
+          "type": "select",
+          "options": [",", ";", "\t"],
+          "default": ","
+        }
       ]
     },
     {
@@ -315,8 +400,18 @@
       "outputFormats": [".xml"],
       "defaultOutput": "xml",
       "options": [
-        { "id": "rootTag", "label": "Root Element Tag", "type": "text", "default": "root" },
-        { "id": "declaration", "label": "Include XML Declaration", "type": "toggle", "default": true }
+        {
+          "id": "rootTag",
+          "label": "Root Element Tag",
+          "type": "text",
+          "default": "root"
+        },
+        {
+          "id": "declaration",
+          "label": "Include XML Declaration",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -460,7 +555,14 @@
       "inputFormats": [".pdf"],
       "outputFormats": [".epub"],
       "defaultOutput": "epub",
-      "options": [{ "id": "extractImages", "label": "Retain Embedded Images", "type": "toggle", "default": true }]
+      "options": [
+        {
+          "id": "extractImages",
+          "label": "Retain Embedded Images",
+          "type": "toggle",
+          "default": true
+        }
+      ]
     },
     {
       "slug": "rtf-to-pdf",
@@ -476,7 +578,13 @@
       "outputFormats": [".pdf"],
       "defaultOutput": "pdf",
       "options": [
-        { "id": "pageSize", "label": "Page Size", "type": "select", "options": ["A4", "Letter"], "default": "A4" }
+        {
+          "id": "pageSize",
+          "label": "Page Size",
+          "type": "select",
+          "options": ["A4", "Letter"],
+          "default": "A4"
+        }
       ]
     },
     {
@@ -492,7 +600,14 @@
       "inputFormats": [".pdf"],
       "outputFormats": [".rtf"],
       "defaultOutput": "rtf",
-      "options": [{ "id": "layoutPreserve", "label": "Preserve Exact Page Layout", "type": "toggle", "default": true }]
+      "options": [
+        {
+          "id": "layoutPreserve",
+          "label": "Preserve Exact Page Layout",
+          "type": "toggle",
+          "default": true
+        }
+      ]
     },
     {
       "slug": "html-to-pdf",
@@ -515,7 +630,12 @@
           "options": ["screen", "print"],
           "default": "screen"
         },
-        { "id": "printBackground", "label": "Print Background Graphics", "type": "toggle", "default": true }
+        {
+          "id": "printBackground",
+          "label": "Print Background Graphics",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -531,7 +651,14 @@
       "inputFormats": [".pdf"],
       "outputFormats": [".html", ".zip"],
       "defaultOutput": "html",
-      "options": [{ "id": "embedImages", "label": "Embed Images (Data URIs)", "type": "toggle", "default": true }]
+      "options": [
+        {
+          "id": "embedImages",
+          "label": "Embed Images (Data URIs)",
+          "type": "toggle",
+          "default": true
+        }
+      ]
     },
     {
       "slug": "pdf-to-image",
@@ -565,7 +692,12 @@
           "default": 150,
           "unit": "DPI"
         },
-        { "id": "pageRange", "label": "Page Range (e.g. 1-5)", "type": "text", "default": "all" }
+        {
+          "id": "pageRange",
+          "label": "Page Range (e.g. 1-5)",
+          "type": "text",
+          "default": "all"
+        }
       ]
     },
     {
@@ -583,8 +715,18 @@
       "defaultOutput": "pdf",
       "isFeatured": true,
       "options": [
-        { "id": "normalizeOrientation", "label": "Normalize Page Orientation", "type": "toggle", "default": true },
-        { "id": "addBookmarks", "label": "Add File Name Bookmarks", "type": "toggle", "default": true }
+        {
+          "id": "normalizeOrientation",
+          "label": "Normalize Page Orientation",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "addBookmarks",
+          "label": "Add File Name Bookmarks",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -608,7 +750,12 @@
           "options": ["range", "every-page", "odd-even"],
           "default": "range"
         },
-        { "id": "ranges", "label": "Page Ranges (e.g. 1-3, 5, 8-10)", "type": "text", "default": "1-2" }
+        {
+          "id": "ranges",
+          "label": "Page Ranges (e.g. 1-3, 5, 8-10)",
+          "type": "text",
+          "default": "1-2"
+        }
       ]
     },
     {
@@ -633,14 +780,19 @@
           "options": ["extreme (max compression)", "recommended (balanced)", "low (high quality)"],
           "default": "recommended (balanced)"
         },
-        { "id": "grayscale", "label": "Convert to Grayscale", "type": "toggle", "default": false }
+        {
+          "id": "grayscale",
+          "label": "Convert to Grayscale",
+          "type": "toggle",
+          "default": false
+        }
       ]
     },
     {
       "slug": "rotate-pdf",
       "name": "Rotate PDF Pages",
-      "tagline": "Permanently rotate PDF pages clockwise, counter-clockwise, or 180°.",
-      "description": "Fix upside-down and sideways scanned PDF documents by rotating all or select pages by 90°, 180°, or 270° degrees.",
+      "tagline": "Permanently rotate PDF pages clockwise, counter-clockwise, or 180\u00b0.",
+      "description": "Fix upside-down and sideways scanned PDF documents by rotating all or select pages by 90\u00b0, 180\u00b0, or 270\u00b0 degrees.",
       "module": "document-pdf",
       "categorySlug": "pdf-document-tools",
       "subcategorySlug": "pdf-editing-management",
@@ -654,8 +806,8 @@
           "id": "rotationAngle",
           "label": "Rotation Angle",
           "type": "select",
-          "options": ["90° Clockwise", "180° Invert", "270° Counter-Clockwise"],
-          "default": "90° Clockwise"
+          "options": ["90\u00b0 Clockwise", "180\u00b0 Invert", "270\u00b0 Counter-Clockwise"],
+          "default": "90\u00b0 Clockwise"
         },
         {
           "id": "applyTo",
@@ -721,7 +873,12 @@
           "options": ["English (eng)", "Bengali (ben)", "Spanish (spa)", "French (fra)", "Auto-detect"],
           "default": "Auto-detect"
         },
-        { "id": "preserveLayout", "label": "Preserve Line Breaks", "type": "toggle", "default": true }
+        {
+          "id": "preserveLayout",
+          "label": "Preserve Line Breaks",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -738,7 +895,12 @@
       "outputFormats": [".zip", ".png", ".jpg"],
       "defaultOutput": "zip",
       "options": [
-        { "id": "minImageSize", "label": "Filter Tiny Graphics (<50px)", "type": "toggle", "default": true },
+        {
+          "id": "minImageSize",
+          "label": "Filter Tiny Graphics (<50px)",
+          "type": "toggle",
+          "default": true
+        },
         {
           "id": "imageFormat",
           "label": "Export Format",
@@ -762,9 +924,24 @@
       "outputFormats": [".pdf"],
       "defaultOutput": "pdf",
       "options": [
-        { "id": "userPassword", "label": "User Password (to open)", "type": "password", "default": "" },
-        { "id": "allowPrinting", "label": "Allow High-Resolution Printing", "type": "toggle", "default": true },
-        { "id": "allowCopying", "label": "Allow Content Copying", "type": "toggle", "default": false }
+        {
+          "id": "userPassword",
+          "label": "User Password (to open)",
+          "type": "password",
+          "default": ""
+        },
+        {
+          "id": "allowPrinting",
+          "label": "Allow High-Resolution Printing",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "allowCopying",
+          "label": "Allow Content Copying",
+          "type": "toggle",
+          "default": false
+        }
       ]
     },
     {
@@ -781,7 +958,12 @@
       "outputFormats": [".pdf"],
       "defaultOutput": "pdf",
       "options": [
-        { "id": "currentPassword", "label": "Current Password (if required)", "type": "password", "default": "" }
+        {
+          "id": "currentPassword",
+          "label": "Current Password (if required)",
+          "type": "password",
+          "default": ""
+        }
       ]
     },
     {
@@ -798,9 +980,24 @@
       "outputFormats": [".pdf"],
       "defaultOutput": "pdf",
       "options": [
-        { "id": "signerName", "label": "Signer Full Name", "type": "text", "default": "Authorized Signer" },
-        { "id": "signatureReason", "label": "Reason / Purpose", "type": "text", "default": "Approved & Verified" },
-        { "id": "includeTimestamp", "label": "Include UTC Timestamp Stamp", "type": "toggle", "default": true }
+        {
+          "id": "signerName",
+          "label": "Signer Full Name",
+          "type": "text",
+          "default": "Authorized Signer"
+        },
+        {
+          "id": "signatureReason",
+          "label": "Reason / Purpose",
+          "type": "text",
+          "default": "Approved & Verified"
+        },
+        {
+          "id": "includeTimestamp",
+          "label": "Include UTC Timestamp Stamp",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -817,7 +1014,12 @@
       "outputFormats": [".pdf"],
       "defaultOutput": "pdf",
       "options": [
-        { "id": "watermarkText", "label": "Watermark Text", "type": "text", "default": "CONFIDENTIAL" },
+        {
+          "id": "watermarkText",
+          "label": "Watermark Text",
+          "type": "text",
+          "default": "CONFIDENTIAL"
+        },
         {
           "id": "opacity",
           "label": "Opacity",
@@ -830,13 +1032,13 @@
         },
         {
           "id": "rotation",
-          "label": "Angle (°)",
+          "label": "Angle (\u00b0)",
           "type": "slider",
           "min": -90,
           "max": 90,
           "step": 15,
           "default": -45,
-          "unit": "°"
+          "unit": "\u00b0"
         }
       ]
     },
@@ -960,7 +1162,12 @@
           "default": 85,
           "unit": "%"
         },
-        { "id": "preserveMetadata", "label": "Preserve Color Profile & Metadata", "type": "toggle", "default": true }
+        {
+          "id": "preserveMetadata",
+          "label": "Preserve Color Profile & Metadata",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -1002,7 +1209,12 @@
           "default": 1280,
           "unit": "px"
         },
-        { "id": "lockAspectRatio", "label": "Maintain Aspect Ratio", "type": "toggle", "default": true }
+        {
+          "id": "lockAspectRatio",
+          "label": "Maintain Aspect Ratio",
+          "type": "toggle",
+          "default": true
+        }
       ]
     },
     {
@@ -1187,7 +1399,14 @@
       "inputFormats": [".jpg", ".jpeg", ".png", ".tiff", ".heic", ".dng", ".cr2", ".nef"],
       "outputFormats": [".json", ".txt"],
       "defaultOutput": "json",
-      "options": [{ "id": "showGpsMap", "label": "Show GPS Coordinates Location", "type": "toggle", "default": true }]
+      "options": [
+        {
+          "id": "showGpsMap",
+          "label": "Show GPS Coordinates Location",
+          "type": "toggle",
+          "default": true
+        }
+      ]
     },
     {
       "slug": "image-exif-eraser",
@@ -1202,7 +1421,14 @@
       "inputFormats": [".jpg", ".jpeg", ".png", ".tiff", ".webp", ".heic"],
       "outputFormats": [".jpg", ".png", ".webp"],
       "defaultOutput": "jpg",
-      "options": [{ "id": "stripColorProfile", "label": "Strip Color Profiles", "type": "toggle", "default": false }]
+      "options": [
+        {
+          "id": "stripColorProfile",
+          "label": "Strip Color Profiles",
+          "type": "toggle",
+          "default": false
+        }
+      ]
     },
     {
       "slug": "image-watermark",
@@ -1218,7 +1444,12 @@
       "outputFormats": [".png", ".jpg", ".webp"],
       "defaultOutput": "png",
       "options": [
-        { "id": "watermarkText", "label": "Watermark Text", "type": "text", "default": "© iNWebTools" },
+        {
+          "id": "watermarkText",
+          "label": "Watermark Text",
+          "type": "text",
+          "default": "\u00a9 iNWebTools"
+        },
         {
           "id": "watermarkPosition",
           "label": "Position",
@@ -1260,7 +1491,823 @@
           "options": ["2x Super-Resolution", "4x Ultra-Resolution"],
           "default": "2x Super-Resolution"
         },
-        { "id": "noiseReduction", "label": "Denoise & Edge Smooth", "type": "toggle", "default": true }
+        {
+          "id": "noiseReduction",
+          "label": "Denoise & Edge Smooth",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "audio-converter",
+      "name": "Universal Audio Converter",
+      "tagline": "Convert between MP3, WAV, AAC, FLAC, OGG, M4A, WMA, AMR, AIFF, Opus, AC3, ALAC, PCM, M4B, and MP2 formats.",
+      "description": "High-fidelity audio format converter with custom bitrate (128kbps - 320kbps), sample rate, and audio channel controls.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["audio", "mp3", "wav", "flac", "aac", "ogg", "m4a", "opus", "converter"],
+      "inputFormats": [
+        ".mp3",
+        ".wav",
+        ".aac",
+        ".flac",
+        ".ogg",
+        ".m4a",
+        ".wma",
+        ".amr",
+        ".aiff",
+        ".opus",
+        ".ac3",
+        ".alac",
+        ".pcm",
+        ".m4b",
+        ".mp2"
+      ],
+      "outputFormats": [".mp3", ".wav", ".aac", ".flac", ".ogg", ".m4a", ".opus"],
+      "defaultOutput": "mp3",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetFormat",
+          "label": "Target Audio Format",
+          "type": "select",
+          "options": ["mp3", "wav", "aac", "flac", "ogg", "m4a", "opus"],
+          "default": "mp3"
+        },
+        {
+          "id": "bitrate",
+          "label": "Bitrate Quality",
+          "type": "select",
+          "options": ["320 kbps (Studio High)", "256 kbps (High)", "192 kbps (Standard)", "128 kbps (Compact)"],
+          "default": "320 kbps (Studio High)"
+        },
+        {
+          "id": "sampleRate",
+          "label": "Sample Rate",
+          "type": "select",
+          "options": ["48000 Hz (Standard Studio)", "44100 Hz (CD Audio)", "96000 Hz (Hi-Res)"],
+          "default": "48000 Hz (Standard Studio)"
+        },
+        {
+          "id": "channels",
+          "label": "Audio Channels",
+          "type": "select",
+          "options": ["Stereo (2.0)", "Mono (1.0)"],
+          "default": "Stereo (2.0)"
+        }
+      ]
+    },
+    {
+      "slug": "audio-to-text",
+      "name": "Audio to Text Transcription",
+      "tagline": "Transcribe speech and dialogues from audio files into accurate text.",
+      "description": "AI-powered speech recognition engine leveraging OpenAI Whisper architecture with multilingual support and automatic timestamps.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "type",
+      "tags": ["transcription", "speech-to-text", "audio-to-text", "whisper", "ai", "subtitles"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac"],
+      "outputFormats": [".txt", ".json", ".srt", ".vtt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "language",
+          "label": "Spoken Language",
+          "type": "select",
+          "options": ["auto", "en", "bn", "es", "fr", "de", "hi", "ar", "zh"],
+          "default": "auto"
+        },
+        {
+          "id": "includeTimestamps",
+          "label": "Include Line Timestamps",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "voice-to-text",
+      "name": "Voice to Text Converter",
+      "tagline": "Convert voice memos and recordings into formatted text transcripts.",
+      "description": "Fast voice dictation and voice memo transcription with background noise filtering and punctuation reconstruction.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "type",
+      "tags": ["voice", "dictation", "memo", "transcribe", "speech"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".amr", ".ogg"],
+      "outputFormats": [".txt", ".docx"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "language",
+          "label": "Language",
+          "type": "select",
+          "options": ["auto", "en", "bn", "es", "fr"],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "slug": "audio-compressor",
+      "name": "Smart Audio Compressor",
+      "tagline": "Reduce audio file sizes up to 80% while retaining high listening clarity.",
+      "description": "Optimize audio files with advanced VBR (Variable Bitrate) and psychoacoustic frequency preservation for podcast and web distribution.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "sparkle",
+      "tags": ["compress", "audio", "reduce-size", "bitrate", "podcast"],
+      "inputFormats": [".mp3", ".wav", ".flac", ".m4a", ".aac", ".ogg"],
+      "outputFormats": [".mp3", ".m4a", ".opus"],
+      "defaultOutput": "mp3",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "compressionPreset",
+          "label": "Compression Target",
+          "type": "select",
+          "options": [
+            "Balanced (Recommended, ~60% reduction)",
+            "Extreme Compression (~80% reduction)",
+            "Lossless Archive"
+          ],
+          "default": "Balanced (Recommended, ~60% reduction)"
+        },
+        {
+          "id": "bitrate",
+          "label": "Target Bitrate",
+          "type": "slider",
+          "min": 64,
+          "max": 320,
+          "step": 32,
+          "default": 160,
+          "unit": "kbps"
+        }
+      ]
+    },
+    {
+      "slug": "audio-cutter",
+      "name": "Audio Cutter & Trimmer",
+      "tagline": "Trim, cut, and split audio tracks with waveform visual boundaries.",
+      "description": "Cut precise segments from songs, ringtones, and podcast recordings with fade-in and fade-out envelope controls.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "wrench",
+      "tags": ["cutter", "trim", "ringtone", "split", "waveform"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav", ".m4a"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "startTime",
+          "label": "Start Time (mm:ss)",
+          "type": "text",
+          "default": "00:00"
+        },
+        {
+          "id": "endTime",
+          "label": "End Time (mm:ss)",
+          "type": "text",
+          "default": "01:30"
+        },
+        {
+          "id": "fadeIn",
+          "label": "Fade In (seconds)",
+          "type": "slider",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1,
+          "unit": "s"
+        },
+        {
+          "id": "fadeOut",
+          "label": "Fade Out (seconds)",
+          "type": "slider",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 2,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "slug": "audio-joiner",
+      "name": "Audio Joiner & Merger",
+      "tagline": "Merge multiple songs and audio tracks into a single unified file.",
+      "description": "Combine multiple audio tracks with smooth crossfades, gapless playback, and normalized volume levels across all tracks.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["joiner", "merger", "combine", "playlist", "mashup"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "crossfade",
+          "label": "Crossfade Duration",
+          "type": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "default": 2,
+          "unit": "s"
+        },
+        {
+          "id": "normalizeVolume",
+          "label": "Auto-Normalize Volume across tracks",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "audio-volume-booster",
+      "name": "Audio Volume Booster",
+      "tagline": "Amplify and boost audio volume up to 500% with clipping prevention.",
+      "description": "Boost quiet recordings, lectures, and audiobooks with dynamic peak limiting to prevent distortion and speaker blowouts.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["volume", "booster", "amplifier", "loudness", "gain"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "volumeBoost",
+          "label": "Loudness Multiplier",
+          "type": "select",
+          "options": ["150% (+3.5 dB)", "200% (+6 dB)", "300% (+9.5 dB)", "500% (+14 dB)"],
+          "default": "200% (+6 dB)"
+        },
+        {
+          "id": "antiClipping",
+          "label": "Enable Soft-Knee Peak Limiter",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "audio-speed-changer",
+      "name": "Audio Speed & Pitch Changer",
+      "tagline": "Change audio playback speed (0.5x to 2.0x) with independent pitch control.",
+      "description": "Speed up podcasts or slow down music lessons while keeping the natural pitch intact, or create custom chipmunk/nightcore effects.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "wrench",
+      "tags": ["speed", "tempo", "pitch", "nightcore", "slowed", "reverb"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "playbackSpeed",
+          "label": "Playback Speed",
+          "type": "select",
+          "options": ["0.5x (Half Speed)", "0.75x (Slow)", "1.25x (Brisk)", "1.5x (Fast)", "2.0x (Double Speed)"],
+          "default": "1.25x (Brisk)"
+        },
+        {
+          "id": "preservePitch",
+          "label": "Lock Natural Pitch (No Chipmunk effect)",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "voice-recorder",
+      "name": "Online Voice Recorder",
+      "tagline": "Record crystal-clear voice memos directly from your browser microphone.",
+      "description": "Record high-quality audio through your microphone with real-time waveform feedback and instant MP3/WAV download.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["recorder", "microphone", "voice-memo", "audio-capture"],
+      "inputFormats": [".wav", ".mp3", ".webm"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "echoCancellation",
+          "label": "Acoustic Echo Cancellation",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "noiseSuppression",
+          "label": "Microphone Noise Suppression",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "audio-noise-reduction",
+      "name": "AI Audio Noise Reduction",
+      "tagline": "Remove background hiss, room hum, and air conditioner noise.",
+      "description": "AI spectral subtraction engine removes stationary background noise while keeping voices crisp and natural.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "sparkle",
+      "tags": ["denoise", "noise-removal", "clean-audio", "hiss-filter", "ai"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "wav",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "noiseProfile",
+          "label": "Denoise Profile",
+          "type": "select",
+          "options": ["Auto-Detect Hiss & Hum", "Fan & AC Noise", "Traffic & Street Rumble", "Microphone Static"],
+          "default": "Auto-Detect Hiss & Hum"
+        },
+        {
+          "id": "strength",
+          "label": "Filter Strength",
+          "type": "slider",
+          "min": 10,
+          "max": 100,
+          "step": 10,
+          "default": 70,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "audio-equalizer",
+      "name": "10-Band Audio Equalizer",
+      "tagline": "Sculpt audio frequency spectrum with professional 10-band graphic EQ.",
+      "description": "Fine-tune frequencies from 31Hz to 16kHz with studio presets including Bass Boost, Vocal Clarifier, Acoustic, and Electronic.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["equalizer", "eq", "bass-boost", "mastering", "frequency"],
+      "inputFormats": [".mp3", ".wav", ".m4a", ".flac", ".ogg"],
+      "outputFormats": [".mp3", ".wav"],
+      "defaultOutput": "mp3",
+      "options": [
+        {
+          "id": "equalizerPreset",
+          "label": "EQ Preset",
+          "type": "select",
+          "options": [
+            "Flat",
+            "Bass Booster",
+            "Vocal Enhancer",
+            "Treble Booster",
+            "Club / EDM",
+            "Rock Studio",
+            "Podcast Master"
+          ],
+          "default": "Bass Booster"
+        }
+      ]
+    },
+    {
+      "slug": "audio-vocal-remover",
+      "name": "AI Vocal Remover & Karaoke Maker",
+      "tagline": "Separate vocals and backing instrumentals from any song.",
+      "description": "Extract acapella vocal stems and create studio-quality karaoke instrumental backing tracks using phase isolation.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "sparkle",
+      "tags": ["vocal-remover", "karaoke", "acapella", "instrumental", "stem-splitter"],
+      "inputFormats": [".mp3", ".wav", ".flac", ".m4a"],
+      "outputFormats": [".mp3", ".wav", ".zip"],
+      "defaultOutput": "mp3",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "outputMode",
+          "label": "Output Stem",
+          "type": "select",
+          "options": ["Instrumental Only (Karaoke)", "Vocals Only (Acapella)", "Both Stems (ZIP Archive)"],
+          "default": "Instrumental Only (Karaoke)"
+        }
+      ]
+    },
+    {
+      "slug": "audio-bpm-analyzer",
+      "name": "BPM & Musical Key Analyzer",
+      "tagline": "Detect tempo (BPM), musical key, and rhythm structure of songs.",
+      "description": "Analyze tempo metrics, Camelot key signatures, and harmonic spectrum profile for DJ mixing and music production.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "audio-converters-editing",
+      "icon": "play",
+      "tags": ["bpm", "tempo", "key-detector", "dj", "analyzer", "rhythm"],
+      "inputFormats": [".mp3", ".wav", ".flac", ".m4a", ".ogg"],
+      "outputFormats": [".json", ".txt"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "bpmRange",
+          "label": "BPM Range Detection",
+          "type": "select",
+          "options": [
+            "Auto (60-200 BPM)",
+            "House / Techno (120-135 BPM)",
+            "Hip-Hop / R&B (70-110 BPM)",
+            "Drum & Bass (160-180 BPM)"
+          ],
+          "default": "Auto (60-200 BPM)"
+        }
+      ]
+    },
+    {
+      "slug": "video-converter",
+      "name": "Universal Video Converter",
+      "tagline": "Convert between MP4, AVI, MOV, MKV, WEBM, FLV, 3GP, M4V, VOB, MPG, WMV, SWF, TS, M2TS, OGV, MXF, F4V, and RMVB.",
+      "description": "High-performance video transcoder supporting all modern and legacy video formats with resolution scaling and H.264/HEVC encoding.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "play",
+      "tags": ["video", "converter", "mp4", "mov", "avi", "mkv", "webm", "flv", "transcoder"],
+      "inputFormats": [
+        ".mp4",
+        ".avi",
+        ".mov",
+        ".mkv",
+        ".webm",
+        ".flv",
+        ".3gp",
+        ".m4v",
+        ".vob",
+        ".mpg",
+        ".wmv",
+        ".swf",
+        ".ts",
+        ".m2ts",
+        ".ogv",
+        ".mxf",
+        ".f4v",
+        ".rmvb"
+      ],
+      "outputFormats": [".mp4", ".webm", ".mov", ".avi", ".mkv"],
+      "defaultOutput": "mp4",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetFormat",
+          "label": "Target Video Container",
+          "type": "select",
+          "options": ["mp4", "webm", "mov", "avi", "mkv"],
+          "default": "mp4"
+        },
+        {
+          "id": "resolution",
+          "label": "Target Resolution",
+          "type": "select",
+          "options": [
+            "Original Resolution",
+            "1080p Full HD (1920x1080)",
+            "720p HD (1280x720)",
+            "4K UHD (3840x2160)",
+            "480p SD (854x480)"
+          ],
+          "default": "1080p Full HD (1920x1080)"
+        },
+        {
+          "id": "videoCodec",
+          "label": "Video Codec",
+          "type": "select",
+          "options": [
+            "H.264 / AVC (Universally Compatible)",
+            "H.265 / HEVC (High Efficiency)",
+            "VP9 (Web Optimized)",
+            "AV1 (Next-Gen)"
+          ],
+          "default": "H.264 / AVC (Universally Compatible)"
+        }
+      ]
+    },
+    {
+      "slug": "video-to-audio",
+      "name": "Video to Audio Extractor",
+      "tagline": "Extract high-quality MP3, WAV, AAC, or FLAC audio from video files.",
+      "description": "Rip audio soundtracks, music clips, and speech from video files (.mp4, .mov, .mkv, .avi) with maximum audio fidelity.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "play",
+      "tags": ["video-to-audio", "video-to-mp3", "audio-extractor", "soundtrack", "rip"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm", ".flv", ".m4v", ".wmv"],
+      "outputFormats": [".mp3", ".wav", ".aac", ".flac", ".m4a"],
+      "defaultOutput": "mp3",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "audioFormat",
+          "label": "Target Audio Format",
+          "type": "select",
+          "options": ["mp3", "wav", "aac", "flac", "m4a"],
+          "default": "mp3"
+        },
+        {
+          "id": "audioBitrate",
+          "label": "Audio Bitrate",
+          "type": "select",
+          "options": ["320 kbps (High Quality)", "256 kbps", "192 kbps", "128 kbps"],
+          "default": "320 kbps (High Quality)"
+        }
+      ]
+    },
+    {
+      "slug": "video-compressor",
+      "name": "Smart Video Compressor",
+      "tagline": "Compress video files for Discord, WhatsApp, email, and web without noticeable quality loss.",
+      "description": "Reduce large video file sizes using intelligent two-pass CRF compression optimized for instant sharing.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "sparkle",
+      "tags": ["compress-video", "reduce-video-size", "discord-video", "whatsapp-video"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm", ".flv"],
+      "outputFormats": [".mp4", ".webm"],
+      "defaultOutput": "mp4",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "preset",
+          "label": "Target File Size Preset",
+          "type": "select",
+          "options": [
+            "Discord / WhatsApp (under 16MB)",
+            "Email Attachment (under 25MB)",
+            "Balanced Web Compression (~65% smaller)",
+            "Maximum Reduction (~85% smaller)"
+          ],
+          "default": "Discord / WhatsApp (under 16MB)"
+        }
+      ]
+    },
+    {
+      "slug": "video-cutter",
+      "name": "Video Cutter & Trimmer",
+      "tagline": "Trim and cut video clips with live player scrubber and precise timestamps.",
+      "description": "Cut unwanted beginnings and endings from video clips with stream-copy instant rendering or re-encoded precision.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "wrench",
+      "tags": ["video-cutter", "trim-video", "split-video", "clip-maker"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm"],
+      "outputFormats": [".mp4", ".mov"],
+      "defaultOutput": "mp4",
+      "options": [
+        {
+          "id": "startTime",
+          "label": "Start Timestamp (mm:ss)",
+          "type": "text",
+          "default": "00:00"
+        },
+        {
+          "id": "endTime",
+          "label": "End Timestamp (mm:ss)",
+          "type": "text",
+          "default": "00:45"
+        }
+      ]
+    },
+    {
+      "slug": "video-mute",
+      "name": "Video Mute & Audio Stripper",
+      "tagline": "Remove audio and sound tracks completely from video files.",
+      "description": "Strip background sound and audio streams from videos to create 100% silent MP4 or WebM files.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "wrench",
+      "tags": ["mute-video", "silent-video", "remove-sound", "strip-audio"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm"],
+      "outputFormats": [".mp4", ".webm"],
+      "defaultOutput": "mp4",
+      "options": [
+        {
+          "id": "container",
+          "label": "Output Container",
+          "type": "select",
+          "options": ["mp4", "webm"],
+          "default": "mp4"
+        }
+      ]
+    },
+    {
+      "slug": "video-speed-changer",
+      "name": "Video Speed Modifier",
+      "tagline": "Create slow-motion (0.25x) or fast-motion (up to 4x) video effects.",
+      "description": "Speed up or slow down video footage with frame interpolation and audio pitch sync.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "play",
+      "tags": ["slow-motion", "timelapse", "fast-motion", "speed-video"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm"],
+      "outputFormats": [".mp4", ".webm"],
+      "defaultOutput": "mp4",
+      "options": [
+        {
+          "id": "speed",
+          "label": "Speed Multiplier",
+          "type": "select",
+          "options": [
+            "0.25x (Ultra Slow Motion)",
+            "0.5x (Slow Motion)",
+            "1.5x (Fast)",
+            "2.0x (2x Speed)",
+            "4.0x (Timelapse)"
+          ],
+          "default": "2.0x (2x Speed)"
+        },
+        {
+          "id": "keepAudio",
+          "label": "Mute Audio on Fast Forward",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
+      "slug": "video-watermark",
+      "name": "Video Watermark Adder",
+      "tagline": "Overlay customizable text or logo watermarks on video footage.",
+      "description": "Protect intellectual property with transparent PNG watermark logos or copyright text placed anywhere on the video frame.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "shield",
+      "tags": ["watermark-video", "video-logo", "branding", "copyright-protection"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm"],
+      "outputFormats": [".mp4"],
+      "defaultOutput": "mp4",
+      "options": [
+        {
+          "id": "watermarkText",
+          "label": "Watermark Text",
+          "type": "text",
+          "default": "\u00a9 iNWebTools"
+        },
+        {
+          "id": "position",
+          "label": "Watermark Position",
+          "type": "select",
+          "options": ["bottom-right", "bottom-left", "top-right", "top-left", "center"],
+          "default": "bottom-right"
+        },
+        {
+          "id": "opacity",
+          "label": "Opacity",
+          "type": "slider",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "slug": "subtitle-converter",
+      "name": "Subtitle Format Converter",
+      "tagline": "Convert between SRT, VTT (WebVTT), ASS, SSA, and TTML subtitle formats.",
+      "description": "Seamlessly convert SubRip (.srt) into HTML5 WebVTT (.vtt) and vice versa with accurate millisecond timestamp transformation.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "type",
+      "tags": ["subtitle", "srt", "vtt", "webvtt", "captions", "converter"],
+      "inputFormats": [".srt", ".vtt", ".txt", ".ass"],
+      "outputFormats": [".vtt", ".srt", ".txt"],
+      "defaultOutput": "vtt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetFormat",
+          "label": "Target Subtitle Format",
+          "type": "select",
+          "options": ["vtt", "srt"],
+          "default": "vtt"
+        }
+      ]
+    },
+    {
+      "slug": "video-frame-extractor",
+      "name": "Video Frame Extractor",
+      "tagline": "Extract high-resolution image snapshots and frames from video files.",
+      "description": "Capture exact frame snapshots from videos in PNG or JPG format at specific timestamps or extract consecutive sequences.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "image",
+      "tags": ["frame-extractor", "snapshot", "video-to-image", "thumbnail-grabber"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".mkv", ".webm"],
+      "outputFormats": [".zip", ".png", ".jpg"],
+      "defaultOutput": "zip",
+      "options": [
+        {
+          "id": "frameFormat",
+          "label": "Snapshot Format",
+          "type": "select",
+          "options": ["PNG (Lossless)", "JPG (Standard)"],
+          "default": "PNG (Lossless)"
+        },
+        {
+          "id": "interval",
+          "label": "Extraction Mode",
+          "type": "select",
+          "options": ["1 frame every 5 seconds", "1 frame every 10 seconds", "Keyframes only"],
+          "default": "1 frame every 5 seconds"
+        }
+      ]
+    },
+    {
+      "slug": "video-metadata-editor",
+      "name": "Video Metadata Editor",
+      "tagline": "Edit title, artist, album, genre, and year metadata tags in video files.",
+      "description": "Inspect and update MP4 atoms, Matroska tags, and metadata headers without re-encoding video streams.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "shield",
+      "tags": ["video-tags", "metadata-editor", "mp4-tags", "id3-video"],
+      "inputFormats": [".mp4", ".mov", ".mkv", ".m4v"],
+      "outputFormats": [".mp4", ".mkv"],
+      "defaultOutput": "mp4",
+      "options": [
+        {
+          "id": "title",
+          "label": "Video Title",
+          "type": "text",
+          "default": "Master Video Production"
+        },
+        {
+          "id": "artist",
+          "label": "Artist / Director",
+          "type": "text",
+          "default": "iNWebTools Studio"
+        },
+        {
+          "id": "year",
+          "label": "Release Year",
+          "type": "text",
+          "default": "2026"
+        }
+      ]
+    },
+    {
+      "slug": "video-to-gif",
+      "name": "Video to GIF Converter",
+      "tagline": "Convert short video clips into high-quality animated GIFs.",
+      "description": "Create animated GIFs from videos with custom frame rates (FPS), loop controls, and optimized color palette dithering.",
+      "module": "audio-video",
+      "categorySlug": "audio-video-tools",
+      "subcategorySlug": "video-converters-editing",
+      "icon": "image",
+      "tags": ["video-to-gif", "animated-gif", "gif-maker", "meme-creator"],
+      "inputFormats": [".mp4", ".mov", ".avi", ".webm"],
+      "outputFormats": [".gif"],
+      "defaultOutput": "gif",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "fps",
+          "label": "Frame Rate (FPS)",
+          "type": "slider",
+          "min": 5,
+          "max": 30,
+          "step": 5,
+          "default": 15,
+          "unit": "FPS"
+        },
+        {
+          "id": "resolution",
+          "label": "GIF Width",
+          "type": "select",
+          "options": ["480px (Standard)", "320px (Compact)", "640px (High Quality)"],
+          "default": "480px (Standard)"
+        }
       ]
     }
   ]

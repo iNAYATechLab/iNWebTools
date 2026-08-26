@@ -15,6 +15,7 @@ import { CategoryGrid } from '../../components/categories/CategoryGrid';
 import { CategoryIcon } from '../../components/categories/CategoryIcon';
 import { CategorySidebar } from '../../components/categories/CategorySidebar';
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
+import { MediaToolView } from '../../components/tools/Media/MediaToolView';
 import { useCategories } from '../../hooks/useCategories';
 import { getToolsRegistry } from '../../services/toolsApi';
 import { categoryPath, subcategoryPath } from '../../types/categories';
@@ -83,6 +84,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-accent-400/30 bg-accent-500/10 px-3.5 py-2 text-xs font-semibold text-accent-300 hover:bg-accent-500/20 transition-colors"
           >
             🖼️ Image & Graphics Engine →
+          </Link>
+          <Link
+            to="/tools/audio-video"
+            className="rounded-xl border border-purple-400/30 bg-purple-500/10 px-3.5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/20 transition-colors"
+          >
+            🎬 Audio & Video Media Engine →
           </Link>
         </div>
       </header>
@@ -293,7 +300,41 @@ export function SubcategoryPage() {
  * ------------------------------------------------------------------ */
 
 export function ToolPage() {
-  const { toolSlug } = useParams();
+  const { categorySlug, toolSlug } = useParams();
+  const isAudioVideo =
+    categorySlug === 'audio-video-tools' ||
+    (toolSlug &&
+      [
+        'audio-converter',
+        'audio-to-text',
+        'voice-to-text',
+        'audio-compressor',
+        'audio-cutter',
+        'audio-joiner',
+        'audio-volume-booster',
+        'audio-speed-changer',
+        'voice-recorder',
+        'audio-noise-reduction',
+        'audio-equalizer',
+        'audio-vocal-remover',
+        'audio-bpm-analyzer',
+        'video-converter',
+        'video-to-audio',
+        'video-compressor',
+        'video-cutter',
+        'video-mute',
+        'video-speed-changer',
+        'video-watermark',
+        'subtitle-converter',
+        'video-frame-extractor',
+        'video-metadata-editor',
+        'video-to-gif',
+      ].includes(toolSlug));
+
+  if (isAudioVideo) {
+    return <MediaToolView slugOverride={toolSlug} />;
+  }
+
   return <DocumentImageToolView slugOverride={toolSlug} />;
 }
 

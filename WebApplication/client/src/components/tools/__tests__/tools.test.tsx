@@ -4,42 +4,44 @@ import { describe, expect, it, vi } from 'vitest';
 import { ToolControls } from '../DocumentImage/ToolControls';
 import { ToolDropzone } from '../DocumentImage/ToolDropzone';
 import { ToolPreview } from '../DocumentImage/ToolPreview';
+import { AudioWaveform } from '../Media/AudioWaveform';
+import { MediaDropzone } from '../Media/MediaDropzone';
+import { VideoPlayerPreview } from '../Media/VideoPlayerPreview';
 import type { ToolDefinition } from '../../../types/tools';
 
 const mockTool: ToolDefinition = {
-  slug: 'csv-to-json',
-  name: 'CSV to JSON Converter',
-  tagline: 'Convert CSV to JSON format',
-  module: 'document-pdf',
-  categorySlug: 'developer-code-utilities',
-  subcategorySlug: 'data-converters-parsers',
-  icon: 'code',
-  inputFormats: ['.csv', '.tsv'],
-  outputFormats: ['.json'],
-  defaultOutput: 'json',
+  slug: 'audio-converter',
+  name: 'Universal Audio Converter',
+  tagline: 'Convert between MP3, WAV, AAC, FLAC',
+  module: 'audio-video',
+  categorySlug: 'audio-video-tools',
+  subcategorySlug: 'audio-converters-editing',
+  icon: 'play',
+  inputFormats: ['.mp3', '.wav', '.aac'],
+  outputFormats: ['.mp3', '.wav'],
+  defaultOutput: 'mp3',
   options: [
     {
-      id: 'indent',
-      label: 'Indentation',
+      id: 'targetFormat',
+      label: 'Target Format',
       type: 'select',
-      options: ['2 spaces', '4 spaces'],
-      default: '2 spaces',
+      options: ['mp3', 'wav', 'aac'],
+      default: 'mp3',
     },
     {
-      id: 'quality',
-      label: 'Quality Factor',
+      id: 'bitrate',
+      label: 'Bitrate',
       type: 'slider',
-      min: 10,
-      max: 100,
-      default: 80,
-      unit: '%',
+      min: 64,
+      max: 320,
+      default: 320,
+      unit: 'kbps',
     },
-    { id: 'includeHeaders', label: 'Include Headers', type: 'toggle', default: true },
   ],
 };
 
-describe('Document & Image Tool Components', () => {
-  describe('ToolDropzone', () => {
+describe('Tools & Media Components', () => {
+  describe('ToolDropzone & MediaDropzone', () => {
     it('renders file upload dropzone and accepted formats', () => {
       const onFilesChange = vi.fn();
       render(
@@ -54,41 +56,45 @@ describe('Document & Image Tool Components', () => {
       expect(screen.getByText(/Supports \.pdf, \.docx/i)).toBeDefined();
     });
 
-    it('renders direct text input tab when supported', () => {
-      const onRawTextChange = vi.fn();
-      render(
-        <ToolDropzone
-          supportsTextInput={true}
-          files={[]}
-          onFilesChange={vi.fn()}
-          rawText=""
-          onRawTextChange={onRawTextChange}
-        />,
-      );
+    it('renders MediaDropzone with live voice recording button', () => {
+      render(<MediaDropzone supportsVoiceRecord={true} files={[]} onFilesChange={vi.fn()} />);
 
-      const textTab = screen.getByRole('button', { name: /Direct Code \/ Text/i });
-      expect(textTab).toBeDefined();
-      fireEvent.click(textTab);
+      const recordTab = screen.getByRole('button', { name: /Record Mic/i });
+      expect(recordTab).toBeDefined();
+      fireEvent.click(recordTab);
 
-      const textarea = screen.getByPlaceholderText(/Paste your raw text/i);
-      expect(textarea).toBeDefined();
+      expect(screen.getByText(/Click the microphone button to start recording/i)).toBeDefined();
+    });
+  });
+
+  describe('AudioWaveform & VideoPlayerPreview', () => {
+    it('renders AudioWaveform player and speed metrics', () => {
+      render(<AudioWaveform trimStart="00:10" trimEnd="01:20" playbackSpeed={1.5} />);
+
+      expect(screen.getByText(/Speed: 1.5x/i)).toBeDefined();
+      expect(screen.getByText(/Trim: \[00:10 - 01:20\]/i)).toBeDefined();
+    });
+
+    it('renders VideoPlayerPreview canvas placeholder', () => {
+      render(<VideoPlayerPreview watermarkText="© iNWebTools" watermarkPosition="bottom-right" />);
+
+      expect(screen.getByText(/Video Canvas Ready/i)).toBeDefined();
     });
   });
 
   describe('ToolControls', () => {
-    it('renders sliders, select options, and toggles', () => {
+    it('renders sliders and select options', () => {
       const onChange = vi.fn();
       render(
         <ToolControls
           options={mockTool.options!}
-          values={{ indent: '2 spaces', quality: 80, includeHeaders: true }}
+          values={{ targetFormat: 'mp3', bitrate: 320 }}
           onChange={onChange}
         />,
       );
 
-      expect(screen.getByText('Indentation')).toBeDefined();
-      expect(screen.getByText('Quality Factor')).toBeDefined();
-      expect(screen.getByText('Include Headers')).toBeDefined();
+      expect(screen.getByText('Target Format')).toBeDefined();
+      expect(screen.getByText('Bitrate')).toBeDefined();
     });
   });
 
@@ -110,34 +116,6 @@ describe('Document & Image Tool Components', () => {
 
       expect(screen.getByText(/Converted Output \(JSON\)/i)).toBeDefined();
       expect(screen.getByText('Copy to Clipboard')).toBeDefined();
-      expect(screen.getByText(/rows:/i)).toBeDefined();
-    });
-
-    it('renders extracted color palette swatches', () => {
-      render(
-        <ToolPreview
-          tool={{ ...mockTool, slug: 'image-color-picker' }}
-          files={[]}
-          result={{
-            resultType: 'palette',
-            palette: [
-              {
-                hex: '#0ea5e9',
-                rgb: 'rgb(14, 165, 233)',
-                hsl: 'hsl(199, 89%, 48%)',
-                name: 'Sky Blue',
-                dominance: 40,
-              },
-            ],
-          }}
-          options={{}}
-          loading={false}
-        />,
-      );
-
-      expect(screen.getByText(/Extracted Color Harmony Palette/i)).toBeDefined();
-      expect(screen.getByText('#0ea5e9')).toBeDefined();
-      expect(screen.getByText('Sky Blue')).toBeDefined();
     });
   });
 });

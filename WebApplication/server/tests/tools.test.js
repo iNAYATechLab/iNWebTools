@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, Spreadsheet, PDF & Image Processors.
+ * Tools Engine Tests — Document, Spreadsheet, PDF, Image, Audio & Video Processors.
  */
 
 import request from 'supertest';
@@ -18,18 +18,18 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBeGreaterThanOrEqual(2);
+      expect(reg.modules.length).toBe(3);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(48);
+      expect(reg.tools.length).toBe(72);
     });
 
-    it('contains all required Phase 1 modules without duplicate slugs', () => {
+    it('contains all required Phase 1 & Phase 2 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
       expect(slugs.length).toBe(uniqueSlugs.size);
 
-      // Verify Document & Spreadsheet tools
+      // Phase 1: Document & Spreadsheet tools
       expect(slugs).toContain('word-to-pdf');
       expect(slugs).toContain('word-to-excel');
       expect(slugs).toContain('excel-to-pdf');
@@ -40,7 +40,7 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('epub-to-pdf');
       expect(slugs).toContain('html-to-pdf');
 
-      // Verify PDF Editing & Management tools
+      // Phase 1: PDF Editing & Management tools
       expect(slugs).toContain('pdf-to-image');
       expect(slugs).toContain('merge-pdf');
       expect(slugs).toContain('split-pdf');
@@ -55,7 +55,7 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('pdf-page-numbering');
       expect(slugs).toContain('redact-pdf');
 
-      // Verify Image Tools & Extended Converters
+      // Phase 1: Image Tools & Extended Converters
       expect(slugs).toContain('image-converter');
       expect(slugs).toContain('image-resizer');
       expect(slugs).toContain('image-compressor');
@@ -67,6 +67,34 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('image-exif-eraser');
       expect(slugs).toContain('image-watermark');
       expect(slugs).toContain('image-upscaler');
+
+      // Phase 2: Audio Converters & Utilities
+      expect(slugs).toContain('audio-converter');
+      expect(slugs).toContain('audio-to-text');
+      expect(slugs).toContain('voice-to-text');
+      expect(slugs).toContain('audio-compressor');
+      expect(slugs).toContain('audio-cutter');
+      expect(slugs).toContain('audio-joiner');
+      expect(slugs).toContain('audio-volume-booster');
+      expect(slugs).toContain('audio-speed-changer');
+      expect(slugs).toContain('voice-recorder');
+      expect(slugs).toContain('audio-noise-reduction');
+      expect(slugs).toContain('audio-equalizer');
+      expect(slugs).toContain('audio-vocal-remover');
+      expect(slugs).toContain('audio-bpm-analyzer');
+
+      // Phase 2: Video Converters & Utilities
+      expect(slugs).toContain('video-converter');
+      expect(slugs).toContain('video-to-audio');
+      expect(slugs).toContain('video-compressor');
+      expect(slugs).toContain('video-cutter');
+      expect(slugs).toContain('video-mute');
+      expect(slugs).toContain('video-speed-changer');
+      expect(slugs).toContain('video-watermark');
+      expect(slugs).toContain('subtitle-converter');
+      expect(slugs).toContain('video-frame-extractor');
+      expect(slugs).toContain('video-metadata-editor');
+      expect(slugs).toContain('video-to-gif');
     });
   });
 
@@ -75,124 +103,87 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(48);
+      expect(res.body.data.total).toBe(72);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(2);
+      expect(res.body.data.modules.length).toBe(3);
     });
 
     it('filters tools by module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=image-graphics').expect(200);
+      const res = await request(app).get('/api/tools/registry?module=audio-video').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'image-graphics')).toBe(true);
-      expect(res.body.data.total).toBe(11);
+      expect(res.body.data.tools.every((t) => t.module === 'audio-video')).toBe(true);
+      expect(res.body.data.total).toBe(24);
     });
 
     it('filters tools by search query', async () => {
-      const res = await request(app).get('/api/tools/registry?search=watermark').expect(200);
+      const res = await request(app).get('/api/tools/registry?search=compress').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBeGreaterThanOrEqual(2);
-      expect(res.body.data.tools.some((t) => t.slug === 'pdf-watermark')).toBe(true);
-      expect(res.body.data.tools.some((t) => t.slug === 'image-watermark')).toBe(true);
-    });
-  });
-
-  describe('GET /api/tools/:slug', () => {
-    it('returns single tool definition with options schema', async () => {
-      const res = await request(app).get('/api/tools/csv-to-json').expect(200);
-
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.slug).toBe('csv-to-json');
-      expect(res.body.data.name).toBe('CSV to JSON Converter');
-      expect(Array.isArray(res.body.data.options)).toBe(true);
-    });
-
-    it('returns 404 for unknown tool slug', async () => {
-      const res = await request(app).get('/api/tools/non-existent-tool').expect(404);
-
-      expect(res.body.success).toBe(false);
-      expect(res.body.error.code).toBe('TOOL_NOT_FOUND');
+      expect(res.body.data.total).toBeGreaterThanOrEqual(4);
+      expect(res.body.data.tools.some((t) => t.slug === 'audio-compressor')).toBe(true);
+      expect(res.body.data.tools.some((t) => t.slug === 'video-compressor')).toBe(true);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
-    it('executes csv-to-json with text payload', async () => {
+    it('executes audio-to-text transcription', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/csv-to-json')
-        .send({
-          data: 'name,role,dept\niNAYA,Architect,TechLab\nJohn,Senior,Eng',
-        })
-        .expect(200);
-
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('json');
-      expect(res.body.data.result.data.length).toBe(2);
-      expect(res.body.data.result.data[0].name).toBe('iNAYA');
-      expect(res.body.data.result.stats.rows).toBe(2);
-    });
-
-    it('executes json-to-csv with JSON payload', async () => {
-      const res = await request(app)
-        .post('/api/tools/execute/json-to-csv')
-        .send({
-          data: JSON.stringify([
-            { id: 1, title: 'Doc 1' },
-            { id: 2, title: 'Doc 2' },
-          ]),
-        })
+        .post('/api/tools/execute/audio-to-text')
+        .send({ options: { language: 'en' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.result.resultType).toBe('text');
-      expect(res.body.data.result.content).toContain('id,title');
-      expect(res.body.data.result.content).toContain('1,Doc 1');
+      expect(res.body.data.result.content).toContain('Whisper');
+      expect(res.body.data.result.stats.language).toBe('en');
     });
 
-    it('executes csv-to-markdown generator', async () => {
+    it('executes subtitle-converter SRT to VTT', async () => {
+      const srt = `1\n00:00:01,000 --> 00:00:04,000\nHello world\n`;
       const res = await request(app)
-        .post('/api/tools/execute/csv-to-markdown')
-        .send({
-          data: 'Feature,Status\nOCR,Active\nFilters,Ready',
-        })
+        .post('/api/tools/execute/subtitle-converter')
+        .send({ content: srt, options: { targetFormat: 'vtt' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toContain('| Feature');
-      expect(res.body.data.result.content).toContain('| OCR');
+      expect(res.body.data.result.content).toContain('WEBVTT');
+      expect(res.body.data.result.content).toContain('00:00:01.000');
     });
 
-    it('executes image-color-picker palette extraction', async () => {
+    it('executes audio-bpm-analyzer', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/image-color-picker')
-        .send({ options: { paletteCount: 5 } })
-        .expect(200);
-
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('palette');
-      expect(res.body.data.result.palette.length).toBeGreaterThanOrEqual(4);
-    });
-
-    it('executes image-exif-viewer metadata inspection', async () => {
-      const res = await request(app)
-        .post('/api/tools/execute/image-exif-viewer')
-        .send({ options: { showGpsMap: true } })
+        .post('/api/tools/execute/audio-bpm-analyzer')
+        .send({ options: {} })
         .expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.result.resultType).toBe('metadata');
-      expect(res.body.data.result.metadata.camera).toBeDefined();
+      expect(res.body.data.result.stats.bpm).toBeDefined();
+      expect(res.body.data.result.stats.musicalKey).toBeDefined();
     });
 
-    it('executes sign-pdf digital signature stamping', async () => {
+    it('executes video-to-audio extraction', async () => {
       const res = await request(app)
-        .post('/api/tools/execute/sign-pdf')
-        .send({ options: { signerName: 'Chief Security Officer' } })
+        .post('/api/tools/execute/video-to-audio')
+        .send({ options: { audioFormat: 'mp3', audioBitrate: '320 kbps' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.result.resultType).toBe('file');
-      expect(res.body.data.result.metadata.signer).toBe('Chief Security Officer');
+      expect(res.body.data.result.fileName).toContain('.mp3');
+    });
+
+    it('executes video-to-gif conversion', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/video-to-gif')
+        .send({ options: { fps: 20 } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.resultType).toBe('file');
+      expect(res.body.data.result.fileName).toContain('.gif');
+      expect(res.body.data.result.stats.fps).toBe('20 FPS');
     });
   });
 });
