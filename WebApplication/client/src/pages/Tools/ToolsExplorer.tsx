@@ -14,6 +14,7 @@ import { Breadcrumbs, type Crumb } from '../../components/categories/Breadcrumbs
 import { CategoryGrid } from '../../components/categories/CategoryGrid';
 import { CategoryIcon } from '../../components/categories/CategoryIcon';
 import { CategorySidebar } from '../../components/categories/CategorySidebar';
+import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToolView';
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
 import { useCategories } from '../../hooks/useCategories';
@@ -90,6 +91,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-purple-400/30 bg-purple-500/10 px-3.5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/20 transition-colors"
           >
             🎬 Audio & Video Media Engine →
+          </Link>
+          <Link
+            to="/tools/developer-code"
+            className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-colors"
+          >
+            💻 Developer & Code Engine →
           </Link>
         </div>
       </header>
@@ -299,8 +306,50 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const DEVELOPER_SLUGS = [
+  'curl-to-code',
+  'json-to-types',
+  'json-yaml-converter',
+  'xml-json-converter',
+  'toml-json-converter',
+  'ndjson-converter',
+  'protobuf-json-viewer',
+  'graphql-schema-parser',
+  'hcl-terraform-converter',
+  'php-array-json-converter',
+  'plist-json-converter',
+  'sql-to-json-csv',
+  'csv-to-sql',
+  'msgpack-bencode-converter',
+  'html-minifier-beautifier',
+  'css-minifier-beautifier',
+  'js-minifier-beautifier',
+  'sql-formatter-beautifier',
+  'nginx-config-formatter',
+  'apache-htaccess-formatter',
+  'dockerfile-formatter-validator',
+  'graphql-formatter',
+  'base64-encoder-decoder',
+  'base32-base58-converter',
+  'url-encoder-decoder',
+  'html-entity-encoder-decoder',
+  'morse-code-converter',
+  'rot13-caesar-cipher',
+  'punycode-converter',
+  'quoted-printable-uuencode',
+  'number-base-converter',
+];
+
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isDeveloper =
+    categorySlug === 'developer-code-utilities' || (toolSlug && DEVELOPER_SLUGS.includes(toolSlug));
+
+  if (isDeveloper) {
+    return <DeveloperToolView slugOverride={toolSlug} />;
+  }
+
   const isAudioVideo =
     categorySlug === 'audio-video-tools' ||
     (toolSlug &&

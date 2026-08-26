@@ -27,6 +27,8 @@ import { DocumentImageExplorer } from './components/tools/DocumentImage/Document
 import { DocumentImageToolView } from './components/tools/DocumentImage/DocumentImageToolView';
 import { MediaExplorer } from './components/tools/Media/MediaExplorer';
 import { MediaToolView } from './components/tools/Media/MediaToolView';
+import { DeveloperExplorer } from './components/tools/Developer/DeveloperExplorer';
+import { DeveloperToolView } from './components/tools/Developer/DeveloperToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -56,10 +58,6 @@ function PublicApp() {
 
 /**
  * Public chrome for pages other than the homepage.
- *
- * Same Header/Footer and background treatment as `PublicApp`, but with an
- * `Outlet` in the middle instead of the widget layout — the tool catalogue
- * brings its own sidebar and does not want the homepage's widget zones.
  */
 function PublicShell() {
   return (
@@ -81,12 +79,6 @@ function PublicShell() {
 export default function App() {
   return (
     <BrowserRouter>
-      {/*
-        AdminAuthProvider wraps everything, not just /AdminDashboard, because
-        the public header shows either a profile menu or a sign-in link and
-        needs to know which. It costs nothing on the public side: with no
-        stored token the provider settles synchronously without a request.
-      */}
       <AdminAuthProvider>
         <Routes>
           <Route
@@ -98,12 +90,7 @@ export default function App() {
             }
           />
 
-          {/*
-            The tool catalogue. Nested exactly as the URL contract specifies:
-            /tools → /tools/:category → /tools/:category/:sub → .../:tool.
-            Declaring them as nested routes rather than four flat paths is what
-            keeps the sidebar mounted across navigation between depths.
-          */}
+          {/* Tool catalogue & direct module routes */}
           <Route
             element={
               <LocaleProvider>
@@ -124,6 +111,8 @@ export default function App() {
             <Route path="/tools/image-graphics/:toolSlug" element={<DocumentImageToolView />} />
             <Route path="/tools/audio-video" element={<MediaExplorer />} />
             <Route path="/tools/audio-video/:toolSlug" element={<MediaToolView />} />
+            <Route path="/tools/developer-code" element={<DeveloperExplorer />} />
+            <Route path="/tools/developer-code/:toolSlug" element={<DeveloperToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>
@@ -134,10 +123,7 @@ export default function App() {
             </Route>
           </Route>
 
-          {/*
-            Public authentication. Inside LocaleProvider because these pages
-            are user-facing and bilingual, unlike the operator dashboard.
-          */}
+          {/* Public authentication */}
           <Route
             element={
               <LocaleProvider>
@@ -161,12 +147,7 @@ export default function App() {
             />
           </Route>
 
-          {/*
-            The admin area is deliberately outside LocaleProvider: it is an
-            operator tool, English-only, and should not inherit the public
-            chrome. Paths are PascalCase because the user specified them that
-            way — they are browser routes, not server paths.
-          */}
+          {/* Admin area */}
           <Route
             path="/AdminDashboard"
             element={
@@ -188,7 +169,7 @@ export default function App() {
             <Route path="Security/AdminAccess" element={<AdminAccess />} />
           </Route>
 
-          {/* Anything else goes back to the app rather than a blank screen. */}
+          {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AdminAuthProvider>

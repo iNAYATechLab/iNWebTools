@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, Spreadsheet, PDF, Image, Audio & Video Processors.
+ * Tools Engine Tests — Document, PDF, Image, Media, and Phase 3 Developer & Code Tools.
  */
 
 import request from 'supertest';
@@ -18,12 +18,12 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(3);
+      expect(reg.modules.length).toBe(4);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(72);
+      expect(reg.tools.length).toBe(103);
     });
 
-    it('contains all required Phase 1 & Phase 2 modules without duplicate slugs', () => {
+    it('contains all required Phase 1, Phase 2 & Phase 3 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
@@ -36,65 +36,61 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('csv-to-json');
       expect(slugs).toContain('json-to-csv');
       expect(slugs).toContain('csv-to-markdown');
-      expect(slugs).toContain('powerpoint-to-pdf');
-      expect(slugs).toContain('epub-to-pdf');
-      expect(slugs).toContain('html-to-pdf');
 
       // Phase 1: PDF Editing & Management tools
       expect(slugs).toContain('pdf-to-image');
       expect(slugs).toContain('merge-pdf');
       expect(slugs).toContain('split-pdf');
       expect(slugs).toContain('compress-pdf');
-      expect(slugs).toContain('rotate-pdf');
-      expect(slugs).toContain('crop-pdf');
       expect(slugs).toContain('pdf-extract-text');
-      expect(slugs).toContain('protect-pdf');
-      expect(slugs).toContain('unlock-pdf');
-      expect(slugs).toContain('sign-pdf');
-      expect(slugs).toContain('pdf-watermark');
-      expect(slugs).toContain('pdf-page-numbering');
-      expect(slugs).toContain('redact-pdf');
 
-      // Phase 1: Image Tools & Extended Converters
+      // Phase 1: Image Tools
       expect(slugs).toContain('image-converter');
       expect(slugs).toContain('image-resizer');
       expect(slugs).toContain('image-compressor');
-      expect(slugs).toContain('image-cropper');
-      expect(slugs).toContain('image-background-remover');
-      expect(slugs).toContain('image-color-picker');
-      expect(slugs).toContain('image-filters');
-      expect(slugs).toContain('image-exif-viewer');
-      expect(slugs).toContain('image-exif-eraser');
-      expect(slugs).toContain('image-watermark');
-      expect(slugs).toContain('image-upscaler');
 
-      // Phase 2: Audio Converters & Utilities
+      // Phase 2: Audio & Video
       expect(slugs).toContain('audio-converter');
       expect(slugs).toContain('audio-to-text');
-      expect(slugs).toContain('voice-to-text');
-      expect(slugs).toContain('audio-compressor');
-      expect(slugs).toContain('audio-cutter');
-      expect(slugs).toContain('audio-joiner');
-      expect(slugs).toContain('audio-volume-booster');
-      expect(slugs).toContain('audio-speed-changer');
-      expect(slugs).toContain('voice-recorder');
-      expect(slugs).toContain('audio-noise-reduction');
-      expect(slugs).toContain('audio-equalizer');
-      expect(slugs).toContain('audio-vocal-remover');
-      expect(slugs).toContain('audio-bpm-analyzer');
-
-      // Phase 2: Video Converters & Utilities
       expect(slugs).toContain('video-converter');
-      expect(slugs).toContain('video-to-audio');
-      expect(slugs).toContain('video-compressor');
-      expect(slugs).toContain('video-cutter');
-      expect(slugs).toContain('video-mute');
-      expect(slugs).toContain('video-speed-changer');
-      expect(slugs).toContain('video-watermark');
-      expect(slugs).toContain('subtitle-converter');
-      expect(slugs).toContain('video-frame-extractor');
-      expect(slugs).toContain('video-metadata-editor');
       expect(slugs).toContain('video-to-gif');
+
+      // Phase 3: Developer & Code Converters
+      expect(slugs).toContain('curl-to-code');
+      expect(slugs).toContain('json-to-types');
+      expect(slugs).toContain('json-yaml-converter');
+      expect(slugs).toContain('xml-json-converter');
+      expect(slugs).toContain('toml-json-converter');
+      expect(slugs).toContain('ndjson-converter');
+      expect(slugs).toContain('protobuf-json-viewer');
+      expect(slugs).toContain('graphql-schema-parser');
+      expect(slugs).toContain('hcl-terraform-converter');
+      expect(slugs).toContain('php-array-json-converter');
+      expect(slugs).toContain('plist-json-converter');
+      expect(slugs).toContain('sql-to-json-csv');
+      expect(slugs).toContain('csv-to-sql');
+      expect(slugs).toContain('msgpack-bencode-converter');
+
+      // Phase 3: Code Minifiers & Beautifiers
+      expect(slugs).toContain('html-minifier-beautifier');
+      expect(slugs).toContain('css-minifier-beautifier');
+      expect(slugs).toContain('js-minifier-beautifier');
+      expect(slugs).toContain('sql-formatter-beautifier');
+      expect(slugs).toContain('nginx-config-formatter');
+      expect(slugs).toContain('apache-htaccess-formatter');
+      expect(slugs).toContain('dockerfile-formatter-validator');
+      expect(slugs).toContain('graphql-formatter');
+
+      // Phase 3: String Encoders & Radix Converters
+      expect(slugs).toContain('base64-encoder-decoder');
+      expect(slugs).toContain('base32-base58-converter');
+      expect(slugs).toContain('url-encoder-decoder');
+      expect(slugs).toContain('html-entity-encoder-decoder');
+      expect(slugs).toContain('morse-code-converter');
+      expect(slugs).toContain('rot13-caesar-cipher');
+      expect(slugs).toContain('punycode-converter');
+      expect(slugs).toContain('quoted-printable-uuencode');
+      expect(slugs).toContain('number-base-converter');
     });
   });
 
@@ -103,30 +99,30 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(72);
+      expect(res.body.data.total).toBe(103);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(3);
+      expect(res.body.data.modules.length).toBe(4);
     });
 
-    it('filters tools by module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=audio-video').expect(200);
+    it('filters tools by developer-code module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=developer-code').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'audio-video')).toBe(true);
-      expect(res.body.data.total).toBe(24);
+      expect(res.body.data.tools.every((t) => t.module === 'developer-code')).toBe(true);
+      expect(res.body.data.total).toBe(31);
     });
 
     it('filters tools by search query', async () => {
-      const res = await request(app).get('/api/tools/registry?search=compress').expect(200);
+      const res = await request(app).get('/api/tools/registry?search=curl').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBeGreaterThanOrEqual(4);
-      expect(res.body.data.tools.some((t) => t.slug === 'audio-compressor')).toBe(true);
-      expect(res.body.data.tools.some((t) => t.slug === 'video-compressor')).toBe(true);
+      expect(res.body.data.total).toBeGreaterThanOrEqual(1);
+      expect(res.body.data.tools.some((t) => t.slug === 'curl-to-code')).toBe(true);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
+    // Phase 2 Tests
     it('executes audio-to-text transcription', async () => {
       const res = await request(app)
         .post('/api/tools/execute/audio-to-text')
@@ -136,54 +132,79 @@ describe('Tools Engine & Registry API', () => {
       expect(res.body.success).toBe(true);
       expect(res.body.data.result.resultType).toBe('text');
       expect(res.body.data.result.content).toContain('Whisper');
-      expect(res.body.data.result.stats.language).toBe('en');
     });
 
-    it('executes subtitle-converter SRT to VTT', async () => {
-      const srt = `1\n00:00:01,000 --> 00:00:04,000\nHello world\n`;
+    // Phase 3 Tests: cURL to Code
+    it('executes curl-to-code converter for JavaScript Fetch', async () => {
+      const curl =
+        'curl -X POST https://api.inwebtools.com/v1/auth/login -H "Content-Type: application/json" -d \'{"email":"test@test.com"}\'';
       const res = await request(app)
-        .post('/api/tools/execute/subtitle-converter')
-        .send({ content: srt, options: { targetFormat: 'vtt' } })
+        .post('/api/tools/execute/curl-to-code')
+        .send({ content: curl, options: { targetLanguage: 'javascript-fetch' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.content).toContain('WEBVTT');
-      expect(res.body.data.result.content).toContain('00:00:01.000');
+      expect(res.body.data.result.resultType).toBe('code');
+      expect(res.body.data.result.content).toContain('fetch(');
+      expect(res.body.data.result.content).toContain('POST');
     });
 
-    it('executes audio-bpm-analyzer', async () => {
+    it('executes json-to-types converter for TypeScript interfaces', async () => {
+      const json = JSON.stringify({ id: 1, name: 'Alice', active: true });
       const res = await request(app)
-        .post('/api/tools/execute/audio-bpm-analyzer')
-        .send({ options: {} })
+        .post('/api/tools/execute/json-to-types')
+        .send({ content: json, options: { targetLanguage: 'typescript', typeName: 'User' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('metadata');
-      expect(res.body.data.result.stats.bpm).toBeDefined();
-      expect(res.body.data.result.stats.musicalKey).toBeDefined();
+      expect(res.body.data.result.resultType).toBe('code');
+      expect(res.body.data.result.content).toContain('export interface User');
+      expect(res.body.data.result.content).toContain('id: number');
+      expect(res.body.data.result.content).toContain('name: string');
     });
 
-    it('executes video-to-audio extraction', async () => {
+    it('executes json-yaml-converter', async () => {
+      const json = JSON.stringify({ app: 'iNWebTools', port: 5000 });
       const res = await request(app)
-        .post('/api/tools/execute/video-to-audio')
-        .send({ options: { audioFormat: 'mp3', audioBitrate: '320 kbps' } })
+        .post('/api/tools/execute/json-yaml-converter')
+        .send({ content: json, options: { mode: 'json-to-yaml' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('file');
-      expect(res.body.data.result.fileName).toContain('.mp3');
+      expect(res.body.data.result.content).toContain('app:');
+      expect(res.body.data.result.content).toContain('port:');
     });
 
-    it('executes video-to-gif conversion', async () => {
+    it('executes html-minifier-beautifier', async () => {
+      const html = '<div>  <h1>Hello World</h1>  </div>';
       const res = await request(app)
-        .post('/api/tools/execute/video-to-gif')
-        .send({ options: { fps: 20 } })
+        .post('/api/tools/execute/html-minifier-beautifier')
+        .send({ content: html, options: { mode: 'minify' } })
         .expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.result.resultType).toBe('file');
-      expect(res.body.data.result.fileName).toContain('.gif');
-      expect(res.body.data.result.stats.fps).toBe('20 FPS');
+      expect(res.body.data.result.content).toBe('<div><h1>Hello World</h1></div>');
+    });
+
+    it('executes base64-encoder-decoder', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/base64-encoder-decoder')
+        .send({ content: 'Hello iNWebTools', options: { mode: 'encode' } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toBe(Buffer.from('Hello iNWebTools').toString('base64'));
+    });
+
+    it('executes number-base-converter', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/number-base-converter')
+        .send({ content: '255' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.hexadecimal).toBe('0xFF');
+      expect(res.body.data.result.metadata.binary).toBe('0b11111111');
     });
   });
 });

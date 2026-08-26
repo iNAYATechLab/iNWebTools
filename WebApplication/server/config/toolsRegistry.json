@@ -21,6 +21,13 @@
       "slug": "audio-video",
       "categorySlug": "audio-video-tools",
       "description": "Enterprise media processing engines for audio converters, speech-to-text, video compressors, cutters, equalizers, and multimedia editors."
+    },
+    {
+      "id": "developer-code",
+      "name": "Developer Utilities & Code Converters",
+      "slug": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "description": "Comprehensive developer workbench for cURL to code transpilation, JSON to type interfaces, code minifiers, SQL formatters, and cryptographic string encoders."
     }
   ],
   "tools": [
@@ -2307,6 +2314,758 @@
           "type": "select",
           "options": ["480px (Standard)", "320px (Compact)", "640px (High Quality)"],
           "default": "480px (Standard)"
+        }
+      ]
+    },
+    {
+      "slug": "curl-to-code",
+      "name": "cURL to Code Converter",
+      "tagline": "Transpile cURL command into Fetch, Axios, Python, Go, Rust, Java, C#, PHP, Swift, and Kotlin.",
+      "description": "Parse cURL network requests and generate ready-to-use HTTP client code in 10+ modern programming languages.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-api-converters",
+      "icon": "code",
+      "tags": ["curl", "fetch", "axios", "python", "golang", "rust", "api-client", "http"],
+      "inputFormats": [".sh", ".txt", ".curl"],
+      "outputFormats": [".js", ".ts", ".py", ".go", ".rs", ".php", ".cs", ".java"],
+      "defaultOutput": "js",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetLanguage",
+          "label": "Target Language / Library",
+          "type": "select",
+          "options": ["javascript-fetch", "javascript-axios", "python-requests", "go", "rust", "php", "csharp", "java"],
+          "default": "javascript-fetch"
+        }
+      ]
+    },
+    {
+      "slug": "json-to-types",
+      "name": "JSON to Code Types & Interfaces",
+      "tagline": "Generate TypeScript interfaces, Go structs, Rust serde, and Python Pydantic models from JSON.",
+      "description": "Convert raw JSON payloads into strongly typed schemas and data models with auto-detected property types.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-api-converters",
+      "icon": "code",
+      "tags": ["json", "typescript", "golang", "pydantic", "rust", "swift", "dart", "interfaces"],
+      "inputFormats": [".json", ".txt"],
+      "outputFormats": [".ts", ".go", ".py", ".rs", ".swift", ".dart"],
+      "defaultOutput": "ts",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "targetLanguage",
+          "label": "Target Language",
+          "type": "select",
+          "options": ["typescript", "go", "python", "rust", "swift", "dart"],
+          "default": "typescript"
+        },
+        {
+          "id": "typeName",
+          "label": "Root Model Name",
+          "type": "text",
+          "default": "RootModel"
+        }
+      ]
+    },
+    {
+      "slug": "json-yaml-converter",
+      "name": "JSON to YAML Converter",
+      "tagline": "Convert bi-directionally between JSON objects and human-readable YAML config.",
+      "description": "Fast validator and bi-directional converter between JSON data and YAML configuration files.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["json", "yaml", "yml", "config", "parser"],
+      "inputFormats": [".json", ".yaml", ".yml", ".txt"],
+      "outputFormats": [".yaml", ".json"],
+      "defaultOutput": "yaml",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Conversion Mode",
+          "type": "select",
+          "options": ["json-to-yaml", "yaml-to-json"],
+          "default": "json-to-yaml"
+        }
+      ]
+    },
+    {
+      "slug": "xml-json-converter",
+      "name": "XML to JSON Converter",
+      "tagline": "Convert XML documents into clean JSON objects and vice versa.",
+      "description": "Parse complex XML structures, namespaces, and element attributes into clean JSON trees.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["xml", "json", "soap", "rest", "converter"],
+      "inputFormats": [".xml", ".json", ".txt"],
+      "outputFormats": [".json", ".xml"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Direction",
+          "type": "select",
+          "options": ["xml-to-json", "json-to-xml"],
+          "default": "xml-to-json"
+        }
+      ]
+    },
+    {
+      "slug": "toml-json-converter",
+      "name": "TOML to JSON Converter",
+      "tagline": "Convert TOML configuration files (Cargo.toml, pyproject.toml) to JSON/YAML.",
+      "description": "Parse Tom's Obvious Minimal Language (TOML) tables and key-values into JSON or YAML.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["toml", "cargo", "rust-config", "pyproject", "json"],
+      "inputFormats": [".toml", ".json", ".txt"],
+      "outputFormats": [".json", ".toml"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "format",
+          "label": "Output Format",
+          "type": "select",
+          "options": ["json", "toml", "yaml"],
+          "default": "json"
+        }
+      ]
+    },
+    {
+      "slug": "ndjson-converter",
+      "name": "NDJSON to JSON Array",
+      "tagline": "Convert Newline Delimited JSON stream logs into JSON Array or CSV.",
+      "description": "Transform big-data NDJSON/JSON Lines (JSONL) streams into standard JSON arrays.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["ndjson", "jsonl", "log-parser", "streaming", "json-array"],
+      "inputFormats": [".ndjson", ".jsonl", ".txt"],
+      "outputFormats": [".json", ".csv"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "outputType",
+          "label": "Target Format",
+          "type": "select",
+          "options": ["json-array", "csv-file"],
+          "default": "json-array"
+        }
+      ]
+    },
+    {
+      "slug": "protobuf-json-viewer",
+      "name": "Protocol Buffers (Proto) to JSON",
+      "tagline": "Inspect and convert Protocol Buffers .proto schema definitions into JSON schema.",
+      "description": "Parse Google Protobuf syntax (proto2/proto3) into schema-validated JSON structures.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["protobuf", "proto3", "grpc", "binary-schema", "json"],
+      "inputFormats": [".proto", ".txt", ".json"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "syntaxVersion",
+          "label": "Proto Syntax",
+          "type": "select",
+          "options": ["proto3", "proto2"],
+          "default": "proto3"
+        }
+      ]
+    },
+    {
+      "slug": "graphql-schema-parser",
+      "name": "GraphQL Schema to JSON AST",
+      "tagline": "Parse and inspect GraphQL SDL type definitions into JSON AST.",
+      "description": "Convert GraphQL schema definitions (types, queries, mutations, resolvers) into structured AST JSON.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["graphql", "sdl", "schema", "ast", "api"],
+      "inputFormats": [".graphql", ".gql", ".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "includeDirectives",
+          "label": "Include Directives in AST",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "hcl-terraform-converter",
+      "name": "HCL Terraform to JSON",
+      "tagline": "Convert HashiCorp HCL Terraform configurations into machine-readable JSON.",
+      "description": "Transpile Terraform .tf files into JSON syntax for automated CI/CD pipeline validation.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["hcl", "terraform", "hashicorp", "devops", "json"],
+      "inputFormats": [".tf", ".hcl", ".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "minifyJson",
+          "label": "Minify JSON Output",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
+      "slug": "php-array-json-converter",
+      "name": "PHP Array to JSON Converter",
+      "tagline": "Convert associative PHP Arrays into clean JSON and vice-versa.",
+      "description": "Parse PHP code arrays (array(...) or [...]) into valid JSON format.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["php", "php-array", "serialize", "json-converter"],
+      "inputFormats": [".php", ".txt", ".json"],
+      "outputFormats": [".json", ".php"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "shortArraySyntax",
+          "label": "Use Short PHP Syntax [...]",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "plist-json-converter",
+      "name": "Apple Property List (Plist) to JSON",
+      "tagline": "Convert macOS / iOS Property List (.plist) files to and from JSON.",
+      "description": "Parse Apple XML and binary property list files into standardized JSON payloads.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["plist", "apple", "ios", "macos", "info-plist", "json"],
+      "inputFormats": [".plist", ".xml", ".json", ".txt"],
+      "outputFormats": [".json", ".plist"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "xmlDeclaration",
+          "label": "Include XML Header",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "sql-to-json-csv",
+      "name": "SQL Query to JSON & CSV",
+      "tagline": "Extract and parse SQL INSERT/CREATE dump statements into JSON and CSV.",
+      "description": "Parse SQL database dumps and table inserts into clean JSON datasets and CSV files.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["sql", "database", "dump-parser", "json", "csv"],
+      "inputFormats": [".sql", ".txt"],
+      "outputFormats": [".json", ".csv"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "outputFormat",
+          "label": "Target Format",
+          "type": "select",
+          "options": ["json", "csv", "markdown-table"],
+          "default": "json"
+        }
+      ]
+    },
+    {
+      "slug": "csv-to-sql",
+      "name": "CSV to SQL Query Generator",
+      "tagline": "Generate CREATE TABLE and INSERT INTO statements from CSV files.",
+      "description": "Convert CSV spreadsheets into ready-to-execute SQL migration scripts with automatic column type inference.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["csv", "sql", "migration", "insert-builder", "create-table"],
+      "inputFormats": [".csv", ".tsv", ".txt"],
+      "outputFormats": [".sql"],
+      "defaultOutput": "sql",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "tableName",
+          "label": "SQL Table Name",
+          "type": "text",
+          "default": "imported_records"
+        },
+        {
+          "id": "dialect",
+          "label": "SQL Dialect",
+          "type": "select",
+          "options": ["PostgreSQL", "MySQL", "SQLite", "SQL Server"],
+          "default": "PostgreSQL"
+        }
+      ]
+    },
+    {
+      "slug": "msgpack-bencode-converter",
+      "name": "MessagePack & Bencode Inspector",
+      "tagline": "Inspect and decode binary MessagePack and BitTorrent Bencode files to JSON.",
+      "description": "Decode binary serialized MessagePack payloads and BitTorrent torrent bencode files.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "data-converters-parsers",
+      "icon": "code",
+      "tags": ["msgpack", "bencode", "torrent", "binary", "inspector"],
+      "inputFormats": [".msgpack", ".torrent", ".bin", ".txt"],
+      "outputFormats": [".json"],
+      "defaultOutput": "json",
+      "options": [
+        {
+          "id": "format",
+          "label": "Binary Encoding",
+          "type": "select",
+          "options": ["MessagePack", "BitTorrent Bencode"],
+          "default": "MessagePack"
+        }
+      ]
+    },
+    {
+      "slug": "html-minifier-beautifier",
+      "name": "HTML Minifier & Formatter",
+      "tagline": "Minify HTML5 code to reduce size or beautify with clean indentation.",
+      "description": "Optimize HTML markup by stripping comments and redundant whitespace, or format unreadable code.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["html", "minifier", "formatter", "beautifier", "web-optimization"],
+      "inputFormats": [".html", ".htm", ".txt"],
+      "outputFormats": [".html"],
+      "defaultOutput": "html",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Operation Mode",
+          "type": "select",
+          "options": ["beautify", "minify"],
+          "default": "beautify"
+        },
+        {
+          "id": "stripComments",
+          "label": "Strip HTML Comments",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "css-minifier-beautifier",
+      "name": "CSS / SCSS Minifier & Beautifier",
+      "tagline": "Compress CSS stylesheets up to 80% or format with consistent indentation.",
+      "description": "High-speed CSS/SCSS beautifier and minifier with rule sorting and hex color shorthand.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["css", "scss", "minifier", "beautifier", "stylesheet"],
+      "inputFormats": [".css", ".scss", ".less", ".txt"],
+      "outputFormats": [".css"],
+      "defaultOutput": "css",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Mode",
+          "type": "select",
+          "options": ["beautify", "minify"],
+          "default": "beautify"
+        }
+      ]
+    },
+    {
+      "slug": "js-minifier-beautifier",
+      "name": "JavaScript & TypeScript Formatter",
+      "tagline": "Format and minify JavaScript, TypeScript, and JSX code.",
+      "description": "Beautify messy JS/TS scripts with clean indenting or compress production bundles.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["javascript", "typescript", "jsx", "minifier", "formatter"],
+      "inputFormats": [".js", ".ts", ".jsx", ".tsx", ".txt"],
+      "outputFormats": [".js", ".ts"],
+      "defaultOutput": "js",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Mode",
+          "type": "select",
+          "options": ["beautify", "minify"],
+          "default": "beautify"
+        }
+      ]
+    },
+    {
+      "slug": "sql-formatter-beautifier",
+      "name": "SQL Query Formatter & Beautifier",
+      "tagline": "Beautify complex SQL statements with keyword uppercase and line alignment.",
+      "description": "Format PostgreSQL, MySQL, SQLite, and Oracle queries into readable, consistent SQL statements.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["sql", "sql-formatter", "beautifier", "postgresql", "mysql"],
+      "inputFormats": [".sql", ".txt"],
+      "outputFormats": [".sql"],
+      "defaultOutput": "sql",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "uppercaseKeywords",
+          "label": "Uppercase SQL Keywords (SELECT, FROM)",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "nginx-config-formatter",
+      "name": "Nginx Config Formatter & Beautifier",
+      "tagline": "Format Nginx server blocks, proxy passes, and SSL directives with clean indentation.",
+      "description": "Beautify Nginx server configuration files with standard 4-space indentation and block alignment.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["nginx", "reverse-proxy", "server-block", "conf-formatter", "devops"],
+      "inputFormats": [".conf", ".txt"],
+      "outputFormats": [".conf"],
+      "defaultOutput": "conf",
+      "options": [
+        {
+          "id": "indentSize",
+          "label": "Indent Size",
+          "type": "select",
+          "options": ["4 spaces", "2 spaces", "Tabs"],
+          "default": "4 spaces"
+        }
+      ]
+    },
+    {
+      "slug": "apache-htaccess-formatter",
+      "name": "Apache & .htaccess Formatter",
+      "tagline": "Format Apache VirtualHost configurations and .htaccess rewrite rules.",
+      "description": "Beautify Apache configurations, mod_rewrite rules, and header directives.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["apache", "htaccess", "mod-rewrite", "virtualhost", "devops"],
+      "inputFormats": [".htaccess", ".conf", ".txt"],
+      "outputFormats": [".htaccess", ".conf"],
+      "defaultOutput": "htaccess",
+      "options": [
+        {
+          "id": "alignRules",
+          "label": "Align RewriteRules & Flags",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "dockerfile-formatter-validator",
+      "name": "Dockerfile Formatter & Linter",
+      "tagline": "Format Dockerfiles and validate instructions against best practices.",
+      "description": "Align Dockerfile commands (FROM, RUN, COPY, ENV, CMD) and check for optimization best practices.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["docker", "dockerfile", "container", "linter", "devops"],
+      "inputFormats": ["Dockerfile", ".dockerfile", ".txt"],
+      "outputFormats": ["Dockerfile"],
+      "defaultOutput": "Dockerfile",
+      "options": [
+        {
+          "id": "uppercaseInstructions",
+          "label": "Uppercase Instructions (FROM, RUN)",
+          "type": "toggle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "slug": "graphql-formatter",
+      "name": "GraphQL Query & Schema Formatter",
+      "tagline": "Beautify and minify GraphQL queries, mutations, and fragments.",
+      "description": "Format GraphQL operations with consistent indentation and bracket alignment.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "code-minifiers-beautifiers",
+      "icon": "code",
+      "tags": ["graphql", "query", "mutation", "formatter", "minifier"],
+      "inputFormats": [".graphql", ".gql", ".txt"],
+      "outputFormats": [".graphql"],
+      "defaultOutput": "graphql",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Mode",
+          "type": "select",
+          "options": ["beautify", "minify"],
+          "default": "beautify"
+        }
+      ]
+    },
+    {
+      "slug": "base64-encoder-decoder",
+      "name": "Base64 & Base64URL Encoder / Decoder",
+      "tagline": "Encode and decode standard Base64 and URL-safe Base64 strings.",
+      "description": "Encode text, binary, or decode Base64 data with UTF-8 character support and URL-safe variant toggle.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "shield",
+      "tags": ["base64", "base64url", "encode", "decode", "binary-string"],
+      "inputFormats": [".txt", ".b64"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Operation",
+          "type": "select",
+          "options": ["encode", "decode"],
+          "default": "encode"
+        },
+        {
+          "id": "urlSafe",
+          "label": "URL-Safe Base64 (- and _)",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
+      "slug": "base32-base58-converter",
+      "name": "Base32, Base58 & Base62 Converter",
+      "tagline": "Encode and decode Base32, Bitcoin Base58, and Base62 strings.",
+      "description": "Cryptographic encoder and decoder for Base32, Bitcoin/IPFS Base58, and Base62 identifiers.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "shield",
+      "tags": ["base32", "base58", "base62", "bitcoin", "crypto-address"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "algorithm",
+          "label": "Algorithm",
+          "type": "select",
+          "options": ["Base58 (Bitcoin/IPFS)", "Base32 (RFC 4648)", "Base62"],
+          "default": "Base58 (Bitcoin/IPFS)"
+        },
+        {
+          "id": "mode",
+          "label": "Direction",
+          "type": "select",
+          "options": ["encode", "decode"],
+          "default": "encode"
+        }
+      ]
+    },
+    {
+      "slug": "url-encoder-decoder",
+      "name": "URL & Percent Encoder / Decoder",
+      "tagline": "Encode and decode URL parameters, query strings, and percent-encoded characters.",
+      "description": "Encode URI components, decode query string parameters, and inspect percent-encoded tokens.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "code",
+      "tags": ["url-encode", "urldecode", "percent-encoding", "query-string", "uri"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "mode",
+          "label": "Operation",
+          "type": "select",
+          "options": ["encode", "decode"],
+          "default": "encode"
+        }
+      ]
+    },
+    {
+      "slug": "html-entity-encoder-decoder",
+      "name": "HTML Entity Encoder & Decoder",
+      "tagline": "Convert special characters into HTML named entities (&amp;) and numeric references.",
+      "description": "Escape HTML tags and characters for safe browser rendering and XSS protection.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "code",
+      "tags": ["html-entities", "escape-html", "unescape", "xss-protection"],
+      "inputFormats": [".html", ".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Direction",
+          "type": "select",
+          "options": ["encode", "decode"],
+          "default": "encode"
+        }
+      ]
+    },
+    {
+      "slug": "morse-code-converter",
+      "name": "Morse Code Translator",
+      "tagline": "Translate text into International Morse Code and decode Morse signals.",
+      "description": "Encode plain text into Morse code (. and -) and decode Morse transmissions.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "type",
+      "tags": ["morse-code", "telegraph", "translator", "sos", "cipher"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Mode",
+          "type": "select",
+          "options": ["text-to-morse", "morse-to-text"],
+          "default": "text-to-morse"
+        }
+      ]
+    },
+    {
+      "slug": "rot13-caesar-cipher",
+      "name": "ROT13 & Caesar Cipher Generator",
+      "tagline": "Apply ROT13 or custom shift Caesar ciphers to text messages.",
+      "description": "Obfuscate text with classic ROT13 letter rotation or Caesar shift ciphers from 1 to 25 positions.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "shield",
+      "tags": ["rot13", "caesar-cipher", "cipher", "obfuscation", "cryptography"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "shift",
+          "label": "Alphabet Shift",
+          "type": "slider",
+          "min": 1,
+          "max": 25,
+          "step": 1,
+          "default": 13,
+          "unit": "steps"
+        }
+      ]
+    },
+    {
+      "slug": "punycode-converter",
+      "name": "Punycode & IDN Domain Converter",
+      "tagline": "Convert Unicode domain names into ASCII Punycode (xn--) and vice versa.",
+      "description": "Convert internationalized domain names (IDN) with emoji or non-Latin scripts into standard Punycode.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "globe",
+      "tags": ["punycode", "idn", "domain", "unicode-domain", "dns"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "mode",
+          "label": "Direction",
+          "type": "select",
+          "options": ["unicode-to-punycode", "punycode-to-unicode"],
+          "default": "unicode-to-punycode"
+        }
+      ]
+    },
+    {
+      "slug": "quoted-printable-uuencode",
+      "name": "Quoted-Printable & UUEncode Converter",
+      "tagline": "Encode and decode MIME Quoted-Printable (=3D) and Unix UUEncode strings.",
+      "description": "Decode email MIME quoted-printable strings and Unix-to-Unix (UUEncode) attachments.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "string-encoders-decoders",
+      "icon": "shield",
+      "tags": ["quoted-printable", "uuencode", "uudecode", "email-mime", "decoder"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".txt"],
+      "defaultOutput": "txt",
+      "options": [
+        {
+          "id": "format",
+          "label": "MIME Format",
+          "type": "select",
+          "options": ["Quoted-Printable", "UUEncode"],
+          "default": "Quoted-Printable"
+        }
+      ]
+    },
+    {
+      "slug": "number-base-converter",
+      "name": "Hex, Binary, Decimal & ASCII Converter",
+      "tagline": "Convert numbers between Hexadecimal, Binary, Octal, Decimal, and ASCII characters.",
+      "description": "Multi-radix numeric converter supporting 2's complement binary, hexadecimal, and ASCII representation.",
+      "module": "developer-code",
+      "categorySlug": "developer-code-utilities",
+      "subcategorySlug": "number-base-radix-converters",
+      "icon": "calculator",
+      "tags": ["hex", "binary", "decimal", "octal", "ascii", "radix", "bitwise"],
+      "inputFormats": [".txt"],
+      "outputFormats": [".json", ".txt"],
+      "defaultOutput": "json",
+      "isFeatured": true,
+      "options": [
+        {
+          "id": "inputRadix",
+          "label": "Input Number Base",
+          "type": "select",
+          "options": ["Decimal (Base 10)", "Hexadecimal (Base 16)", "Binary (Base 2)", "Octal (Base 8)"],
+          "default": "Decimal (Base 10)"
         }
       ]
     }
