@@ -18,6 +18,7 @@ import { DesignToolView } from '../../components/tools/Design/DesignToolView';
 import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToolView';
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
+import { ProductivityToolView } from '../../components/tools/Productivity/ProductivityToolView';
 import { SecurityNetworkToolView } from '../../components/tools/SecurityNetwork/SecurityNetworkToolView';
 import { SeoWebmasterToolView } from '../../components/tools/SeoWebmaster/SeoWebmasterToolView';
 import { TextCalcToolView } from '../../components/tools/TextCalc/TextCalcToolView';
@@ -125,6 +126,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-pink-400/30 bg-pink-500/10 px-3.5 py-2 text-xs font-semibold text-pink-300 hover:bg-pink-500/20 transition-colors"
           >
             🎨 CSS & Color Design Engine →
+          </Link>
+          <Link
+            to="/tools/ai-productivity"
+            className="rounded-xl border border-purple-400/30 bg-purple-500/10 px-3.5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/20 transition-colors"
+          >
+            ⚡ AI & Productivity Studio →
           </Link>
         </div>
       </header>
@@ -334,6 +341,34 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const PRODUCTIVITY_SLUGS = [
+  'ai-prompt-enhancer',
+  'ai-content-rewriter',
+  'ai-summary-generator',
+  'ai-grammar-checker',
+  'ai-headline-generator',
+  'ai-email-writer',
+  'ai-bio-generator',
+  'qr-code-generator',
+  'custom-qr-styling',
+  'qr-code-scanner',
+  'barcode-generator',
+  'barcode-reader',
+  'timezone-converter',
+  'world-clock',
+  'unix-timestamp-converter',
+  'age-calculator',
+  'date-difference-calculator',
+  'countdown-timer',
+  'stopwatch-timer',
+  'working-days-calculator',
+  'pomodoro-timer',
+  'habit-tracker',
+  'kanban-task-board',
+  'markdown-notepad',
+  'random-choice-wheel',
+];
+
 const DESIGN_SLUGS = [
   'css-gradient-generator',
   'css-box-shadow-generator',
@@ -472,6 +507,11 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isProductivity = toolSlug && PRODUCTIVITY_SLUGS.includes(toolSlug);
+  if (isProductivity) {
+    return <ProductivityToolView slugOverride={toolSlug} />;
+  }
 
   const isDesign = toolSlug && DESIGN_SLUGS.includes(toolSlug);
   if (isDesign) {

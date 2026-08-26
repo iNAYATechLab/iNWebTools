@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text, Calculators, SEO, Webmaster & Design/CSS.
+ * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text, Calculators, SEO, Webmaster, Design, CSS, AI & Productivity.
  */
 
 import request from 'supertest';
@@ -18,12 +18,12 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(8);
+      expect(reg.modules.length).toBe(9);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(193);
+      expect(reg.tools.length).toBe(218);
     });
 
-    it('contains all required Phase 1-7 modules without duplicate slugs', () => {
+    it('contains all required Phase 1-8 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
@@ -89,6 +89,23 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('color-mixer-online');
       expect(slugs).toContain('color-blindness-simulator');
       expect(slugs).toContain('material-tailwind-palette-generator');
+
+      // Phase 8: AI & Productivity Utilities
+      expect(slugs).toContain('ai-prompt-enhancer');
+      expect(slugs).toContain('ai-content-rewriter');
+      expect(slugs).toContain('ai-summary-generator');
+      expect(slugs).toContain('ai-grammar-checker');
+      expect(slugs).toContain('ai-headline-generator');
+      expect(slugs).toContain('ai-email-writer');
+      expect(slugs).toContain('qr-code-generator');
+      expect(slugs).toContain('barcode-generator');
+      expect(slugs).toContain('timezone-converter');
+      expect(slugs).toContain('unix-timestamp-converter');
+      expect(slugs).toContain('age-calculator');
+      expect(slugs).toContain('working-days-calculator');
+      expect(slugs).toContain('pomodoro-timer');
+      expect(slugs).toContain('kanban-task-board');
+      expect(slugs).toContain('markdown-notepad');
     });
   });
 
@@ -97,21 +114,116 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(193);
+      expect(res.body.data.total).toBe(218);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(8);
+      expect(res.body.data.modules.length).toBe(9);
     });
 
-    it('filters tools by color-design module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=color-design').expect(200);
+    it('filters tools by ai-productivity module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=ai-productivity').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'color-design')).toBe(true);
-      expect(res.body.data.total).toBe(31);
+      expect(res.body.data.tools.every((t) => t.module === 'ai-productivity')).toBe(true);
+      expect(res.body.data.total).toBe(25);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
+    // Phase 8 Tests: AI & Productivity
+    it('executes ai-prompt-enhancer and returns structured prompt', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/ai-prompt-enhancer')
+        .send({ content: 'Create a responsive web audio synthesizer' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('Core Objective:');
+      expect(res.body.data.result.content).toContain('Output Specifications:');
+      expect(res.body.data.result.metadata.tokensEstimate).toBeGreaterThan(10);
+    });
+
+    it('executes ai-content-rewriter', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/ai-content-rewriter')
+        .send({
+          content: 'This tool is good and fast for developers.',
+          options: { tone: 'professional' },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('[PROFESSIONAL REWRITE]');
+      expect(res.body.data.result.content).toContain('exceptional');
+    });
+
+    it('executes ai-summary-generator', async () => {
+      const text =
+        'iNWebTools is an enterprise browser tools platform. It offers high performance utilities. Users can transcribe audio and generate QR codes without server latency.';
+      const res = await request(app)
+        .post('/api/tools/execute/ai-summary-generator')
+        .send({ content: text, options: { maxSentences: 2 } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.keyTakeaways.length).toBeLessThanOrEqual(2);
+      expect(res.body.data.result.metadata.compressionRatio).toBeDefined();
+    });
+
+    it('executes qr-code-generator and returns SVG markup', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/qr-code-generator')
+        .send({ content: 'https://inwebtools.com', options: { size: 256 } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('<svg');
+      expect(res.body.data.result.fileName).toBe('qrcode.svg');
+    });
+
+    it('executes barcode-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/barcode-generator')
+        .send({ content: '9780201896831', options: { format: 'CODE128' } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('<svg');
+      expect(res.body.data.result.fileName).toBe('barcode-code128.svg');
+    });
+
+    it('executes unix-timestamp-converter', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/unix-timestamp-converter')
+        .send({ options: { timestamp: 1700000000 } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.isoString).toBe('2023-11-14T22:13:20.000Z');
+      expect(res.body.data.result.metadata.unixTimestamp).toBe(1700000000);
+    });
+
+    it('executes age-calculator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/age-calculator')
+        .send({ options: { birthDate: '2000-01-01', targetDate: '2026-01-01' } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.ageSummary).toContain('26 Years');
+      expect(res.body.data.result.metadata.totalDays).toBeDefined();
+    });
+
+    it('executes working-days-calculator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/working-days-calculator')
+        .send({ options: { startDate: '2026-08-01', endDate: '2026-08-31' } })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.businessWorkingDays).toBeGreaterThan(15);
+      expect(res.body.data.result.metadata.totalCalendarDays).toBe(31);
+    });
+
     // Phase 7 Tests: Color & Design
     it('executes rgb-hex-converter and returns rgb and rgba strings', async () => {
       const res = await request(app)

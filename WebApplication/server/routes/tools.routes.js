@@ -1,6 +1,6 @@
 /**
  * Tools Router — exposes registry lookups and tool execution endpoints
- * for Document, Spreadsheet, PDF, Image, Audio, Video, Developer, Security, Text, Calculators, SEO/Webmaster & Design/CSS.
+ * for Document, Spreadsheet, PDF, Image, Audio, Video, Developer, Security, Text, Calculators, SEO/Webmaster, Design/CSS & AI/Productivity.
  */
 
 import { Router } from 'express';
@@ -12,6 +12,7 @@ import { executeSecurityNetworkTool } from '../controllers/tools/securityNetwork
 import { executeTextCalcTool } from '../controllers/tools/textCalcController.js';
 import { executeSeoWebmasterTool } from '../controllers/tools/seoWebmasterController.js';
 import { executeDesignTool } from '../controllers/tools/designController.js';
+import { executeProductivityTool } from '../controllers/tools/productivityController.js';
 import { uploadToolFiles } from '../middlewares/toolUpload.js';
 import { getToolBySlug } from '../services/toolsRegistry.service.js';
 
@@ -45,6 +46,9 @@ toolsRouter.post('/execute/:slug', uploadToolFiles, async (req, res, next) => {
     if (tool && tool.module === 'color-design') {
       return executeDesignTool(req, res, next);
     }
+    if (tool && tool.module === 'ai-productivity') {
+      return executeProductivityTool(req, res, next);
+    }
     return executeTool(req, res, next);
   } catch (err) {
     next(err);
@@ -71,6 +75,9 @@ toolsRouter.post('/process', uploadToolFiles, async (req, res, next) => {
   }
   if (tool && tool.module === 'color-design') {
     return executeDesignTool(req, res, next);
+  }
+  if (tool && tool.module === 'ai-productivity') {
+    return executeProductivityTool(req, res, next);
   }
   return executeTool(req, res, next);
 });

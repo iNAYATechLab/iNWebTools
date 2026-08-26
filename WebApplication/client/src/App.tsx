@@ -37,6 +37,8 @@ import { SeoWebmasterExplorer } from './components/tools/SeoWebmaster/SeoWebmast
 import { SeoWebmasterToolView } from './components/tools/SeoWebmaster/SeoWebmasterToolView';
 import { DesignExplorer } from './components/tools/Design/DesignExplorer';
 import { DesignToolView } from './components/tools/Design/DesignToolView';
+import { ProductivityExplorer } from './components/tools/Productivity/ProductivityExplorer';
+import { ProductivityToolView } from './components/tools/Productivity/ProductivityToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -129,6 +131,8 @@ export default function App() {
             <Route path="/tools/seo-webmaster/:toolSlug" element={<SeoWebmasterToolView />} />
             <Route path="/tools/color-design" element={<DesignExplorer />} />
             <Route path="/tools/color-design/:toolSlug" element={<DesignToolView />} />
+            <Route path="/tools/ai-productivity" element={<ProductivityExplorer />} />
+            <Route path="/tools/ai-productivity/:toolSlug" element={<ProductivityToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>
