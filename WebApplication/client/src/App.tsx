@@ -35,6 +35,8 @@ import { TextCalcExplorer } from './components/tools/TextCalc/TextCalcExplorer';
 import { TextCalcToolView } from './components/tools/TextCalc/TextCalcToolView';
 import { SeoWebmasterExplorer } from './components/tools/SeoWebmaster/SeoWebmasterExplorer';
 import { SeoWebmasterToolView } from './components/tools/SeoWebmaster/SeoWebmasterToolView';
+import { DesignExplorer } from './components/tools/Design/DesignExplorer';
+import { DesignToolView } from './components/tools/Design/DesignToolView';
 import {
   CategoryPage,
   SubcategoryPage,
@@ -125,6 +127,8 @@ export default function App() {
             <Route path="/tools/text-calculators/:toolSlug" element={<TextCalcToolView />} />
             <Route path="/tools/seo-webmaster" element={<SeoWebmasterExplorer />} />
             <Route path="/tools/seo-webmaster/:toolSlug" element={<SeoWebmasterToolView />} />
+            <Route path="/tools/color-design" element={<DesignExplorer />} />
+            <Route path="/tools/color-design/:toolSlug" element={<DesignToolView />} />
 
             {/* Hierarchical Category & Subcategory Catalog Routes */}
             <Route path="/tools" element={<ToolsLayout />}>

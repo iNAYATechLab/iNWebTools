@@ -14,6 +14,7 @@ import { Breadcrumbs, type Crumb } from '../../components/categories/Breadcrumbs
 import { CategoryGrid } from '../../components/categories/CategoryGrid';
 import { CategoryIcon } from '../../components/categories/CategoryIcon';
 import { CategorySidebar } from '../../components/categories/CategorySidebar';
+import { DesignToolView } from '../../components/tools/Design/DesignToolView';
 import { DeveloperToolView } from '../../components/tools/Developer/DeveloperToolView';
 import { DocumentImageToolView } from '../../components/tools/DocumentImage/DocumentImageToolView';
 import { MediaToolView } from '../../components/tools/Media/MediaToolView';
@@ -118,6 +119,12 @@ export function ToolsIndexPage() {
             className="rounded-xl border border-sky-400/30 bg-sky-500/10 px-3.5 py-2 text-xs font-semibold text-sky-300 hover:bg-sky-500/20 transition-colors"
           >
             🔍 SEO & Webmaster Engine →
+          </Link>
+          <Link
+            to="/tools/color-design"
+            className="rounded-xl border border-pink-400/30 bg-pink-500/10 px-3.5 py-2 text-xs font-semibold text-pink-300 hover:bg-pink-500/20 transition-colors"
+          >
+            🎨 CSS & Color Design Engine →
           </Link>
         </div>
       </header>
@@ -327,6 +334,40 @@ export function SubcategoryPage() {
  * /tools/:categorySlug/:subcategorySlug/:toolSlug
  * ------------------------------------------------------------------ */
 
+const DESIGN_SLUGS = [
+  'css-gradient-generator',
+  'css-box-shadow-generator',
+  'css-border-radius-generator',
+  'css-glassmorphism-generator',
+  'css-triangle-ribbon-generator',
+  'css-grid-flexbox-generator',
+  'css-mesh-gradient-generator',
+  'css-filter-effects-generator',
+  'css-clip-path-generator',
+  'css-card-flip-generator',
+  'css-custom-scrollbar-generator',
+  'favicon-generator',
+  'svg-code-cleaner',
+  'svg-path-visualizer',
+  'aspect-ratio-calculator',
+  'screen-resolution-checker',
+  'rgb-hex-converter',
+  'hsl-rgb-converter',
+  'cmyk-rgb-converter',
+  'hex-hsl-converter',
+  'hsv-rgb-converter',
+  'lab-rgb-converter',
+  'xyz-rgb-converter',
+  'pantone-hex-converter',
+  'ral-hex-converter',
+  'color-palette-generator',
+  'wcag-contrast-checker',
+  'color-shade-tint-generator',
+  'color-mixer-online',
+  'color-blindness-simulator',
+  'material-tailwind-palette-generator',
+];
+
 const SEO_WEBMASTER_SLUGS = [
   'xml-sitemap-generator',
   'robots-txt-generator',
@@ -431,6 +472,11 @@ const DEVELOPER_SLUGS = [
 
 export function ToolPage() {
   const { categorySlug, toolSlug } = useParams();
+
+  const isDesign = toolSlug && DESIGN_SLUGS.includes(toolSlug);
+  if (isDesign) {
+    return <DesignToolView slugOverride={toolSlug} />;
+  }
 
   const isSeoWebmaster = toolSlug && SEO_WEBMASTER_SLUGS.includes(toolSlug);
   if (isSeoWebmaster) {

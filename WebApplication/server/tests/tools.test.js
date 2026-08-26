@@ -1,5 +1,5 @@
 /**
- * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text, Calculators, SEO & Webmaster.
+ * Tools Engine Tests — Document, PDF, Image, Media, Developer, Security, Text, Calculators, SEO, Webmaster & Design/CSS.
  */
 
 import request from 'supertest';
@@ -18,12 +18,12 @@ describe('Tools Engine & Registry API', () => {
       const reg = readToolsRegistry();
       expect(reg.version).toBe(1);
       expect(Array.isArray(reg.modules)).toBe(true);
-      expect(reg.modules.length).toBe(7);
+      expect(reg.modules.length).toBe(8);
       expect(Array.isArray(reg.tools)).toBe(true);
-      expect(reg.tools.length).toBe(162);
+      expect(reg.tools.length).toBe(193);
     });
 
-    it('contains all required Phase 1-6 modules without duplicate slugs', () => {
+    it('contains all required Phase 1-7 modules without duplicate slugs', () => {
       const reg = readToolsRegistry();
       const slugs = reg.tools.map((t) => t.slug);
       const uniqueSlugs = new Set(slugs);
@@ -73,6 +73,22 @@ describe('Tools Engine & Registry API', () => {
       expect(slugs).toContain('social-image-resizer');
       expect(slugs).toContain('youtube-thumbnail-downloader');
       expect(slugs).toContain('utm-campaign-builder');
+
+      // Phase 7: CSS & Color Design Utilities
+      expect(slugs).toContain('css-gradient-generator');
+      expect(slugs).toContain('css-box-shadow-generator');
+      expect(slugs).toContain('css-border-radius-generator');
+      expect(slugs).toContain('css-glassmorphism-generator');
+      expect(slugs).toContain('rgb-hex-converter');
+      expect(slugs).toContain('hsl-rgb-converter');
+      expect(slugs).toContain('cmyk-rgb-converter');
+      expect(slugs).toContain('pantone-hex-converter');
+      expect(slugs).toContain('ral-hex-converter');
+      expect(slugs).toContain('wcag-contrast-checker');
+      expect(slugs).toContain('color-shade-tint-generator');
+      expect(slugs).toContain('color-mixer-online');
+      expect(slugs).toContain('color-blindness-simulator');
+      expect(slugs).toContain('material-tailwind-palette-generator');
     });
   });
 
@@ -81,21 +97,137 @@ describe('Tools Engine & Registry API', () => {
       const res = await request(app).get('/api/tools/registry').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.total).toBe(162);
+      expect(res.body.data.total).toBe(193);
       expect(Array.isArray(res.body.data.tools)).toBe(true);
-      expect(res.body.data.modules.length).toBe(7);
+      expect(res.body.data.modules.length).toBe(8);
     });
 
-    it('filters tools by seo-webmaster module', async () => {
-      const res = await request(app).get('/api/tools/registry?module=seo-webmaster').expect(200);
+    it('filters tools by color-design module', async () => {
+      const res = await request(app).get('/api/tools/registry?module=color-design').expect(200);
 
       expect(res.body.success).toBe(true);
-      expect(res.body.data.tools.every((t) => t.module === 'seo-webmaster')).toBe(true);
-      expect(res.body.data.total).toBe(14);
+      expect(res.body.data.tools.every((t) => t.module === 'color-design')).toBe(true);
+      expect(res.body.data.total).toBe(31);
     });
   });
 
   describe('POST /api/tools/execute/:slug', () => {
+    // Phase 7 Tests: Color & Design
+    it('executes rgb-hex-converter and returns rgb and rgba strings', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/rgb-hex-converter')
+        .send({ content: '#3b82f6' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.rgb).toBe('rgb(59, 130, 246)');
+      expect(res.body.data.result.metadata.values.r).toBe(59);
+    });
+
+    it('executes hsl-rgb-converter', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/hsl-rgb-converter')
+        .send({ content: '#ff0000' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.values.h).toBe(0);
+      expect(res.body.data.result.metadata.values.s).toBe(100);
+    });
+
+    it('executes wcag-contrast-checker for accessibility compliance', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/wcag-contrast-checker')
+        .send({
+          options: {
+            foreground: '#ffffff',
+            background: '#000000',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.score).toBe(21);
+      expect(res.body.data.result.metadata.normalTextAA).toBe('Pass');
+      expect(res.body.data.result.metadata.normalTextAAA).toBe('Pass');
+    });
+
+    it('executes color-shade-tint-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/color-shade-tint-generator')
+        .send({ content: '#3b82f6' })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.tints.length).toBe(10);
+      expect(res.body.data.result.metadata.shades.length).toBe(10);
+    });
+
+    it('executes color-mixer-online', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/color-mixer-online')
+        .send({
+          options: {
+            color1: '#000000',
+            color2: '#ffffff',
+            ratio: 50,
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.mixedHex).toBe('#808080');
+    });
+
+    it('executes css-gradient-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/css-gradient-generator')
+        .send({
+          options: {
+            type: 'linear',
+            angle: '90deg',
+            color1: '#3b82f6',
+            color2: '#8b5cf6',
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('linear-gradient(90deg, #3b82f6');
+      expect(res.body.data.result.fileName).toBe('gradient.css');
+    });
+
+    it('executes css-box-shadow-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/css-box-shadow-generator')
+        .send({
+          options: {
+            xOffset: 4,
+            yOffset: 8,
+            blur: 16,
+            spread: 0,
+          },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.content).toContain('box-shadow: 4px 8px 16px 0px');
+    });
+
+    it('executes material-tailwind-palette-generator', async () => {
+      const res = await request(app)
+        .post('/api/tools/execute/material-tailwind-palette-generator')
+        .send({
+          content: '#6366f1',
+          options: { colorName: 'indigo' },
+        })
+        .expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.result.metadata.palette['500']).toBeDefined();
+      expect(res.body.data.result.metadata.cssVariables).toContain('--color-indigo-500');
+    });
+
     // Phase 6 Tests: SEO & Webmaster Utilities
     it('executes xml-sitemap-generator', async () => {
       const urls = 'https://example.com/\nhttps://example.com/about\nhttps://example.com/contact';
