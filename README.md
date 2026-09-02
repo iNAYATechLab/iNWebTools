@@ -49,15 +49,14 @@ inwebtools/
 ├── WebApplication/       ⭐ ACTIVE — React SPA + Express API + Hugging Face
 ├── BrowserExtensions/    ⏸️ Phase 2 — Android · iPhone · HarmonyOS
 ├── MobileApplication/    ⏸️ Phase 3 — Android · iPhone · HarmonyOS
-└── DevelopmentFiles/     🛠️ Build-time only — docs, scripts, design, QA, screenshots
+└── DevelopmentFiles/     🛠️ Docs, scripts, design, QA, screenshots
 ```
 
 | Folder                                      | Ships to production? | Status                        |
 | ------------------------------------------- | -------------------- | ----------------------------- |
-| [`WebApplication/`](./WebApplication)       | ✅ Yes               | ✅ Phase 1 complete — alpha   |
+| [`WebApplication/`](./WebApplication)       | ✅ Yes               | ✅ Complete Version — Alpha   |
 | [`BrowserExtensions/`](./BrowserExtensions) | ✅ Yes               | ⏸️ Not started                |
 | [`MobileApplication/`](./MobileApplication) | ✅ Yes               | ⏸️ Not started                |
-| [`DevelopmentFiles/`](./DevelopmentFiles)   | ❌ No                | 📚 Ongoing                    |
 
 ### The separation rule
 
