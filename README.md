@@ -5,7 +5,7 @@
 
 <p align="left">
   <img alt="CI" src="https://github.com/iNAYATechLab/iNWebTools/actions/workflows/ci.yml/badge.svg">
-  <img alt="Release" src="https://img.shields.io/github/v/release/iNAYATechLab/iNWEBTools?display_name=tag&sort=semver">
+  <img alt="Release" src="https://img.shields.io/github/v/releases/iNAYATechLab/iNWEBTools?display_name=tag&sort=semver">
   <img alt="Tests" src="https://img.shields.io/badge/tests-153%20passing-brightgreen">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="Node" src="https://img.shields.io/badge/Node.js-%3E%3D20-339933?logo=node.js&logoColor=white">
