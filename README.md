@@ -13,7 +13,7 @@
   <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white">
 </p>
 
-**A product of [iNAYA TechLab](https://github.com/iNAYATechLab).**
+**A product of [iNAYATechLab Private Limited](https://github.com/iNAYATechLab).**
 
 ---
 
@@ -99,8 +99,7 @@ Production uses a different layout — Nginx on `443` in front and the API on a
 private address. Both environments are specified in the
 **[Port Allocation Policy](./DevelopmentFiles/docs/PORTS.md)**.
 
-The admin dashboard is the intended way to read that data without SQL:
-**http://localhost:5173/AdminDashboard**
+
 
 📖 **Full product documentation:** [`WebApplication/README.md`](./WebApplication/README.md)
 
