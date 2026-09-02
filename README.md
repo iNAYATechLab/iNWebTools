@@ -17,6 +17,7 @@
 
 ---
 
+
 ## 🏭 How this project is built
 
 Anyone evaluating a codebase is really asking one question: *can I trust what comes out
@@ -118,7 +119,7 @@ private address. Both environments are specified in the
 | **Sidebar widget engine**        | [`WIDGET_ENGINE.md`](./DevelopmentFiles/docs/WIDGET_ENGINE.md)                      |
 | Architecture & error contract    | [`DevelopmentFiles/docs/ARCHITECTURE.md`](./DevelopmentFiles/docs/ARCHITECTURE.md) |
 | API reference                    | [`DevelopmentFiles/docs/API.md`](./DevelopmentFiles/docs/API.md)                   |
-| Roadmap (5 steps + later phases) | [`DevelopmentFiles/docs/ROADMAP.md`](./DevelopmentFiles/docs/ROADMAP.md)           |
+| Roadmap                          | [`DevelopmentFiles/docs/ROADMAP.md`](./DevelopmentFiles/docs/ROADMAP.md)           |
 | Contributing guide               | [`DevelopmentFiles/CONTRIBUTING.md`](./DevelopmentFiles/CONTRIBUTING.md)           |
 | Security policy                  | [`DevelopmentFiles/SECURITY.md`](./DevelopmentFiles/SECURITY.md)                   |
 | Changelog                        | [`DevelopmentFiles/CHANGELOG.md`](./DevelopmentFiles/CHANGELOG.md)                 |
@@ -138,9 +139,8 @@ private address. Both environments are specified in the
 | 5    | ZIP release automation                               | ✅ Done    |
 
 Beyond the original five steps: a role-based authentication system
-(`user` / `admin` / `super_admin`) with reusable RBAC middleware, an admin dashboard
-with visitor and conversion analytics, a header/footer CMS, and a migration from
-MySQL through SQLite to PostgreSQL.
+(`user` / `Member`) with reusable RBAC middleware and a migration from
+MySQL through PostgreSQL.
 
 ### Phase 2 — Browser Extensions ⏸️
 
